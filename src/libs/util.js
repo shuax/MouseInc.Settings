@@ -53,10 +53,8 @@ export const getMenuByRouter = (list, access) => {
  * @param {Array} routeMetched 当前路由metched
  * @returns {Array}
  */
-export const getBreadCrumbList = (route, homeRoute) => {
-  let homeItem = { ...homeRoute, icon: homeRoute.meta.icon }
+export const getBreadCrumbList = (route) => {
   let routeMetched = route.matched
-  if (routeMetched.some(item => item.name === homeRoute.name)) return [homeItem]
   let res = routeMetched.filter(item => {
     return item.meta === undefined || !item.meta.hideInBread
   }).map(item => {
@@ -72,11 +70,7 @@ export const getBreadCrumbList = (route, homeRoute) => {
     }
     return obj
   })
-  res = res.filter(item => {
-    return !item.meta.hideInMenu
-  })
   return res
-  // return [{ ...homeItem, to: homeRoute.path }, ...res]
 }
 
 export const getRouteTitleHandled = (route) => {
@@ -108,16 +102,16 @@ export const showTitle = (item, vm) => {
 /**
  * @description 本地存储和获取标签导航列表
  */
-export const setTagNavListInLocalstorage = list => {
-  localStorage.tagNaveList = JSON.stringify(list)
-}
+// export const setTagNavListInLocalstorage = list => {
+//   localStorage.tagNaveList = JSON.stringify(list)
+// }
 /**
  * @returns {Array} 其中的每个元素只包含路由原信息中的name, path, meta三项
  */
-export const getTagNavListFromLocalstorage = () => {
-  const list = localStorage.tagNaveList
-  return list ? JSON.parse(list) : []
-}
+// export const getTagNavListFromLocalstorage = () => {
+//   const list = localStorage.tagNaveList
+//   return list ? JSON.parse(list) : []
+// }
 
 /**
  * @param {Array} routers 路由列表数组
@@ -144,13 +138,13 @@ export const getHomeRoute = (routers, homeName = 'home') => {
  * @param {*} newRoute 新添加的路由原信息对象
  * @description 如果该newRoute已经存在则不再添加
  */
-export const getNewTagList = (list, newRoute) => {
-  const { name, path, meta } = newRoute
-  let newList = [...list]
-  if (newList.findIndex(item => item.name === name) >= 0) return newList
-  else newList.push({ name, path, meta })
-  return newList
-}
+// export const getNewTagList = (list, newRoute) => {
+//   const { name, path, meta } = newRoute
+//   let newList = [...list]
+//   if (newList.findIndex(item => item.name === name) >= 0) return newList
+//   else newList.push({ name, path, meta })
+//   return newList
+// }
 
 /**
  * @param {*} access 用户权限数组，如 ['super_admin', 'admin']
@@ -334,14 +328,14 @@ export const routeEqual = (route1, route2) => {
 /**
  * 判断打开的标签列表里是否已存在这个新添加的路由对象
  */
-export const routeHasExist = (tagNavList, routeItem) => {
-  let len = tagNavList.length
-  let res = false
-  doCustomTimes(len, (index) => {
-    if (routeEqual(tagNavList[index], routeItem)) res = true
-  })
-  return res
-}
+// export const routeHasExist = (tagNavList, routeItem) => {
+//   let len = tagNavList.length
+//   let res = false
+//   doCustomTimes(len, (index) => {
+//     if (routeEqual(tagNavList[index], routeItem)) res = true
+//   })
+//   return res
+// }
 
 export const localSave = (key, value) => {
   localStorage.setItem(key, value)
