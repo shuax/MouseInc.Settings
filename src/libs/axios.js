@@ -1,16 +1,16 @@
 import axios from 'axios'
-import store from '@/store'
+// import store from '@/store'
 // import { Spin } from 'iview'
-const addErrorLog = errorInfo => {
-  const { statusText, status, request: { responseURL } } = errorInfo
-  let info = {
-    type: 'ajax',
-    code: status,
-    mes: statusText,
-    url: responseURL
-  }
-  if (!responseURL.includes('save_error_logger')) store.dispatch('addErrorLog', info)
-}
+// const addErrorLog = errorInfo => {
+//   const { statusText, status, request: { responseURL } } = errorInfo
+//   let info = {
+//     type: 'ajax',
+//     code: status,
+//     mes: statusText,
+//     url: responseURL
+//   }
+//   if (!responseURL.includes('save_error_logger')) store.dispatch('addErrorLog', info)
+// }
 
 class HttpRequest {
   constructor (baseUrl = baseURL) {
@@ -51,16 +51,20 @@ class HttpRequest {
       return { data, status }
     }, error => {
       this.destroy(url)
-      let errorInfo = error.response
-      if (!errorInfo) {
-        const { request: { statusText, status }, config } = JSON.parse(JSON.stringify(error))
-        errorInfo = {
-          statusText,
-          status,
-          request: { responseURL: config.url }
-        }
-      }
-      addErrorLog(errorInfo)
+      // let errorInfo = error.response
+      // console.log(url)
+      // console.log("error")
+      // console.log(error)
+      // console.log(errorInfo)
+      // if (!errorInfo) {
+      //   const { request: { statusText, status }, config } = JSON.parse(JSON.stringify(error))
+      //   errorInfo = {
+      //     statusText,
+      //     status,
+      //     request: { responseURL: config.url }
+      //   }
+      // }
+      // addErrorLog(errorInfo)
       return Promise.reject(error)
     })
   }

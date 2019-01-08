@@ -25,22 +25,22 @@ export default {
     fontSize: {
       type: Number,
       default: 14
-    },
-    showIcon: {
-      type: Boolean,
-      default: false
     }
+    // showIcon: {
+    //   type: Boolean,
+    //   default: false
+    // }
   },
   methods: {
     showTitle (item) {
       return showTitle(item, this)
-    },
-    isCustomIcon (iconName) {
-      return iconName.indexOf('_') === 0
-    },
-    getCustomIconName (iconName) {
-      return iconName.slice(1)
     }
+    // isCustomIcon (iconName) {
+    //   return iconName.indexOf('_') === 0
+    // },
+    // getCustomIconName (iconName) {
+    //   return iconName.slice(1)
+    // }
   }
 }
 </script>

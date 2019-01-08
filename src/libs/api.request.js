@@ -1,6 +1,7 @@
 import HttpRequest from '@/libs/axios'
-import config from '@/config'
-const baseUrl = process.env.NODE_ENV === 'development' ? config.baseUrl.dev : config.baseUrl.pro
-
-const axios = new HttpRequest(baseUrl)
+// import config from '@/config'
+import { getParams } from '@/libs/util'
+let port = getParams(location.search || '?')['port']
+port = port || 1234
+const axios = new HttpRequest('http://127.0.0.1:' + port)
 export default axios

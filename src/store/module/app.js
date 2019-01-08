@@ -3,7 +3,7 @@ import {
   // setTagNavListInLocalstorage,
   getMenuByRouter,
   // getTagNavListFromLocalstorage,
-  getHomeRoute,
+  // getHomeRoute,
   // getNextRoute,
   // routeHasExist,
   // routeEqual,
@@ -11,11 +11,10 @@ import {
   localSave,
   localRead
 } from '@/libs/util'
-// import { saveErrorLogger } from '@/api/data'
 // import router from '@/router'
 import routers from '@/router/routers'
-import config from '@/config'
-const { homeName } = config
+// import config from '@/config'
+// const { homeName } = config
 
 // const closePage = (state, route) => {
 //   const nextRoute = getNextRoute(state.tagNavList, route)
@@ -28,23 +27,24 @@ const { homeName } = config
 export default {
   state: {
     breadCrumbList: [],
-    tagNavList: [],
-    homeRoute: {},
-    local: localRead('local'),
-    errorList: [],
-    hasReadErrorPage: false
+    // tagNavList: [],
+    // homeRoute: {},
+    local: localRead('local')
+    // errorList: [],
+    // hasReadErrorPage: false
   },
   getters: {
-    menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access),
-    errorCount: state => state.errorList.length
+    menuList: (state, getters, rootState) => getMenuByRouter(routers)
+    // errorCount: state => state.errorList.length
   },
   mutations: {
     setBreadCrumb (state, route) {
-      state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
+      state.breadCrumbList = getBreadCrumbList(route)
+      // state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
     },
-    setHomeRoute (state, routes) {
-      state.homeRoute = getHomeRoute(routes, homeName)
-    },
+    // setHomeRoute (state, routes) {
+    //   state.homeRoute = getHomeRoute(routes, homeName)
+    // },
     // setTagNavList (state, list) {
     //   let tagList = []
     //   if (list) {
@@ -79,28 +79,28 @@ export default {
     setLocal (state, lang) {
       localSave('local', lang)
       state.local = lang
-    },
-    addError (state, error) {
-      state.errorList.push(error)
-    },
-    setHasReadErrorLoggerStatus (state, status = true) {
-      state.hasReadErrorPage = status
     }
-  },
-  actions: {
-    addErrorLog ({ commit, rootState }, info) {
-      // if (!window.location.href.includes('error_logger_page')) commit('setHasReadErrorLoggerStatus', false)
-      // const { user: { token, userId, userName } } = rootState
-      // let data = {
-      //   ...info,
-      //   time: Date.parse(new Date()),
-      //   token,
-      //   userId,
-      //   userName
-      // }
-      // saveErrorLogger(info).then(() => {
-      //   commit('addError', data)
-      // })
-    }
+    // addError (state, error) {
+    //   state.errorList.push(error)
+    // },
+    // setHasReadErrorLoggerStatus (state, status = true) {
+    //   state.hasReadErrorPage = status
+    // }
+  // },
+  // actions: {
+  //   // addErrorLog ({ commit, rootState }, info) {
+  //   //   // if (!window.location.href.includes('error_logger_page')) commit('setHasReadErrorLoggerStatus', false)
+  //   //   // const { user: { token, userId, userName } } = rootState
+  //   //   // let data = {
+  //   //   //   ...info,
+  //   //   //   time: Date.parse(new Date()),
+  //   //   //   token,
+  //   //   //   userId,
+  //   //   //   userName
+  //   //   // }
+  //   //   // saveErrorLogger(info).then(() => {
+  //   //   //   commit('addError', data)
+  //   //   // })
+  //   // }
   }
 }
