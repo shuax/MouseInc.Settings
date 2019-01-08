@@ -48,7 +48,7 @@ import { mapMutations } from 'vuex'
 // import routers from '@/router/routers'
 // import minLogo from '@/assets/images/logo-min.jpg'
 // import maxLogo from '@/assets/images/logo.jpg'
-import { test } from '@/api/data'
+import { LoadSettings } from '@/api/data'
 import './main.less'
 export default {
   name: 'Main',
@@ -64,6 +64,7 @@ export default {
   },
   data () {
     return {
+      init: false,
       collapsed: false,
       loading: 'Loading'
       // minLogo,
@@ -107,8 +108,9 @@ export default {
       // 'setTagNavList',
       // 'addTag',
       'setLocal',
+      'setSettings'
       // 'setHomeRoute',
-      'closeTag'
+      // 'closeTag'
     ]),
     // ...mapActions([
     //   'handleLogin',
@@ -161,6 +163,16 @@ export default {
       this.setBreadCrumb(newRoute)
       // this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
       this.$refs.sideMenu.updateOpenName(newRoute.name)
+    },
+    '$store.state.settings.data': {
+      // handler:(val, oldVal)=>
+      handler (val) {
+        if (this.init) {
+          console.log(this.init, 'watch', val)
+        }
+        this.init = true
+      },
+      deep: true
     }
   },
   mounted () {
@@ -190,9 +202,10 @@ export default {
         ])
       }
     })
-    test().then(response => {
+    LoadSettings().then(response => {
       this.$Spin.hide()
-      console.log(response.data)
+      this.setSettings(response.data)
+      // console.log(this.$config)
     }).catch(error => {
       // this.$Spin.hide();
       // console.log(error)

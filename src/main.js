@@ -36,6 +36,7 @@ Vue.config.productionTip = false
  * @description 全局注册应用配置
  */
 Vue.prototype.$config = config
+
 /**
  * 注册指令
  */

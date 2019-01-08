@@ -1,8 +1,8 @@
 import axios from '@/libs/api.request'
 
-export const test = () => {
+export const LoadSettings = () => {
   return axios.request({
-    url: '/',
+    url: '/load_settings',
     method: 'post'
   })
 }

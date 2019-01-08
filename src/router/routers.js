@@ -151,7 +151,7 @@ export default [
           icon: 'md-globe',
           title: 'i18n'
         },
-        component: () => import('@/view/single-page/home')
+        component: () => import('@/view/i18n')
       }
     ]
   },
