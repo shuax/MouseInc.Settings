@@ -7,6 +7,21 @@ export const LoadSettings = () => {
   })
 }
 
+export const SaveSettings = data => {
+  return axios.request({
+    url: '/save_settings',
+    data: data,
+    method: 'post'
+  })
+}
+
+export const ResetSettings = () => {
+  return axios.request({
+    url: '/reset_settings',
+    method: 'post'
+  })
+}
+
 // export const getTableData = () => {
 //   return axios.request({
 //     url: 'get_table_data',

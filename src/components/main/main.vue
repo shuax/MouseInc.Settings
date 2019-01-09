@@ -13,7 +13,26 @@
       <Header class="header-con">
         <header-bar :collapsed="collapsed" @on-coll-change="handleCollapsedChange">
           <!-- <user :message-unread-count="unreadCount" :user-avator="userAvator"/> -->
-          <language v-if="$config.useI18n" @on-lang-change="setLocal" style="margin-right: 10px;" :lang="local"/>
+          <language v-if="$config.useI18n" @on-lang-change="setLocal" :lang="local"/>
+          <div>
+            <Button icon="md-undo" type="error" style="margin-right: 10px" @click="reset_warning = true">{{$t('reset')}}</Button>
+          </div>
+          <div>
+            <Button icon="md-download" type="success" style="margin-right: 15px;" :disabled="!modified" :loading="save_loading" @click="save">{{$t('save')}}</Button>
+          </div>
+          <Modal v-model="reset_warning" width="360">
+              <p slot="header" style="color:#f60;text-align:center">
+                  <Icon type="ios-information-circle"></Icon>
+                  <span>{{$t('warning')}}</span>
+              </p>
+              <div style="text-align:center">
+                  <p>{{$t('reset_tips1')}}</p>
+                  <p>{{$t('reset_tips2')}}</p>
+              </div>
+              <div slot="footer">
+                  <Button type="error" size="large" long :loading="reset_loading" @click="reset">{{$t('reset')}}</Button>
+              </div>
+          </Modal>
           <!-- <error-store v-if="$config.plugin['error-store'] && $config.plugin['error-store'].showInHeader" :has-read="hasReadErrorPage" :count="errorCount"></error-store> -->
           <!-- <fullscreen v-model="isFullscreen" style="margin-right: 10px;"/> -->
         </header-bar>
@@ -43,12 +62,12 @@ import HeaderBar from './components/header-bar'
 // import Fullscreen from './components/fullscreen'
 import Language from './components/language'
 // import ErrorStore from './components/error-store'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 // import { routeEqual } from '@/libs/util'
 // import routers from '@/router/routers'
 // import minLogo from '@/assets/images/logo-min.jpg'
 // import maxLogo from '@/assets/images/logo.jpg'
-import { LoadSettings } from '@/api/data'
+import { LoadSettings, SaveSettings, ResetSettings } from '@/api/data'
 import './main.less'
 export default {
   name: 'Main',
@@ -65,14 +84,21 @@ export default {
   data () {
     return {
       init: false,
+      modified: false,
       collapsed: false,
-      loading: 'Loading'
+      loading: 'Loading',
+      reset_warning: false,
+      reset_loading: false,
+      save_loading: false
       // minLogo,
       // maxLogo,
       // isFullscreen: false
     }
   },
   computed: {
+    ...mapGetters([
+      'settings'
+    ]),
     // ...mapGetters([
     //   'errorCount'
     // ]),
@@ -136,6 +162,35 @@ export default {
     },
     handleCollapsedChange (state) {
       this.collapsed = state
+    },
+    reset () {
+      this.reset_loading = true
+
+      ResetSettings().then(response => {
+        this.init = false
+        this.modified = false
+        this.setSettings(response.data)
+        this.$Message.success(this.$t('reset_ok'))
+      }).catch(error => {
+        this.$Message.error(error.message)
+      }).then(() => {
+        this.reset_loading = false
+        this.reset_warning = false
+      })
+    },
+    save () {
+      this.save_loading = true
+
+      SaveSettings(JSON.stringify(this.settings)).then(response => {
+        this.init = false
+        this.modified = false
+        this.setSettings(response.data)
+        this.$Message.success(this.$t('save_ok'))
+      }).catch(error => {
+        this.$Message.error(error.message)
+      }).then(() => {
+        this.save_loading = false
+      })
     }
     // handleCloseTag (res, type, route) {
     //   if (type !== 'others') {
@@ -168,7 +223,8 @@ export default {
       // handler:(val, oldVal)=>
       handler (val) {
         if (this.init) {
-          console.log(this.init, 'watch', val)
+          // console.log(this.init, 'watch', val)
+          this.modified = true
         }
         this.init = true
       },
@@ -204,6 +260,8 @@ export default {
     })
     LoadSettings().then(response => {
       this.$Spin.hide()
+      this.init = false
+      this.modified = false
       this.setSettings(response.data)
       // console.log(this.$config)
     }).catch(error => {
@@ -224,7 +282,7 @@ export default {
 }
 </script>
 <style>
-    .demo-spin-icon-load{
-        animation: ani-demo-spin 1s linear infinite;
-    }
+.demo-spin-icon-load{
+  animation: ani-demo-spin 1s linear infinite;
+}
 </style>

@@ -1,6 +1,9 @@
 <template>
   <div>
-    <Input v-model="settings.LanguageSelect" placeholder="Enter something..." style="width: 300px" />
+    {{$t('LanguageSelect')}}：
+    <Select v-model="settings.LanguageSelect" style="width:200px">
+        <Option v-for="item in Languages" :value="item" :key="item">{{ $t(item) }}</Option>
+    </Select>
     {{settings.LanguageSelect}}
 <!--     <Row :gutter="20">
       <i-col :xs="12" :md="8" :lg="4" v-for="(infor, i) in inforCardData" :key="`infor-${i}`" style="height: 120px;padding-bottom: 10px;">
@@ -43,10 +46,25 @@ export default {
   //     settings: this.$store.state.settings.data
   //   }
   // },
+  data () {
+    return {
+      xx: [
+        'auto',
+        'zh-cn'
+      ]
+    }
+  },
   computed: {
     ...mapGetters([
       'settings'
-    ])
+    ]),
+    Languages () {
+      var list = ['auto']
+      for (var k in this.settings.Language) {
+        list.push(k)
+      }
+      return list
+    }
   },
   // watch: {
   //   settings() {
