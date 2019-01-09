@@ -48,7 +48,7 @@ export default [
           // notCache: true,
           icon: 'ios-settings'
         },
-        component: () => import('@/view/single-page/home')
+        component: () => import('@/view/switch')
       },
       {
         path: 'exclude',
@@ -57,7 +57,7 @@ export default [
           icon: 'md-remove-circle',
           title: 'exclude'
         },
-        component: () => import('@/view/single-page/home')
+        component: () => import('@/view/exclude')
       }
     ]
   },
@@ -136,13 +136,13 @@ export default [
         component: () => import('@/view/single-page/home')
       },
       {
-        path: 'match',
+        path: 'keycast',
         name: 'other_keycast',
         meta: {
           icon: 'md-eye',
           title: 'other_keycast'
         },
-        component: () => import('@/view/single-page/home')
+        component: () => import('@/view/keycast')
       },
       {
         path: 'i18n',
