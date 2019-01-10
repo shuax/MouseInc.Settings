@@ -180,14 +180,17 @@ export default {
     },
     save () {
       this.save_loading = true
+      this.$Loading.start()
 
       SaveSettings(JSON.stringify(this.settings)).then(response => {
         this.init = false
         this.modified = false
         this.setSettings(response.data)
         this.$Message.success(this.$t('save_ok'))
+        this.$Loading.finish()
       }).catch(error => {
         this.$Message.error(error.message)
+        this.$Loading.error()
       }).then(() => {
         this.save_loading = false
       })

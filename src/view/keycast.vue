@@ -1,35 +1,35 @@
 <template>
   <div>
-    <Form :label-width="80">
+    <Form :label-width="100">
       <FormItem label="开启">
-        <i-switch v-model="keycast.Open" />
+        <i-switch v-model="proxy.Open" />
       </FormItem>
       <FormItem label="忽略单字符">
-        <i-switch v-model="keycast.IgnoreSingle" />
+        <i-switch v-model="proxy.IgnoreSingle" />
       </FormItem>
       <FormItem label="X偏移">
-        <InputNumber v-model="keycast.X" style="width: 300px"></InputNumber>
+        <InputNumber v-model="proxy.X" style="width: 300px"></InputNumber>
       </FormItem>
       <FormItem label="Y偏移">
-        <InputNumber v-model="keycast.Y" style="width: 300px"></InputNumber>
+        <InputNumber v-model="proxy.Y" style="width: 300px"></InputNumber>
       </FormItem>
       <FormItem label="间距">
-        <InputNumber v-model="keycast.Space" style="width: 300px"></InputNumber>
+        <InputNumber v-model="proxy.Space" style="width: 300px"></InputNumber>
       </FormItem>
       <FormItem label="字体大小">
-        <InputNumber v-model="keycast.FontSize" style="width: 300px"></InputNumber>
+        <InputNumber v-model="proxy.FontSize" style="width: 300px"></InputNumber>
       </FormItem>
       <FormItem label="消失时间">
-        <InputNumber v-model="keycast.Fade" style="width: 300px"></InputNumber>
+        <InputNumber v-model="proxy.Fade" style="width: 300px"></InputNumber>
       </FormItem>
       <FormItem label="背景颜色">
-        <ColorPicker v-model="keycast.BackgroundColor" recommend size="large"/>
+        <ColorPicker v-model="proxy.BackgroundColor" recommend size="large"/>
       </FormItem>
       <FormItem label="阴影颜色">
-        <ColorPicker v-model="keycast.TextShadowColor" recommend size="large"/>
+        <ColorPicker v-model="proxy.TextShadowColor" recommend size="large"/>
       </FormItem>
       <FormItem label="文字颜色">
-        <ColorPicker v-model="keycast.TextColor" recommend size="large"/>
+        <ColorPicker v-model="proxy.TextColor" recommend size="large"/>
       </FormItem>
     </Form>
   </div>
@@ -43,7 +43,7 @@ export default {
     ...mapGetters([
       'settings'
     ]),
-    keycast () {
+    proxy () {
       // return Object.assign({}, this.settings.Keycast)
       return this.settings.Keycast ? this.settings.Keycast : {
         // temporary: true,

@@ -77,7 +77,7 @@ export default [
           icon: 'md-brush',
           title: 'gesture_settings'
         },
-        component: () => import('@/view/single-page/home')
+        component: () => import('@/view/gesture_settings')
       },
       {
         path: 'list',
@@ -115,7 +115,7 @@ export default [
           icon: 'md-desktop',
           title: 'other_edge'
         },
-        component: () => import('@/view/single-page/home')
+        component: () => import('@/view/edge')
       },
       {
         path: 'list',
@@ -124,7 +124,7 @@ export default [
           icon: 'md-link',
           title: 'other_copy'
         },
-        component: () => import('@/view/single-page/home')
+        component: () => import('@/view/copy')
       },
       {
         path: 'match',
@@ -133,7 +133,7 @@ export default [
           icon: 'md-key',
           title: 'other_hotkey'
         },
-        component: () => import('@/view/single-page/home')
+        component: () => import('@/view/hotkey')
       },
       {
         path: 'keycast',
