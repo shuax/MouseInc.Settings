@@ -8,28 +8,28 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  name: 'hotkey',
+  name: 'copy',
   data () {
     return {
       hotkey_col: [
         {
-          title: '快捷键',
-          key: 'Name',
-          width: 200
-        },
-        {
-          title: '禁用',
-          key: 'Disable',
-          width: 200,
+          title: '有效',
+          key: 'Valid',
+          width: 60,
           render: (h, params) => {
             var row = this.proxy.Menu[params.index]
             return h('Checkbox', {
-              props: { value: row.Disable },
+              props: { value: row.Valid },
               on: { 'on-change': (value) => {
-                row.Disable = value
+                row.Valid = value
               } }
             })
           }
+        },
+        {
+          title: '名称',
+          key: 'Name',
+          width: 120
         },
         {
           title: '操作',

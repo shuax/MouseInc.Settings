@@ -1,11 +1,11 @@
 <template>
   <div>
     {{$t('LanguageSelect')}}：
-    <Select v-model="settings.LanguageSelect" style="width:200px">
-        <Option v-for="item in Languages" :value="item" :key="item">{{ $t(item) }}</Option>
+    <Select v-model="settings.Language" style="width:200px">
+        <Option v-for="item in Languages" :value="item" :key="item">{{$t(item)}}</Option>
     </Select>
     <Tabs>
-      <TabPane v-for="(item,lang) in settings.Language" :label="lang" :name="lang" :key="lang">
+      <TabPane v-for="(item,lang) in settings.Locales" :label="lang" :name="lang" :key="lang">
         <Table :columns="lang_col" :data="LangTable(item)"></Table>
       </TabPane>
     </Tabs>
@@ -37,7 +37,7 @@ export default {
     ]),
     Languages () {
       var list = ['auto']
-      for (var k in this.settings.Language) {
+      for (var k in this.settings.Locales) {
         list.push(k)
       }
       return list

@@ -12,8 +12,8 @@
     <div style="padding: 0px 0px 20px 0px">
       <Card shadow :padding="0" style="width: 100%;max-width: 500px">
         <CellGroup>
-          <Cell title="滚轮切换" label="按住鼠标右键时，滚动滚轮可以进行切换标签页操作">
-            <i-switch v-model="proxy.MouseGesture.WheelSwitch" slot="extra" />
+          <Cell title="滚轮切换" label="按住鼠标右键时，滚动滚轮可以进行切换标签页操作（依赖鼠标手势开关）">
+            <i-switch v-model="proxy.MouseGesture.WheelSwitch" slot="extra" :disabled="!proxy.MouseGesture.Open"/>
           </Cell>
         </CellGroup>
       </Card>
@@ -98,7 +98,7 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  name: 'sw',
+  name: 'fast-switch',
   computed: {
     ...mapGetters([
       'settings'

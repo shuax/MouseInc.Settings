@@ -28,6 +28,15 @@ export default [
   //   component: () => import('@/view/login/login.vue')
   // },
   {
+    path: '/doc',
+    name: 'doc',
+    meta: {
+      title: 'doc',
+      href: 'https://docs.shuax.com/MouseInc/#/',
+      icon: 'md-book'
+    }
+  },
+  {
     path: '/',
     name: 'index',
     redirect: '/switch',
@@ -72,30 +81,39 @@ export default [
     children: [
       {
         path: 'settings',
-        name: 'gesture_settings',
+        name: 'settings',
         meta: {
           icon: 'md-brush',
-          title: 'gesture_settings'
+          title: 'settings'
         },
-        component: () => import('@/view/gesture_settings')
+        component: () => import('@/view/settings')
       },
       {
         path: 'list',
-        name: 'gesture_list',
+        name: 'list',
         meta: {
           icon: 'md-apps',
-          title: 'gesture_list'
+          title: 'list'
         },
-        component: () => import('@/view/single-page/home')
+        component: () => import('@/view/list')
       },
       {
-        path: 'match',
-        name: 'gesture_match',
+        path: 'global',
+        name: 'global',
         meta: {
-          icon: 'md-paper-plane',
-          title: 'gesture_match'
+          icon: 'md-globe',
+          title: 'global'
         },
-        component: () => import('@/view/single-page/home')
+        component: () => import('@/view/match')
+      },
+      {
+        path: 'custom',
+        name: 'custom',
+        meta: {
+          icon: 'md-color-palette',
+          title: 'custom'
+        },
+        component: () => import('@/view/custom_match')
       }
     ]
   },
@@ -109,38 +127,38 @@ export default [
     component: Main,
     children: [
       {
-        path: 'settings',
-        name: 'other_edge',
+        path: 'edge',
+        name: 'edge',
         meta: {
           icon: 'md-desktop',
-          title: 'other_edge'
+          title: 'edge'
         },
         component: () => import('@/view/edge')
       },
       {
-        path: 'list',
-        name: 'other_copy',
+        path: 'copy',
+        name: 'copy',
         meta: {
           icon: 'md-link',
-          title: 'other_copy'
+          title: 'copy'
         },
         component: () => import('@/view/copy')
       },
       {
-        path: 'match',
-        name: 'other_hotkey',
+        path: 'hotkey',
+        name: 'hotkey',
         meta: {
           icon: 'md-key',
-          title: 'other_hotkey'
+          title: 'hotkey'
         },
         component: () => import('@/view/hotkey')
       },
       {
         path: 'keycast',
-        name: 'other_keycast',
+        name: 'keycast',
         meta: {
           icon: 'md-eye',
-          title: 'other_keycast'
+          title: 'keycast'
         },
         component: () => import('@/view/keycast')
       },
@@ -148,7 +166,7 @@ export default [
         path: 'i18n',
         name: 'i18n',
         meta: {
-          icon: 'md-globe',
+          icon: 'md-mic',
           title: 'i18n'
         },
         component: () => import('@/view/i18n')

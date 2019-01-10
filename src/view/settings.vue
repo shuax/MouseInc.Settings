@@ -42,7 +42,7 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  name: 'keycast',
+  name: 'settings',
   computed: {
     ...mapGetters([
       'settings'

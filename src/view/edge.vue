@@ -2,39 +2,40 @@
   <div>
     <p>开启 <i-switch v-model="proxy.Open" /></p><br/>
     <Table :columns="edge_col" :data="edge_data"></Table>
-    {{this.settings.WheelEdge}}
+    <!-- {{this.settings.WheelEdge}} -->
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  name: 'keycast',
+  name: 'edge',
   data () {
     return {
       edge_col: [
         {
-          title: '位置',
-          key: 'Location',
-          width: 200
-        },
-        {
-          title: '禁用',
-          key: 'Disable',
-          width: 200,
+          title: '有效',
+          key: 'Valid',
+          width: 60,
           render: (h, params) => {
             var row = this.proxy[params.row.Location]
             return h('Checkbox', {
-              props: { value: row.Disable },
+              props: { value: row.Valid },
               on: { 'on-change': (value) => {
-                row.Disable = value
+                row.Valid = value
               } }
             })
           }
         },
         {
+          title: '位置',
+          key: 'Location',
+          width: 80
+        },
+        {
           title: '备注',
-          key: 'Name'
+          key: 'Name',
+          width: 120
         },
         {
           title: '向上操作',
@@ -72,7 +73,7 @@ export default {
         var Location = location[k]
         result.push({
           Location: Location,
-          Disable: this.proxy[Location].Disable,
+          Valid: this.proxy[Location].Valid,
           Name: this.proxy[Location].Name,
           UpActions: this.proxy[Location].UpActions,
           DownActions: this.proxy[Location].DownActions,

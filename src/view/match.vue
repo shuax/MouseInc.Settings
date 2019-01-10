@@ -1,13 +1,13 @@
 <template>
   <div>
-    <Table :columns="hotkey_col" :data="settings.Hotkeys"></Table>
+    <Table :columns="hotkey_col" :data="settings.MatchGlobal"></Table>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  name: 'hotkey',
+  name: 'match',
   data () {
     return {
       hotkey_col: [
@@ -16,7 +16,7 @@ export default {
           key: 'Valid',
           width: 60,
           render: (h, params) => {
-            var row = this.settings.Hotkeys[params.index]
+            var row = this.settings.MatchGlobal[params.index]
             return h('Checkbox', {
               props: { value: row.Valid },
               on: { 'on-change': (value) => {
@@ -26,9 +26,14 @@ export default {
           }
         },
         {
-          title: '快捷键',
-          key: 'Keys',
-          width: 100
+          title: '手势',
+          key: 'Sign',
+          width: 160
+        },
+        {
+          title: '名称',
+          key: 'Name',
+          width: 180
         },
         {
           title: '操作',
