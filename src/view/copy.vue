@@ -1,6 +1,11 @@
 <template>
   <div>
-    <p>开启 <i-switch v-model="proxy.Open" /></p><br/>
+    <div style="padding: 0px 0px 10px 0px">
+      <b>
+        开启
+        <i-switch v-model="proxy.Open" />
+      </b>
+    </div>
     <Table size="small" :columns="hotkey_col" :data="proxy.Menu"></Table>
   </div>
 </template>
@@ -30,6 +35,16 @@ export default {
           title: '名称',
           key: 'Name',
           width: 160,
+          renderHeader: (h, params) => {
+            return h('div', [
+              h('em', '名称'),
+              h('Icon', {
+                props: {
+                  type: 'md-create'
+                }
+              })
+            ])
+          },
           render: (h, params) => {
             var row = this.proxy.Menu[params.index]
             return h(TextEdit, {
@@ -41,6 +56,17 @@ export default {
         {
           title: '操作',
           key: 'Actions',
+          ellipsis: true,
+          renderHeader: (h, params) => {
+            return h('div', [
+              h('em', '操作'),
+              h('Icon', {
+                props: {
+                  type: 'md-create'
+                }
+              })
+            ])
+          },
           render: (h, params) => {
             var row = this.proxy.Menu[params.index]
             return h(JsonEdit, {
@@ -54,10 +80,10 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'settings'
+      'cfg'
     ]),
     proxy () {
-      return this.settings.ClipboardManager ? this.settings.ClipboardManager : {
+      return this.cfg.ClipboardManager ? this.cfg.ClipboardManager : {
         // temporary: true,
         Open: false,
         Menu: []

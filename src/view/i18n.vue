@@ -1,11 +1,11 @@
 <template>
   <div>
     {{$t('LanguageSelect')}}：
-    <Select v-model="settings.Language" style="width:200px">
+    <Select v-model="cfg.Language" style="width:200px">
         <Option v-for="item in Languages" :value="item" :key="item">{{$t(item)}}</Option>
     </Select>
     <Tabs>
-      <TabPane v-for="(item,lang) in settings.Locales" :label="lang" :name="lang" :key="lang">
+      <TabPane v-for="(item,lang) in cfg.Locales" :label="lang" :name="lang" :key="lang">
         <Table size="small" :columns="lang_col" :data="LangTable(item, lang)"></Table>
       </TabPane>
     </Tabs>
@@ -28,8 +28,19 @@ export default {
         {
           title: 'value',
           key: 'value',
+          ellipsis: true,
+          renderHeader: (h, params) => {
+            return h('div', [
+              h('em', 'value'),
+              h('Icon', {
+                props: {
+                  type: 'md-create'
+                }
+              })
+            ])
+          },
           render: (h, params) => {
-            var row = this.settings.Locales[params.row.lang]
+            var row = this.cfg.Locales[params.row.lang]
             return h(TextEdit, {
               props: { value: row[params.row.key] },
               on: { input: (value) => { row[params.row.key] = value } }
@@ -41,11 +52,11 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'settings'
+      'cfg'
     ]),
     Languages () {
       var list = ['auto']
-      for (var k in this.settings.Locales) {
+      for (var k in this.cfg.Locales) {
         list.push(k)
       }
       return list

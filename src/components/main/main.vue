@@ -97,7 +97,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'settings'
+      'cfg'
     ]),
     // ...mapGetters([
     //   'errorCount'
@@ -182,7 +182,7 @@ export default {
       this.save_loading = true
       this.$Loading.start()
 
-      SaveSettings(JSON.stringify(this.settings)).then(response => {
+      SaveSettings(JSON.stringify(this.cfg)).then(response => {
         this.init = false
         this.modified = false
         this.setSettings(response.data)
@@ -222,7 +222,7 @@ export default {
       // this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
       this.$refs.sideMenu.updateOpenName(newRoute.name)
     },
-    '$store.state.settings.data': {
+    '$store.state.settings.cfg': {
       // handler:(val, oldVal)=>
       handler (val) {
         if (this.init) {

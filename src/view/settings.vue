@@ -6,6 +6,7 @@
       </FormItem>
       <FormItem label="触发距离">
         <InputNumber v-model="proxy.StartDistance" style="width: 300px"></InputNumber>
+        （像素）
       </FormItem>
       <FormItem label="停顿超时">
         <InputNumber v-model="proxy.Timeout" style="width: 300px"></InputNumber>
@@ -42,13 +43,13 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  name: 'settings',
+  name: 'cfg',
   computed: {
     ...mapGetters([
-      'settings'
+      'cfg'
     ]),
     proxy () {
-      return this.settings.MouseGesture ? this.settings.MouseGesture : {
+      return this.cfg.MouseGesture ? this.cfg.MouseGesture : {
         // temporary: true,
         Open: false,
         StartDistance: 10,

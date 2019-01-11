@@ -1,14 +1,18 @@
 export default {
   state: {
-    data: {
+    cfg: {
+    },
+    gestures: {
     }
   },
   getters: {
-    settings: state => state.data
+    cfg: state => state.cfg,
+    gestures: state => state.gestures
   },
   mutations: {
     setSettings (state, settings) {
-      state.data = settings
+      state.cfg = settings.cfg
+      state.gestures = settings.gestures
     }
   }
 }

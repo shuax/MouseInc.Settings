@@ -1,8 +1,13 @@
 <template>
   <div>
-    <p>开启 <i-switch v-model="proxy.Open" /></p><br/>
+    <div style="padding: 0px 0px 10px 0px">
+      <b>
+        开启
+        <i-switch v-model="proxy.Open" />
+      </b>
+    </div>
     <Table size="small" :columns="edge_col" :data="edge_data"></Table>
-    <!-- {{this.settings.WheelEdge}} -->
+    <!-- {{this.cfg.WheelEdge}} -->
   </div>
 </template>
 
@@ -35,7 +40,18 @@ export default {
         {
           title: '备注',
           key: 'Name',
-          width: 120,
+          ellipsis: true,
+          width: 100,
+          renderHeader: (h, params) => {
+            return h('div', [
+              h('em', '备注'),
+              h('Icon', {
+                props: {
+                  type: 'md-create'
+                }
+              })
+            ])
+          },
           render: (h, params) => {
             var row = this.proxy[params.row.Location]
             return h(TextEdit, {
@@ -47,6 +63,17 @@ export default {
         {
           title: '向上操作',
           key: 'UpActions',
+          ellipsis: true,
+          renderHeader: (h, params) => {
+            return h('div', [
+              h('em', '向上操作'),
+              h('Icon', {
+                props: {
+                  type: 'md-create'
+                }
+              })
+            ])
+          },
           render: (h, params) => {
             var row = this.proxy[params.row.Location]
             return h(JsonEdit, {
@@ -58,6 +85,17 @@ export default {
         {
           title: '向下操作',
           key: 'DownActions',
+          ellipsis: true,
+          renderHeader: (h, params) => {
+            return h('div', [
+              h('em', '向下操作'),
+              h('Icon', {
+                props: {
+                  type: 'md-create'
+                }
+              })
+            ])
+          },
           render: (h, params) => {
             var row = this.proxy[params.row.Location]
             return h(JsonEdit, {
@@ -69,6 +107,17 @@ export default {
         {
           title: '按下操作',
           key: 'PressActions',
+          ellipsis: true,
+          renderHeader: (h, params) => {
+            return h('div', [
+              h('em', '按下操作'),
+              h('Icon', {
+                props: {
+                  type: 'md-create'
+                }
+              })
+            ])
+          },
           render: (h, params) => {
             var row = this.proxy[params.row.Location]
             return h(JsonEdit, {
@@ -82,10 +131,10 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'settings'
+      'cfg'
     ]),
     proxy () {
-      return this.settings.WheelEdge ? this.settings.WheelEdge : {
+      return this.cfg.WheelEdge ? this.cfg.WheelEdge : {
         // temporary: true,
         Open: false,
         Left: {},

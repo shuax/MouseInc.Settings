@@ -41,11 +41,11 @@ export default {
   name: 'keycast',
   computed: {
     ...mapGetters([
-      'settings'
+      'cfg'
     ]),
     proxy () {
-      // return Object.assign({}, this.settings.Keycast)
-      return this.settings.Keycast ? this.settings.Keycast : {
+      // return Object.assign({}, this.cfg.Keycast)
+      return this.cfg.Keycast ? this.cfg.Keycast : {
         // temporary: true,
         IgnoreSingle: false,
         Open: false,

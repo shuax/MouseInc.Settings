@@ -91,7 +91,7 @@
       </Card>
     </div>
     <!-- {{proxy.MouseGesture.Open}} -->
-    <!-- {{settings.MouseGesture.Open}} -->
+    <!-- {{cfg.MouseGesture.Open}} -->
   </div>
 </template>
 
@@ -101,10 +101,10 @@ export default {
   name: 'fast-switch',
   computed: {
     ...mapGetters([
-      'settings'
+      'cfg'
     ]),
     proxy () {
-      var ret = this.settings.MouseGesture ? this.settings : {
+      var ret = this.cfg.MouseGesture ? this.cfg : {
         // temporary: true,
         MouseGesture: { Open: false, WheelSwitch: false },
         Keycast: { Open: false },

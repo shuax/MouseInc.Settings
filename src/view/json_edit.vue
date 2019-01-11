@@ -1,18 +1,18 @@
 <template>
   <div>
     <div @click="editing=true">{{value}}</div>
-      <Modal v-model="editing" @on-cancel="oncancel">
-          <p slot="header" style="text-align:center">
-              <span>修改操作</span>
-          </p>
-          <div>
-            <Input v-model="content" type="textarea" :rows="linecount" @on-change="onchange" />
-            {{error_msg}}
-          </div>
-          <div slot="footer">
-              <Button type="success" size="large" long @click="save" :disabled="error">保存</Button>
-          </div>
-      </Modal>
+    <Modal v-model="editing" @on-cancel="oncancel">
+        <p slot="header" style="text-align:center">
+            <span>编辑操作</span>
+        </p>
+        <div>
+          <Input v-model="content" type="textarea" :rows="linecount" @on-change="onchange" />
+          {{error_msg}}
+        </div>
+        <div slot="footer">
+            <Button type="success" size="large" long @click="save" :disabled="error">保存</Button>
+        </div>
+    </Modal>
   </div>
 </template>
 <script>
@@ -33,6 +33,28 @@ export default {
     value: Array
   },
   methods: {
+    // OpenEdit()
+    // {
+    //   this.$Modal.confirm({
+    //       render: (h) => {
+    //           return h('Input', {
+    //               domProps:{
+    //                 type:'textarea'
+    //               },
+    //               props: {
+    //                   value: this.content,
+    //                 type:'textarea',
+    //                   rows: this.linecount
+    //               },
+    //               on: {
+    //                   input: (val) => {
+    //                       // this.value = val;
+    //                   }
+    //               }
+    //           })
+    //       }
+    //   })
+    // },
     save (val) {
       this.editing = false
       this.$emit('input', JSON.parse(this.content))

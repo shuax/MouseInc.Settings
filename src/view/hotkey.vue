@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Table size="small" :columns="hotkey_col" :data="settings.Hotkeys"></Table>
+    <Table size="small" :columns="hotkey_col" :data="cfg.Hotkeys"></Table>
   </div>
 </template>
 
@@ -18,7 +18,7 @@ export default {
           key: 'Valid',
           width: 60,
           render: (h, params) => {
-            var row = this.settings.Hotkeys[params.index]
+            var row = this.cfg.Hotkeys[params.index]
             return h('Checkbox', {
               props: { value: row.Valid },
               on: { 'on-change': (value) => { row.Valid = value } }
@@ -29,8 +29,18 @@ export default {
           title: '快捷键',
           key: 'Keys',
           width: 120,
+          renderHeader: (h, params) => {
+            return h('div', [
+              h('em', '快捷键'),
+              h('Icon', {
+                props: {
+                  type: 'md-create'
+                }
+              })
+            ])
+          },
           render: (h, params) => {
-            var row = this.settings.Hotkeys[params.index]
+            var row = this.cfg.Hotkeys[params.index]
             return h(TextEdit, {
               props: { value: row.Keys },
               on: { input: (value) => { row.Keys = value } }
@@ -40,8 +50,19 @@ export default {
         {
           title: '操作',
           key: 'Actions',
+          ellipsis: true,
+          renderHeader: (h, params) => {
+            return h('div', [
+              h('em', '操作'),
+              h('Icon', {
+                props: {
+                  type: 'md-create'
+                }
+              })
+            ])
+          },
           render: (h, params) => {
-            var row = this.settings.Hotkeys[params.index]
+            var row = this.cfg.Hotkeys[params.index]
             return h(JsonEdit, {
               props: { value: row.Actions },
               on: { input: (value) => { row.Actions = value } }
@@ -53,7 +74,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'settings'
+      'cfg'
     ])
   }
 }
