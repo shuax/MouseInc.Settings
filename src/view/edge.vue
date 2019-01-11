@@ -1,12 +1,14 @@
 <template>
   <div>
     <p>开启 <i-switch v-model="proxy.Open" /></p><br/>
-    <Table :columns="edge_col" :data="edge_data"></Table>
+    <Table size="small" :columns="edge_col" :data="edge_data"></Table>
     <!-- {{this.settings.WheelEdge}} -->
   </div>
 </template>
 
 <script>
+import JsonEdit from './json_edit.vue'
+import TextEdit from './text_edit.vue'
 import { mapGetters } from 'vuex'
 export default {
   name: 'edge',
@@ -21,9 +23,7 @@ export default {
             var row = this.proxy[params.row.Location]
             return h('Checkbox', {
               props: { value: row.Valid },
-              on: { 'on-change': (value) => {
-                row.Valid = value
-              } }
+              on: { 'on-change': (value) => { row.Valid = value } }
             })
           }
         },
@@ -35,19 +35,47 @@ export default {
         {
           title: '备注',
           key: 'Name',
-          width: 120
+          width: 120,
+          render: (h, params) => {
+            var row = this.proxy[params.row.Location]
+            return h(TextEdit, {
+              props: { value: row.Name },
+              on: { input: (value) => { row.Name = value } }
+            })
+          }
         },
         {
           title: '向上操作',
-          key: 'UpActions'
+          key: 'UpActions',
+          render: (h, params) => {
+            var row = this.proxy[params.row.Location]
+            return h(JsonEdit, {
+              props: { value: row.UpActions },
+              on: { input: (value) => { row.UpActions = value } }
+            })
+          }
         },
         {
           title: '向下操作',
-          key: 'DownActions'
+          key: 'DownActions',
+          render: (h, params) => {
+            var row = this.proxy[params.row.Location]
+            return h(JsonEdit, {
+              props: { value: row.DownActions },
+              on: { input: (value) => { row.DownActions = value } }
+            })
+          }
         },
         {
           title: '按下操作',
-          key: 'PressActions'
+          key: 'PressActions',
+          render: (h, params) => {
+            var row = this.proxy[params.row.Location]
+            return h(JsonEdit, {
+              props: { value: row.PressActions },
+              on: { input: (value) => { row.PressActions = value } }
+            })
+          }
         }
       ]
     }

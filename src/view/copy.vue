@@ -1,11 +1,13 @@
 <template>
   <div>
     <p>开启 <i-switch v-model="proxy.Open" /></p><br/>
-    <Table :columns="hotkey_col" :data="proxy.Menu"></Table>
+    <Table size="small" :columns="hotkey_col" :data="proxy.Menu"></Table>
   </div>
 </template>
 
 <script>
+import JsonEdit from './json_edit.vue'
+import TextEdit from './text_edit.vue'
 import { mapGetters } from 'vuex'
 export default {
   name: 'copy',
@@ -20,20 +22,32 @@ export default {
             var row = this.proxy.Menu[params.index]
             return h('Checkbox', {
               props: { value: row.Valid },
-              on: { 'on-change': (value) => {
-                row.Valid = value
-              } }
+              on: { 'on-change': (value) => { row.Valid = value } }
             })
           }
         },
         {
           title: '名称',
           key: 'Name',
-          width: 120
+          width: 160,
+          render: (h, params) => {
+            var row = this.proxy.Menu[params.index]
+            return h(TextEdit, {
+              props: { value: row.Name },
+              on: { input: (value) => { row.Name = value } }
+            })
+          }
         },
         {
           title: '操作',
-          key: 'Actions'
+          key: 'Actions',
+          render: (h, params) => {
+            var row = this.proxy.Menu[params.index]
+            return h(JsonEdit, {
+              props: { value: row.Actions },
+              on: { input: (value) => { row.Actions = value } }
+            })
+          }
         }
       ]
     }

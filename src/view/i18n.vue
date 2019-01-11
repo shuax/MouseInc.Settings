@@ -6,13 +6,14 @@
     </Select>
     <Tabs>
       <TabPane v-for="(item,lang) in settings.Locales" :label="lang" :name="lang" :key="lang">
-        <Table :columns="lang_col" :data="LangTable(item)"></Table>
+        <Table size="small" :columns="lang_col" :data="LangTable(item, lang)"></Table>
       </TabPane>
     </Tabs>
   </div>
 </template>
 
 <script>
+import TextEdit from './text_edit.vue'
 import { mapGetters } from 'vuex'
 export default {
   name: 'i18n',
@@ -26,7 +27,14 @@ export default {
         },
         {
           title: 'value',
-          key: 'value'
+          key: 'value',
+          render: (h, params) => {
+            var row = this.settings.Locales[params.row.lang]
+            return h(TextEdit, {
+              props: { value: row[params.row.key] },
+              on: { input: (value) => { row[params.row.key] = value } }
+            })
+          }
         }
       ]
     }
@@ -44,12 +52,12 @@ export default {
     }
   },
   methods: {
-    LangTable (data) {
+    LangTable (data, lang) {
       var result = []
       for (var k in data) {
         result.push({
           key: k,
-          value: data[k]
+          lang: lang
         })
       }
       return result
