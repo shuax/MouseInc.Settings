@@ -2,6 +2,7 @@
   <div>
     <Dropdown trigger="click" @on-click="selectLang">
       <a href="javascript:void(0)">
+        <Icon :size="18" type="md-planet" />
         {{ title }}
         <Icon :size="18" type="md-arrow-dropdown" />
       </a>

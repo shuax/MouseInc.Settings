@@ -1,18 +1,6 @@
 <template>
   <div>
-    <div @click="editing=true">{{value}}</div>
-    <Modal v-model="editing" @on-cancel="oncancel">
-        <p slot="header" style="text-align:center">
-            <span>编辑操作</span>
-        </p>
-        <div>
-          <Input v-model="content" type="textarea" :rows="linecount" @on-change="onchange" />
-          {{error_msg}}
-        </div>
-        <div slot="footer">
-            <Button type="success" size="large" long @click="save" :disabled="error">保存</Button>
-        </div>
-    </Modal>
+    <div @click="OpenEdit">{{value}}</div>
   </div>
 </template>
 <script>
@@ -21,58 +9,58 @@ export default {
   data () {
     return {
       editing: false,
-      error: false,
-      error_msg: '',
-      content: JSON.stringify(this.value, null, 4),
-      linecount: JSON.stringify(this.value, null, 4).split(/\r\n|\r|\n/).length
+      content: JSON.stringify(this.value, null, 4)
     }
-  },
-  computed: {
   },
   props: {
     value: Array
   },
   methods: {
-    // OpenEdit()
-    // {
-    //   this.$Modal.confirm({
-    //       render: (h) => {
-    //           return h('Input', {
-    //               domProps:{
-    //                 type:'textarea'
-    //               },
-    //               props: {
-    //                   value: this.content,
-    //                 type:'textarea',
-    //                   rows: this.linecount
-    //               },
-    //               on: {
-    //                   input: (val) => {
-    //                       // this.value = val;
-    //                   }
-    //               }
-    //           })
-    //       }
-    //   })
-    // },
-    save (val) {
-      this.editing = false
-      this.$emit('input', JSON.parse(this.content))
-    },
-    oncancel () {
-      this.error = false
-      this.error_msg = ''
-      this.content = JSON.stringify(this.value, null, 4)
-    },
-    onchange () {
-      try {
-        JSON.parse(this.content)
-        this.error = false
-        this.error_msg = ''
-      } catch (e) {
-        this.error_msg = e.message
-        this.error = true
+    OpenEdit () {
+      let instance = this.$Modal.newInstance({
+        closable: false,
+        maskClosable: false,
+        footerHide: true,
+        render: (h) => {
+          return h('Input', {
+            props: {
+              type: 'textarea',
+              autosize: true,
+              value: this.content
+            },
+            on: {
+              input: (val) => {
+                this.content = val
+              }
+            }
+          })
+        }
+      })
+      let options = {
+        title: '编辑JSON',
+        icon: 'info',
+        showCancel: true,
+        onRemove: () => {
+          instance = null
+        },
+        onOk: () => {
+          try {
+            let val = JSON.parse(this.content)
+            this.$emit('input', val)
+          } catch (e) {
+            this.content = JSON.stringify(this.value, null, 4)
+            this.$Message.error({
+              content: e.message,
+              duration: 30,
+              closable: true
+            })
+          }
+        },
+        onCancel: () => {
+          this.content = JSON.stringify(this.value, null, 4)
+        }
       }
+      instance.show(options)
     }
   }
 }

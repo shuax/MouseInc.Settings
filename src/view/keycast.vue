@@ -17,10 +17,10 @@
         <InputNumber v-model="proxy.Space" style="width: 300px"></InputNumber>
       </FormItem>
       <FormItem label="字体大小">
-        <InputNumber v-model="proxy.FontSize" style="width: 300px"></InputNumber>
+        <Slider v-model="proxy.FontSize" :step="4" :min="8" :max="72" style="width: 300px"></Slider>
       </FormItem>
       <FormItem label="消失时间">
-        <InputNumber v-model="proxy.Fade" style="width: 300px"></InputNumber>
+        <Slider v-model="proxy.Fade" :min="1" :max="10" style="width: 300px"></Slider>
       </FormItem>
       <FormItem label="背景颜色">
         <ColorPicker v-model="proxy.BackgroundColor" recommend size="large"/>

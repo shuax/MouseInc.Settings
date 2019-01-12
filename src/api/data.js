@@ -3,6 +3,7 @@ import axios from '@/libs/api.request'
 export const LoadSettings = () => {
   return axios.request({
     url: '/load_settings',
+    data: {},
     method: 'post'
   })
 }
@@ -18,6 +19,7 @@ export const SaveSettings = data => {
 export const ResetSettings = () => {
   return axios.request({
     url: '/reset_settings',
+    data: {},
     method: 'post'
   })
 }

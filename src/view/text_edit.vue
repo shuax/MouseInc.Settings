@@ -1,17 +1,6 @@
 <template>
   <div>
-    <div @click="editing=true">{{value}}</div>
-    <Modal v-model="editing" @on-cancel="oncancel">
-        <p slot="header" style="text-align:center">
-            <span>编辑</span>
-        </p>
-        <div>
-          <Input v-model="content" type="textarea" :rows="linecount" />
-        </div>
-        <div slot="footer">
-            <Button type="primary" size="large" long @click="save">保存</Button>
-        </div>
-    </Modal>
+    <div @click="OpenEdit">{{value}}</div>
   </div>
 </template>
 <script>
@@ -20,20 +9,48 @@ export default {
   data () {
     return {
       editing: false,
-      content: this.value,
-      linecount: this.value.split(/\r\n|\r|\n/).length
+      content: this.value
     }
   },
   props: {
     value: String
   },
   methods: {
-    save (val) {
-      this.editing = false
-      this.$emit('input', this.content)
-    },
-    oncancel () {
-      this.content = this.value
+    OpenEdit () {
+      let instance = this.$Modal.newInstance({
+        closable: false,
+        maskClosable: false,
+        footerHide: true,
+        render: (h) => {
+          return h('Input', {
+            props: {
+              type: 'textarea',
+              autosize: true,
+              value: this.content
+            },
+            on: {
+              input: (val) => {
+                this.content = val
+              }
+            }
+          })
+        }
+      })
+      let options = {
+        title: '编辑文字',
+        icon: 'info',
+        showCancel: true,
+        onRemove: () => {
+          instance = null
+        },
+        onOk: () => {
+          this.$emit('input', this.content)
+        },
+        onCancel: () => {
+          this.content = this.value
+        }
+      }
+      instance.show(options)
     }
   }
 }
