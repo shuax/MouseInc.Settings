@@ -6,6 +6,7 @@
         <i-switch v-model="proxy.Open" />
       </b>
     </div>
+    <p>鼠标在屏幕四个边滚动时触发的功能。</p>
     <Table size="small" :columns="edge_col" :data="edge_data"></Table>
     <!-- {{this.cfg.WheelEdge}} -->
   </div>
@@ -61,12 +62,12 @@ export default {
           }
         },
         {
-          title: '向上操作',
+          title: '向上动作',
           key: 'UpActions',
           ellipsis: true,
           renderHeader: (h, params) => {
             return h('div', [
-              h('em', '向上操作'),
+              h('em', '向上动作'),
               h('Icon', {
                 props: {
                   type: 'md-create'
@@ -83,12 +84,12 @@ export default {
           }
         },
         {
-          title: '向下操作',
+          title: '向下动作',
           key: 'DownActions',
           ellipsis: true,
           renderHeader: (h, params) => {
             return h('div', [
-              h('em', '向下操作'),
+              h('em', '向下动作'),
               h('Icon', {
                 props: {
                   type: 'md-create'
@@ -105,12 +106,12 @@ export default {
           }
         },
         {
-          title: '按下操作',
+          title: '按下动作',
           key: 'PressActions',
           ellipsis: true,
           renderHeader: (h, params) => {
             return h('div', [
-              h('em', '按下操作'),
+              h('em', '按下动作'),
               h('Icon', {
                 props: {
                   type: 'md-create'

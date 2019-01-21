@@ -6,6 +6,7 @@
         <i-switch v-model="proxy.Open" />
       </b>
     </div>
+    <p>选中文字快速按下两次Ctrl+C后，会弹出快捷操作菜单</p>
     <Table size="small" :columns="hotkey_col" :data="proxy.Menu"></Table>
   </div>
 </template>
@@ -54,12 +55,12 @@ export default {
           }
         },
         {
-          title: '操作',
+          title: '动作',
           key: 'Actions',
           ellipsis: true,
           renderHeader: (h, params) => {
             return h('div', [
-              h('em', '操作'),
+              h('em', '动作'),
               h('Icon', {
                 props: {
                   type: 'md-create'

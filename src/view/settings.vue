@@ -6,14 +6,23 @@
       </FormItem>
       <FormItem label="触发距离">
         <InputNumber v-model="proxy.StartDistance" style="width: 300px"></InputNumber>
-        （像素）
+        <br />
+        （像素），按下鼠标右键以后移动超过这个距离才会开启手势
       </FormItem>
       <FormItem label="停顿超时">
         <InputNumber v-model="proxy.Timeout" style="width: 300px"></InputNumber>
-        （毫秒）
+        <br />
+        （毫秒），超过这个时间未移动鼠标，会放弃手势
       </FormItem>
       <FormItem label="还原事件">
         <i-switch v-model="proxy.RestoreEvent" />
+        <br />
+        手势失效时后否还原鼠标按下事件
+      </FormItem>
+      <FormItem label="添加模式">
+        <i-switch v-model="proxy.AddMode" />
+        <br />
+        开启后画出未识别的手势将会打开添加界面
       </FormItem>
       <FormItem label="失败颜色">
         <ColorPicker v-model="proxy.FailColor" recommend size="large"/>
@@ -55,6 +64,7 @@ export default {
         StartDistance: 10,
         Timeout: 1000,
         RestoreEvent: false,
+        AddMode: false,
         FailColor: '#CAD0D3',
         DrawColor: '#E47542',
         DrawResult: true,

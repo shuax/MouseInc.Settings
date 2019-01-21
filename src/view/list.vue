@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>这里是手势的形状和名称，打开添加模式后可以添加未识别的手势</p>
     <Table size="small" :columns="list_col" :data="cfg.Gestures"></Table>
     <!-- {{gestures}} -->
   </div>

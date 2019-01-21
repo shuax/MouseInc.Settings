@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>这里的手势会对匹配成功的程序生效</p>
     <Tabs>
       <TabPane v-for="(item,index) in cfg.MatchCustom" :label="item.Name" :key="index">
         <Table size="small" :columns="match_col" :data="MatchTable(item.List, index)"></Table>
@@ -7,12 +8,15 @@
           <b>匹配程序：</b>
         </div>
         <div style="padding: 5px 0px" v-for="(match,match_index) in item.Match" :key="match" >
-          <card shadow :padding="8" style="width: 180px">
+          <card shadow :padding="8" style="width: 300px">
             <span>
             {{match}}
               <Button type="primary" size="small" shape="circle" icon="md-close" style="display: inline-block;position:absolute;right: 8px;transform: translateY(-50%);top: 50%;" @click="remove(index, match_index)"></Button>
             </span>
           </card>
+        </div>
+        <div style="width: 300px;padding: 5px 0px">
+          <Input v-model="value" search enter-button="添加" placeholder="Photoshop.exe" @on-search="add(index, match_index)" />
         </div>
       </TabPane>
     </Tabs>
@@ -28,6 +32,7 @@ export default {
   name: 'match',
   data () {
     return {
+      value: '',
       match_col: [
         {
           title: '有效',
@@ -87,12 +92,12 @@ export default {
           }
         },
         {
-          title: '操作',
+          title: '动作',
           key: 'Actions',
           ellipsis: true,
           renderHeader: (h, params) => {
             return h('div', [
-              h('em', '操作'),
+              h('em', '动作'),
               h('Icon', {
                 props: {
                   type: 'md-create'
@@ -120,6 +125,10 @@ export default {
   methods: {
     remove (index, match_index) {
       this.cfg.MatchCustom[index].Match.splice(match_index, 1)
+    },
+    add (index, match_index) {
+      this.cfg.MatchCustom[index].Match.push(this.value)
+      this.value = ''
     },
     MatchTable (data, index) {
       var result = []

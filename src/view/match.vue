@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>这里的手势会对全部程序生效</p>
     <Table size="small" :columns="match_col" :data="cfg.MatchGlobal"></Table>
   </div>
 </template>
@@ -72,12 +73,12 @@ export default {
           }
         },
         {
-          title: '操作',
+          title: '动作',
           key: 'Actions',
           ellipsis: true,
           renderHeader: (h, params) => {
             return h('div', [
-              h('em', '操作'),
+              h('em', '动作'),
               h('Icon', {
                 props: {
                   type: 'md-create'

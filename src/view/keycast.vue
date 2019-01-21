@@ -7,11 +7,24 @@
       <FormItem label="忽略单字符">
         <i-switch v-model="proxy.IgnoreSingle" />
       </FormItem>
+      <FormItem label="背景颜色">
+        <ColorPicker v-model="proxy.BackgroundColor" recommend size="large"/>
+      </FormItem>
+      <FormItem label="阴影颜色">
+        <ColorPicker v-model="proxy.TextShadowColor" recommend size="large"/>
+      </FormItem>
+      <FormItem label="文字颜色">
+        <ColorPicker v-model="proxy.TextColor" recommend size="large"/>
+      </FormItem>
       <FormItem label="X偏移">
         <InputNumber v-model="proxy.X" style="width: 300px"></InputNumber>
+        <br />
+        窗口相对屏幕左边偏移，如果是负数则相对右边
       </FormItem>
       <FormItem label="Y偏移">
         <InputNumber v-model="proxy.Y" style="width: 300px"></InputNumber>
+        <br />
+        窗口相对屏幕顶部偏移，如果是负数则相对底部
       </FormItem>
       <FormItem label="间距">
         <InputNumber v-model="proxy.Space" style="width: 300px"></InputNumber>
@@ -21,15 +34,6 @@
       </FormItem>
       <FormItem label="消失时间">
         <Slider v-model="proxy.Fade" :min="1" :max="10" style="width: 300px"></Slider>
-      </FormItem>
-      <FormItem label="背景颜色">
-        <ColorPicker v-model="proxy.BackgroundColor" recommend size="large"/>
-      </FormItem>
-      <FormItem label="阴影颜色">
-        <ColorPicker v-model="proxy.TextShadowColor" recommend size="large"/>
-      </FormItem>
-      <FormItem label="文字颜色">
-        <ColorPicker v-model="proxy.TextColor" recommend size="large"/>
       </FormItem>
     </Form>
   </div>

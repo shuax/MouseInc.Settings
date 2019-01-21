@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>直接使用快捷键绑定动作</p>
     <Table size="small" :columns="hotkey_col" :data="cfg.Hotkeys"></Table>
   </div>
 </template>
@@ -48,12 +49,12 @@ export default {
           }
         },
         {
-          title: '操作',
+          title: '动作',
           key: 'Actions',
           ellipsis: true,
           renderHeader: (h, params) => {
             return h('div', [
-              h('em', '操作'),
+              h('em', '动作'),
               h('Icon', {
                 props: {
                   type: 'md-create'
