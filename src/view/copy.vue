@@ -6,7 +6,7 @@
         <i-switch v-model="proxy.Open" />
       </b>
     </div>
-    <p>选中文字快速按下两次Ctrl+C后，会弹出快捷操作菜单</p>
+    <p>选中文字快速按下两次Ctrl+C后，会弹出快捷操作菜单。空白名称代表分割线</p>
     <Table size="small" :columns="hotkey_col" :data="proxy.Menu"></Table>
   </div>
 </template>
@@ -74,6 +74,33 @@ export default {
               props: { value: row.Actions },
               on: { input: (value) => { row.Actions = value } }
             })
+          }
+        },
+        {
+          title: '克隆 / 删除',
+          key: '',
+          fixed: 'right',
+          width: 100,
+          render: (h, params) => {
+            var row = this.proxy.Menu[params.index]
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'text',
+                  shape: 'circle',
+                  icon: 'md-copy'
+                },
+                on: { click: () => { this.proxy.Menu.push(row) } }
+              }),
+              h('Button', {
+                props: {
+                  type: 'text',
+                  shape: 'circle',
+                  icon: 'md-trash'
+                },
+                on: { click: () => { this.proxy.Menu.splice(params.index, 1) } }
+              })
+            ])
           }
         }
       ]

@@ -69,6 +69,33 @@ export default {
               on: { input: (value) => { row.Actions = value } }
             })
           }
+        },
+        {
+          title: '克隆 / 删除',
+          key: '',
+          fixed: 'right',
+          width: 100,
+          render: (h, params) => {
+            var row = this.cfg.Hotkeys[params.index]
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'text',
+                  shape: 'circle',
+                  icon: 'md-copy'
+                },
+                on: { click: () => { this.cfg.Hotkeys.push(row) } }
+              }),
+              h('Button', {
+                props: {
+                  type: 'text',
+                  shape: 'circle',
+                  icon: 'md-trash'
+                },
+                on: { click: () => { this.cfg.Hotkeys.splice(params.index, 1) } }
+              })
+            ])
+          }
         }
       ]
     }

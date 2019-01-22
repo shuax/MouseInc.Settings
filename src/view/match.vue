@@ -53,7 +53,7 @@ export default {
         {
           title: '名称',
           key: 'Name',
-          width: 180,
+          width: 140,
           renderHeader: (h, params) => {
             return h('div', [
               h('em', '名称'),
@@ -92,6 +92,33 @@ export default {
               props: { value: row.Actions },
               on: { input: (value) => { row.Actions = value } }
             })
+          }
+        },
+        {
+          title: '克隆 / 删除',
+          key: '',
+          fixed: 'right',
+          width: 100,
+          render: (h, params) => {
+            var row = this.cfg.MatchGlobal[params.index]
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'text',
+                  shape: 'circle',
+                  icon: 'md-copy'
+                },
+                on: { click: () => { this.cfg.MatchGlobal.push(row) } }
+              }),
+              h('Button', {
+                props: {
+                  type: 'text',
+                  shape: 'circle',
+                  icon: 'md-trash'
+                },
+                on: { click: () => { this.cfg.MatchGlobal.splice(params.index, 1) } }
+              })
+            ])
           }
         }
       ]

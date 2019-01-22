@@ -389,8 +389,8 @@ export const localRead = (key) => {
  * @param {Object} vm Vue实例
  */
 export const setTitle = (routeItem, vm) => {
-  // const handledRoute = getRouteTitleHandled(routeItem)
-  // const pageTitle = showTitle(handledRoute, vm)
-  // const resTitle = pageTitle ? `${title} - ${pageTitle}` : title
-  window.document.title = title
+  const handledRoute = getRouteTitleHandled(routeItem)
+  const pageTitle = showTitle(handledRoute, vm)
+  const resTitle = pageTitle ? `${title} - ${pageTitle}` : title
+  window.document.title = resTitle
 }

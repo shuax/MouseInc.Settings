@@ -1,16 +1,16 @@
 import Main from '@/components/main'
-import switch2 from '@/view/switch'
-import exclude from '@/view/exclude'
-import settings from '@/view/settings'
-import list from '@/view/list'
-import match from '@/view/match'
-import custom_match from '@/view/custom_match'
-import edge from '@/view/edge'
-import copy from '@/view/copy'
-import hotkey from '@/view/hotkey'
-import keycast from '@/view/keycast'
-import i18n from '@/view/i18n'
-import e404 from '@/view/error-page/404.vue'
+// import switch2 from '@/view/switch'
+// import exclude from '@/view/exclude'
+// import settings from '@/view/settings'
+// import list from '@/view/list'
+// import match from '@/view/match'
+// import custom_match from '@/view/custom_match'
+// import edge from '@/view/edge'
+// import copy from '@/view/copy'
+// import hotkey from '@/view/hotkey'
+// import keycast from '@/view/keycast'
+// import i18n from '@/view/i18n'
+// import e404 from '@/view/error-page/404.vue'
 // import parentView from '@/components/parent-view'
 
 /**
@@ -69,8 +69,8 @@ export default [
           // notCache: true,
           icon: 'ios-settings'
         },
-        // component: () => import('@/view/switch')
-        component: switch2
+        component: () => import('@/view/switch')
+        // component: switch2
       },
       {
         path: 'exclude',
@@ -79,8 +79,8 @@ export default [
           icon: 'md-remove-circle',
           title: 'exclude'
         },
-        // component: () => import('@/view/exclude')
-        component: exclude// () => import('@/view/exclude')
+        component: () => import('@/view/exclude')
+        // component: exclude// () => import('@/view/exclude')
       }
     ]
   },
@@ -100,8 +100,8 @@ export default [
           icon: 'md-brush',
           title: 'settings'
         },
-        // component: () => import('@/view/settings')
-        component: settings// () => import('@/view/settings')
+        component: () => import('@/view/settings')
+        // component: settings// () => import('@/view/settings')
       },
       {
         path: 'list',
@@ -110,8 +110,8 @@ export default [
           icon: 'md-apps',
           title: 'list'
         },
-        // component: () => import('@/view/list')
-        component: list// () => import('@/view/list')
+        component: () => import('@/view/list')
+        // component: list// () => import('@/view/list')
       },
       {
         path: 'global',
@@ -120,8 +120,8 @@ export default [
           icon: 'md-globe',
           title: 'global'
         },
-        // component: () => import('@/view/match')
-        component: match// () => import('@/view/match')
+        component: () => import('@/view/match')
+        // component: match// () => import('@/view/match')
       },
       {
         path: 'custom',
@@ -130,8 +130,8 @@ export default [
           icon: 'md-color-palette',
           title: 'custom'
         },
-        // component: () => import('@/view/custom_match')
-        component: custom_match// () => import('@/view/custom_match')
+        component: () => import('@/view/custom_match')
+        // component: custom_match// () => import('@/view/custom_match')
       }
     ]
   },
@@ -151,8 +151,8 @@ export default [
           icon: 'md-desktop',
           title: 'edge'
         },
-        // component: () => import('@/view/edge')
-        component: edge// () => import('@/view/edge')
+        component: () => import('@/view/edge')
+        // component: edge// () => import('@/view/edge')
       },
       {
         path: 'copy',
@@ -161,8 +161,8 @@ export default [
           icon: 'md-link',
           title: 'copy'
         },
-        // component: () => import('@/view/copy')
-        component: copy// () => import('@/view/copy')
+        component: () => import('@/view/copy')
+        // component: copy// () => import('@/view/copy')
       },
       {
         path: 'hotkey',
@@ -171,8 +171,8 @@ export default [
           icon: 'md-key',
           title: 'hotkey'
         },
-        // component: () => import('@/view/hotkey')
-        component: hotkey// () => import('@/view/hotkey')
+        component: () => import('@/view/hotkey')
+        // component: hotkey// () => import('@/view/hotkey')
       },
       {
         path: 'keycast',
@@ -181,8 +181,8 @@ export default [
           icon: 'md-eye',
           title: 'keycast'
         },
-        // component: () => import('@/view/keycast')
-        component: keycast// () => import('@/view/keycast')
+        component: () => import('@/view/keycast')
+        // component: keycast// () => import('@/view/keycast')
       },
       {
         path: 'i18n',
@@ -191,8 +191,8 @@ export default [
           icon: 'md-mic',
           title: 'i18n'
         },
-        // component: () => import('@/view/i18n')
-        component: i18n// () => import('@/view/i18n')
+        component: () => import('@/view/i18n')
+        // component: i18n// () => import('@/view/i18n')
       }
     ]
   },
@@ -202,7 +202,7 @@ export default [
     meta: {
       hideInMenu: true
     },
-    // component: () => import('@/view/error-page/404.vue')
-    component: e404
+    component: () => import('@/view/error-page/404.vue')
+    // component: e404
   }
 ]

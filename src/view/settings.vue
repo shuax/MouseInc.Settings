@@ -4,39 +4,21 @@
       <FormItem label="开启">
         <i-switch v-model="proxy.Open" />
       </FormItem>
-      <FormItem label="触发距离">
-        <InputNumber v-model="proxy.StartDistance" style="width: 300px"></InputNumber>
-        <br />
-        （像素），按下鼠标右键以后移动超过这个距离才会开启手势
-      </FormItem>
-      <FormItem label="停顿超时">
-        <InputNumber v-model="proxy.Timeout" style="width: 300px"></InputNumber>
-        <br />
-        （毫秒），超过这个时间未移动鼠标，会放弃手势
-      </FormItem>
-      <FormItem label="还原事件">
-        <i-switch v-model="proxy.RestoreEvent" />
-        <br />
-        手势失效时后否还原鼠标按下事件
-      </FormItem>
       <FormItem label="添加模式">
         <i-switch v-model="proxy.AddMode" />
         <br />
         开启后画出未识别的手势将会打开添加界面
       </FormItem>
-      <FormItem label="失败颜色">
-        <ColorPicker v-model="proxy.FailColor" recommend size="large"/>
-      </FormItem>
       <FormItem label="手势颜色">
         <ColorPicker v-model="proxy.DrawColor" recommend size="large"/>
       </FormItem>
-      <FormItem label="显示识别结果">
+      <FormItem label="识别结果">
         <i-switch v-model="proxy.DrawResult" />
       </FormItem>
-      <FormItem label="显示鼠标轨迹">
+      <FormItem label="鼠标轨迹">
         <i-switch v-model="proxy.DrawTrace" />
       </FormItem>
-      <FormItem label="显示轨迹箭头">
+      <FormItem label="轨迹箭头">
         <i-switch v-model="proxy.TraceArrow" />
       </FormItem>
       <FormItem label="轨迹宽度">
@@ -44,6 +26,26 @@
       </FormItem>
       <FormItem label="灵敏度">
         <Slider v-model="proxy.Sensitive" :step="5" :max="100" style="width: 300px"></Slider>
+      </FormItem>
+      <FormItem label="失败颜色">
+        <ColorPicker v-model="proxy.FailColor" recommend size="large"/>
+      </FormItem>
+      <FormItem label="触发距离">
+        <InputNumber v-model="proxy.StartDistance" style="width: 300px"></InputNumber>
+        （像素）
+        <br />
+        按下鼠标右键以后移动超过这个距离才会开启手势
+      </FormItem>
+      <FormItem label="停顿超时">
+        <InputNumber v-model="proxy.Timeout" style="width: 300px"></InputNumber>
+        （毫秒）
+        <br />
+        超过这个时间未移动鼠标，会放弃手势
+      </FormItem>
+      <FormItem label="还原事件">
+        <i-switch v-model="proxy.RestoreEvent" />
+        <br />
+        手势失效时是否还原鼠标按下事件
       </FormItem>
     </Form>
   </div>
