@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>这里的手势会对匹配成功的程序生效</p>
-    <Tabs>
+    <Tabs size="small" v-model="tab">
       <TabPane v-for="(item,index) in cfg.MatchCustom" :label="item.Name" :key="index">
         <Table size="small" :columns="match_col" :data="MatchTable(item.List, index)"></Table>
         <div style="padding: 10px 0px">
@@ -11,7 +11,7 @@
           <card shadow :padding="8" style="width: 300px">
             <span>
             {{match}}
-              <Button type="primary" size="small" shape="circle" icon="md-close" style="display: inline-block;position:absolute;right: 8px;transform: translateY(-50%);top: 50%;" @click="remove(index, match_index)"></Button>
+              <Button type="error" size="small" shape="circle" icon="md-close" style="display: inline-block;position:absolute;right: 8px;transform: translateY(-50%);top: 50%;" @click="remove(index, match_index)" ghost></Button>
             </span>
           </card>
         </div>
@@ -19,6 +19,9 @@
           <Input v-model="value" search enter-button="添加" placeholder="Photoshop.exe" @on-search="add(index, match_index)" />
         </div>
       </TabPane>
+      <Button type="text" shape="circle" @click="modtab" slot="extra" icon="md-create" />
+      <Button type="text" shape="circle" @click="addtab" slot="extra" icon="md-copy" />
+      <Button type="text" shape="circle" @click="removetab" slot="extra" icon="md-trash"/>
     </Tabs>
   </div>
 </template>
@@ -32,6 +35,8 @@ export default {
   name: 'match',
   data () {
     return {
+      tab: 0,
+      name: '',
       value: '',
       match_col: [
         {
@@ -127,7 +132,7 @@ export default {
                   shape: 'circle',
                   icon: 'md-copy'
                 },
-                on: { click: () => { this.cfg.MatchCustom[params.row.index].List.push(row) } }
+                on: { click: () => { this.cfg.MatchCustom[params.row.index].List.push(JSON.parse(JSON.stringify(row))) } }
               }),
               h('Button', {
                 props: {
@@ -156,6 +161,47 @@ export default {
     add (index, match_index) {
       this.cfg.MatchCustom[index].Match.push(this.value)
       this.value = ''
+    },
+    modtab () {
+      this.name = this.cfg.MatchCustom[this.tab].Name
+      let instance = this.$Modal.newInstance({
+        closable: false,
+        maskClosable: false,
+        footerHide: true,
+        render: (h) => {
+          return h('Input', {
+            props: {
+              type: 'textarea',
+              autosize: true,
+              value: this.name
+            },
+            on: {
+              input: (val) => {
+                this.name = val
+              }
+            }
+          })
+        }
+      })
+      let options = {
+        title: '编辑文字',
+        icon: 'info',
+        showCancel: true,
+        onRemove: () => {
+          instance = null
+        },
+        onOk: () => {
+          this.cfg.MatchCustom[this.tab].Name = this.name
+        }
+      }
+      instance.show(options)
+    },
+    addtab () {
+      this.cfg.MatchCustom.push(JSON.parse(JSON.stringify(this.cfg.MatchCustom[this.tab])))
+    },
+    removetab () {
+      this.cfg.MatchCustom.splice(this.tab, 1)
+      this.tab = Math.min(this.tab, this.cfg.MatchCustom.length - 1)
     },
     MatchTable (data, index) {
       var result = []

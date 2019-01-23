@@ -108,7 +108,7 @@ export default {
                   shape: 'circle',
                   icon: 'md-copy'
                 },
-                on: { click: () => { this.cfg.MatchGlobal.push(row) } }
+                on: { click: () => { this.cfg.MatchGlobal.push(JSON.parse(JSON.stringify(row))) } }
               }),
               h('Button', {
                 props: {

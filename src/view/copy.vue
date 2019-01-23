@@ -90,7 +90,7 @@ export default {
                   shape: 'circle',
                   icon: 'md-copy'
                 },
-                on: { click: () => { this.proxy.Menu.push(row) } }
+                on: { click: () => { this.proxy.Menu.push(JSON.parse(JSON.stringify(row))) } }
               }),
               h('Button', {
                 props: {

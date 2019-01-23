@@ -7,7 +7,7 @@
       <card shadow :padding="8" style="width: 300px">
         <span>
         {{exclude}}
-          <Button type="primary" size="small" shape="circle" icon="md-close" style="display: inline-block;position:absolute;right: 8px;transform: translateY(-50%);top: 50%;" @click="remove(index)"></Button>
+          <Button type="error" size="small" shape="circle" icon="md-close" style="display: inline-block;position:absolute;right: 8px;transform: translateY(-50%);top: 50%;" @click="remove(index)" ghost></Button>
         </span>
       </card>
     </div>

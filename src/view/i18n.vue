@@ -4,7 +4,7 @@
     <Select v-model="cfg.Language" style="width:200px">
         <Option v-for="item in Languages" :value="item" :key="item">{{$t(item)}}</Option>
     </Select>
-    <Tabs>
+    <Tabs size="small">
       <TabPane v-for="(item,lang) in cfg.Locales" :label="lang" :name="lang" :key="lang">
         <Table size="small" :columns="lang_col" :data="LangTable(item, lang)"></Table>
       </TabPane>

@@ -84,7 +84,7 @@ export default {
                   shape: 'circle',
                   icon: 'md-copy'
                 },
-                on: { click: () => { this.cfg.Hotkeys.push(row) } }
+                on: { click: () => { this.cfg.Hotkeys.push(JSON.parse(JSON.stringify(row))) } }
               }),
               h('Button', {
                 props: {
