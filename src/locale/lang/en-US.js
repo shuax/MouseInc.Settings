@@ -11,7 +11,7 @@ export default {
   custom: 'Custom match',
   other: 'Other settings',
   edge: 'edge scrolling',
-  copy: 'copy enhancement',
+  copy: 'copy enhance',
   hotkey: 'global hotkey',
   keycast: 'button echo',
   i18n: 'Multilingual',
@@ -24,6 +24,11 @@ export default {
   reset_tips2: 'Do you want to continue? ',
   reset_ok: 'Reset success',
   save_ok: 'Save successfully',
+
+  Left: 'Left',
+  Top: 'Top',
+  Right: 'Right',
+  Bottom: 'Bottom',
 
   LanguageSelect: 'Please select a language',
   auto: 'automatic',

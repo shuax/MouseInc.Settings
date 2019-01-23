@@ -4,7 +4,10 @@ export const LoadSettings = () => {
   return axios.request({
     url: '/load_settings',
     data: {},
-    method: 'post'
+    method: 'post',
+    headers: {
+      'Content-Type': 'text/plain'
+    }
   })
 }
 
@@ -12,7 +15,10 @@ export const SaveSettings = data => {
   return axios.request({
     url: '/save_settings',
     data: data,
-    method: 'post'
+    method: 'post',
+    headers: {
+      'Content-Type': 'text/plain'
+    }
   })
 }
 
@@ -20,7 +26,10 @@ export const ResetSettings = () => {
   return axios.request({
     url: '/reset_settings',
     data: {},
-    method: 'post'
+    method: 'post',
+    headers: {
+      'Content-Type': 'text/plain'
+    }
   })
 }
 

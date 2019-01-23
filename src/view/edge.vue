@@ -36,7 +36,10 @@ export default {
         {
           title: '位置',
           key: 'Location',
-          width: 80
+          width: 80,
+          render: (h, params) => {
+            return h('span', this.$t(params.row.Location))
+          }
         },
         {
           title: '备注',

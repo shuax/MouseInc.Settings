@@ -25,6 +25,11 @@ export default {
   reset_ok: '重置成功',
   save_ok: '保存成功',
 
+  Left: '左',
+  Top: '上',
+  Right: '右',
+  Bottom: '下',
+
   LanguageSelect: '請選擇語言',
   auto: '自動',
   'en-US': '英語',
