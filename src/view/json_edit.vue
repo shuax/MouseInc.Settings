@@ -4,12 +4,36 @@
   </div>
 </template>
 <script>
+import 'codemirror/mode/javascript/javascript.js'
+// theme css
+// active-line.js
+import 'codemirror/addon/selection/active-line.js'
+// styleSelectedText
+// import 'codemirror/addon/selection/mark-selection.js'
+import 'codemirror/keymap/sublime.js'
+
+// import 'codemirror/theme/monokai.css'
 export default {
   name: 'json_edit',
   data () {
     return {
       editing: false,
-      content: JSON.stringify(this.value, null, 4)
+      content: JSON.stringify(this.value, null, 4),
+
+      option: {
+        tabSize: 4,
+        indentUnit: 4,
+        styleActiveLine: true,
+        lineNumbers: true,
+        line: true,
+        lineWrapping: true,
+        mode: {
+          name: 'javascript',
+          json: true
+        },
+        keyMap: 'sublime',
+        theme: 'default'
+      }
     }
   },
   props: {
@@ -22,10 +46,12 @@ export default {
         maskClosable: false,
         footerHide: true,
         render: (h) => {
-          return h('Input', {
+          return h('codemirror', {
+            // style: {
+            //   width: '480px'
+            // },
             props: {
-              type: 'textarea',
-              autosize: true,
+              options: this.option,
               value: this.content
             },
             on: {
@@ -39,6 +65,7 @@ export default {
       let options = {
         title: '编辑JSON',
         icon: 'info',
+        width: '600',
         showCancel: true,
         onRemove: () => {
           instance = null

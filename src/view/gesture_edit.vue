@@ -106,6 +106,8 @@ export default {
               // type: 'textarea',
               // autosize: true,
               size: 'large',
+              filterable: true,
+              clearable: true,
               value: this.content
             },
             style:

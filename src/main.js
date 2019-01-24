@@ -20,6 +20,13 @@ import './index.less'
 /* eslint-disable */
 // if (process.env.NODE_ENV !== 'production') require('@/mock')
 
+import VueCodemirror from 'vue-codemirror'
+import 'codemirror/lib/codemirror.css'
+Vue.use(VueCodemirror, /* {
+  options: { theme: 'base16-dark', ... },
+  events: ['scroll', ...]
+} */)
+
 Vue.use(iView, {
   i18n: (key, value) => i18n.t(key, value)
 })
