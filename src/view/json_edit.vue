@@ -4,13 +4,6 @@
   </div>
 </template>
 <script>
-import 'codemirror/mode/javascript/javascript.js'
-// theme css
-// active-line.js
-import 'codemirror/addon/selection/active-line.js'
-// styleSelectedText
-// import 'codemirror/addon/selection/mark-selection.js'
-import 'codemirror/keymap/sublime.js'
 
 // import 'codemirror/theme/monokai.css'
 export default {

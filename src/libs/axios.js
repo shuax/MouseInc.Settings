@@ -54,7 +54,7 @@ class HttpRequest {
       // let errorInfo = error.response
       // console.log(url)
       // console.log("error")
-      // console.log(error)
+      console.error(error)
       // console.log(errorInfo)
       // if (!errorInfo) {
       //   const { request: { statusText, status }, config } = JSON.parse(JSON.stringify(error))

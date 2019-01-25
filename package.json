@@ -22,6 +22,7 @@
     "html2canvas": "^1.0.0-alpha.12",
     "iview": "^3.2.2",
     "iview-area": "^1.5.17",
+    "js-beautify": "^1.8.9",
     "js-cookie": "^2.2.0",
     "json-stringify-pretty-compact": "^1.2.0",
     "simplemde": "^1.11.2",

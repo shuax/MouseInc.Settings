@@ -68,6 +68,9 @@ import { mapMutations, mapGetters } from 'vuex'
 // import minLogo from '@/assets/images/logo-min.jpg'
 // import maxLogo from '@/assets/images/logo.jpg'
 import { LoadSettings, SaveSettings, ResetSettings } from '@/api/data'
+// import { js as beautify_js } from 'js-beautify'
+import jsBeautify from 'js-beautify/js/lib/beautify'
+// import beautify from 'js-beautify'
 import './main.less'
 export default {
   name: 'Main',
@@ -181,8 +184,18 @@ export default {
     save () {
       this.save_loading = true
       this.$Loading.start()
-
-      SaveSettings(JSON.stringify(this.cfg)).then(response => {
+      // let cfg = JSON.stringify(this.cfg, function (key, value) {
+      //   if (value instanceof Array && key === 'Data') {
+      //     return JSON.stringify(value)
+      //   }
+      //   return value
+      // }, 4)
+      // cfg = cfg.replace(/"Data": "(.*)",/g, '"Data": $1,')
+      var cfg = jsBeautify.js_beautify(JSON.stringify(this.cfg), {
+        indent_size: 4,
+        indent_with_tabs: true
+      })
+      SaveSettings(cfg).then(response => {
         this.init = false
         this.modified = false
         this.setSettings(response.data)
