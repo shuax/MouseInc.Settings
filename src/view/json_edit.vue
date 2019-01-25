@@ -4,12 +4,19 @@
   </div>
 </template>
 <script>
+import jsBeautify from 'js-beautify/js/lib/beautify'
+function stringify (data) {
+  return jsBeautify.js_beautify(JSON.stringify(data), {
+    indent_size: 4,
+    indent_with_tabs: true
+  })
+}
 // import 'codemirror/theme/monokai.css'
 export default {
   name: 'json_edit',
   data () {
     return {
-      content: JSON.stringify(this.value, null, '\t'),
+      content: stringify(this.value),
       option: {
         lineNumbers: true,
         lineWrapping: true,
@@ -66,7 +73,7 @@ export default {
             let val = JSON.parse(this.content)
             this.$emit('input', val)
           } catch (e) {
-            this.content = JSON.stringify(this.value, null, '\t')
+            this.content = stringify(this.value)
             this.$Message.error({
               content: e.message,
               duration: 30,
@@ -75,7 +82,7 @@ export default {
           }
         },
         onCancel: () => {
-          this.content = JSON.stringify(this.value, null, '\t')
+          this.content = stringify(this.value)
         }
       }
       instance.show(options)
