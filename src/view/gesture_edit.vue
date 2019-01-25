@@ -39,7 +39,6 @@ export default {
   name: 'gesture_edit',
   data () {
     return {
-      editing: false,
       content: this.value
     }
   },

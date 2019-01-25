@@ -8,7 +8,6 @@ export default {
   name: 'text_edit',
   data () {
     return {
-      editing: false,
       content: this.value
     }
   },

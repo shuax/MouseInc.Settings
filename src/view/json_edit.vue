@@ -4,28 +4,26 @@
   </div>
 </template>
 <script>
-
 // import 'codemirror/theme/monokai.css'
 export default {
   name: 'json_edit',
   data () {
     return {
-      editing: false,
-      content: JSON.stringify(this.value, null, 4),
-
+      content: JSON.stringify(this.value, null, '\t'),
       option: {
+        lineNumbers: true,
+        lineWrapping: true,
+        styleActiveLine: true,
         tabSize: 4,
         indentUnit: 4,
-        styleActiveLine: true,
-        lineNumbers: true,
-        line: true,
-        lineWrapping: true,
+        indentWithTabs: true,
+        // line: true,
         mode: {
           name: 'javascript',
           json: true
-        },
-        keyMap: 'sublime',
-        theme: 'default'
+        }
+        // keyMap: 'sublime',
+        // theme: 'default'
       }
     }
   },
@@ -41,7 +39,7 @@ export default {
         render: (h) => {
           return h('codemirror', {
             // style: {
-            //   width: '480px'
+            //   width: '550px'
             // },
             props: {
               options: this.option,
@@ -68,7 +66,7 @@ export default {
             let val = JSON.parse(this.content)
             this.$emit('input', val)
           } catch (e) {
-            this.content = JSON.stringify(this.value, null, 4)
+            this.content = JSON.stringify(this.value, null, '\t')
             this.$Message.error({
               content: e.message,
               duration: 30,
@@ -77,7 +75,7 @@ export default {
           }
         },
         onCancel: () => {
-          this.content = JSON.stringify(this.value, null, 4)
+          this.content = JSON.stringify(this.value, null, '\t')
         }
       }
       instance.show(options)
@@ -85,3 +83,11 @@ export default {
   }
 }
 </script>
+<style>
+.cm-tab {
+   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAAXNSR0IArs4c6QAAAGFJREFUSMft1LsRQFAQheHPowAKoACx3IgEKtaEHujDjORSgWTH/ZOdnZOcM/sgk/kFFWY0qV8foQwS4MKBCS3qR6ixBJvElOobYAtivseIE120FaowJPN75GMu8j/LfMwNjh4HUpwg4LUAAAAASUVORK5CYII=);
+   background-position: right;
+   background-repeat: no-repeat;
+   opacity: .6;
+}
+</style>
