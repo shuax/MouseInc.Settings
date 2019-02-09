@@ -17,7 +17,7 @@
     "codemirror": "^5.43.0",
     "countup": "^1.8.2",
     "cropperjs": "^1.2.2",
-    "dayjs": "^1.8.0",
+    "dayjs": "^1.8.5",
     "echarts": "^4.0.4",
     "html2canvas": "^1.0.0-alpha.12",
     "iview": "^3.2.2",
@@ -29,7 +29,7 @@
     "sortablejs": "^1.8.1",
     "tree-table-vue": "^1.1.0",
     "v-org-tree": "^1.0.6",
-    "vue": "^2.5.22",
+    "vue": "^2.6.4",
     "vue-codemirror": "^4.0.6",
     "vue-i18n": "^7.8.0",
     "vue-router": "^3.0.1",
@@ -39,19 +39,19 @@
     "xlsx": "^0.13.3"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.3.0",
-    "@vue/cli-plugin-eslint": "^3.3.0",
-    "@vue/cli-plugin-unit-mocha": "^3.3.0",
-    "@vue/cli-service": "^3.3.1",
+    "@vue/cli-plugin-babel": "^3.4.0",
+    "@vue/cli-plugin-eslint": "^3.4.0",
+    "@vue/cli-plugin-unit-mocha": "^3.4.0",
+    "@vue/cli-service": "^3.4.0",
     "@vue/eslint-config-standard": "^3.0.0-beta.10",
-    "@vue/test-utils": "^1.0.0-beta.10",
+    "@vue/test-utils": "^1.0.0-beta.29",
     "chai": "^4.1.2",
     "eslint-plugin-cypress": "^2.0.1",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
     "lint-staged": "^6.0.0",
     "mockjs": "^1.0.1-beta3",
-    "vue-template-compiler": "^2.5.22"
+    "vue-template-compiler": "^2.6.4"
   },
   "browserslist": [
     "> 1%",

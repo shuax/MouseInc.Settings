@@ -8,7 +8,8 @@ import jsBeautify from 'js-beautify/js/lib/beautify'
 function stringify (data) {
   return jsBeautify.js_beautify(JSON.stringify(data), {
     indent_size: 4,
-    indent_with_tabs: true
+    indent_with_tabs: true,
+    eol: '\r\n'
   })
 }
 // import 'codemirror/theme/monokai.css'

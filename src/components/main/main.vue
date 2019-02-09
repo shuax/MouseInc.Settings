@@ -193,7 +193,8 @@ export default {
       // cfg = cfg.replace(/"Data": "(.*)",/g, '"Data": $1,')
       var cfg = jsBeautify.js_beautify(JSON.stringify(this.cfg), {
         indent_size: 4,
-        indent_with_tabs: true
+        indent_with_tabs: true,
+        eol: '\r\n'
       })
       SaveSettings(cfg).then(response => {
         this.init = false
