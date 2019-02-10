@@ -16,6 +16,10 @@
       <FormItem label="文字颜色">
         <ColorPicker v-model="proxy.TextColor" recommend size="large"/>
       </FormItem>
+    <Collapse>
+        <Panel>
+            更多设置
+            <p slot="content">
       <FormItem label="X偏移">
         <InputNumber v-model="proxy.X" style="width: 300px"></InputNumber>
         <br />
@@ -35,6 +39,9 @@
       <FormItem label="消失时间">
         <Slider v-model="proxy.Fade" :min="1" :max="10" style="width: 300px"></Slider>
       </FormItem>
+            </p>
+        </Panel>
+    </Collapse>
     </Form>
   </div>
 </template>

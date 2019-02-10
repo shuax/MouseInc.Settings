@@ -3,7 +3,31 @@
     <p>这里的手势会对匹配成功的程序生效</p>
     <Tabs size="small" v-model="tab">
       <TabPane v-for="(item,index) in cfg.MatchCustom" :label="item.Name" :key="index">
-        <Table size="small" :columns="match_col" :data="MatchTable(item.List, index)"></Table>
+        <Table size="small" :columns="match_col" :data="MatchTable(item.List, index)">
+
+          <template slot-scope="{ row, index }" slot="valid">
+            <Checkbox :value="row.Valid" @on-change="oncheck(row.index, index, $event)"></Checkbox>
+          </template>
+
+          <template slot-scope="{ row, index }" slot="sign">
+            <GestureEdit :value="row.Sign"></GestureEdit>
+          </template>
+
+          <template slot-scope="{ row, index }" slot="action">
+            <a @click="modify(row.index, index)">修改</a>
+            <Divider type="vertical" />
+            <a @click="clone(row.index, index)">克隆</a>
+            <Divider type="vertical" />
+            <Poptip
+                confirm
+                title="确定删除此项吗？"
+                :transfer="true"
+                @on-ok="remove(row.index, index)">
+                <a>删除</a>
+            </Poptip>
+          </template>
+
+        </Table>
         <div style="padding: 10px 0px">
           <b>匹配程序：</b>
         </div>
@@ -11,139 +35,94 @@
           <card shadow :padding="8" style="width: 300px">
             <span>
             {{match}}
-              <Button type="error" size="small" shape="circle" icon="md-close" style="display: inline-block;position:absolute;right: 8px;transform: translateY(-50%);top: 50%;" @click="remove(index, match_index)" ghost></Button>
+              <Button type="error" size="small" shape="circle" icon="md-close" style="display: inline-block;position:absolute;right: 8px;transform: translateY(-50%);top: 50%;" @click="removematch(index, match_index)" ghost></Button>
             </span>
           </card>
         </div>
         <div style="width: 300px;padding: 5px 0px">
-          <Input v-model="value" search enter-button="添加" placeholder="Photoshop.exe" @on-search="add(index, match_index)" />
+          <Input v-model="value" search enter-button="添加" placeholder="Photoshop.exe" @on-search="addmatch(index)" />
         </div>
       </TabPane>
       <Button type="text" shape="circle" @click="modtab" slot="extra" icon="md-create" />
       <Button type="text" shape="circle" @click="addtab" slot="extra" icon="md-copy" />
       <Button type="text" shape="circle" @click="removetab" slot="extra" icon="md-trash"/>
     </Tabs>
+    <Modal v-model="modal.editing">
+      <p slot="header" style="text-align:center">
+          <span>{{modal.title}}</span>
+      </p>
+      <div>
+        <Form :label-width="80">
+          <FormItem label="手势">
+            <SelectEdit v-model="modal.sign"></SelectEdit>
+          </FormItem>
+          <FormItem label="名称">
+            <Input v-model="modal.name" style="width:200px"/>
+          </FormItem>
+          <FormItem label="动作">
+            <JsonEdit :value="modal.actions" @on-input="modal.new_actions=$event"></JsonEdit>
+          </FormItem>
+        </Form>
+      </div>
+      <div slot="footer">
+          <Button type="primary" size="large" long @click="on_modify">确定</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
-import JsonEdit from './json_edit.vue'
-import TextEdit from './text_edit.vue'
-import GestureEdit from './gesture_edit.vue'
+import JsonEdit from './components/json.vue'
+import SelectEdit from './components/select.vue'
+import GestureEdit from './components/gesture.vue'
 import { mapGetters } from 'vuex'
 export default {
   name: 'match',
+  components: {
+    JsonEdit,
+    SelectEdit,
+    GestureEdit
+  },
   data () {
     return {
       tab: 0,
       name: '',
       value: '',
+      modal: {
+        editing: false,
+        title: '',
+        sign: '',
+        name: '',
+        actions: []
+      },
       match_col: [
         {
           title: '有效',
-          key: 'Valid',
           width: 60,
-          render: (h, params) => {
-            var row = this.cfg.MatchCustom[params.row.index].List[params.index]
-            return h('Checkbox', {
-              props: { value: row.Valid },
-              on: { 'on-change': (value) => { row.Valid = value } }
-            })
-          }
+          slot: 'valid'
         },
         {
           title: '手势',
-          key: '',
+          slot: 'sign',
           align: 'center',
-          width: 180,
-          renderHeader: (h, params) => {
-            return h('div', [
-              h('em', '手势'),
-              h('Icon', {
-                props: {
-                  type: 'md-create'
-                }
-              })
-            ])
-          },
-          render: (h, params) => {
-            var row = this.cfg.MatchCustom[params.row.index].List[params.index]
-            return h(GestureEdit, {
-              props: { value: row.Sign },
-              on: { input: (value) => { row.Sign = value } }
-            })
-          }
+          width: 180
         },
         {
           title: '名称',
           key: 'Name',
-          width: 140,
-          renderHeader: (h, params) => {
-            return h('div', [
-              h('em', '名称'),
-              h('Icon', {
-                props: {
-                  type: 'md-create'
-                }
-              })
-            ])
-          },
-          render: (h, params) => {
-            var row = this.cfg.MatchCustom[params.row.index].List[params.index]
-            return h(TextEdit, {
-              props: { value: row.Name },
-              on: { input: (value) => { row.Name = value } }
-            })
-          }
+          width: 120
         },
         {
           title: '动作',
           key: 'Actions',
-          ellipsis: true,
-          renderHeader: (h, params) => {
-            return h('div', [
-              h('em', '动作'),
-              h('Icon', {
-                props: {
-                  type: 'md-create'
-                }
-              })
-            ])
-          },
-          render: (h, params) => {
-            var row = this.cfg.MatchCustom[params.row.index].List[params.index]
-            return h(JsonEdit, {
-              props: { value: row.Actions },
-              on: { input: (value) => { row.Actions = value } }
-            })
-          }
+          ellipsis: true
         },
         {
-          title: '克隆 / 删除',
-          key: '',
+          title: '操作',
+          slot: 'action',
+          align: 'center',
           fixed: 'right',
-          width: 100,
-          render: (h, params) => {
-            var row = this.cfg.MatchCustom[params.row.index].List[params.index]
-            return h('div', [
-              h('Button', {
-                props: {
-                  type: 'text',
-                  shape: 'circle',
-                  icon: 'md-copy'
-                },
-                on: { click: () => { this.cfg.MatchCustom[params.row.index].List.push(JSON.parse(JSON.stringify(row))) } }
-              }),
-              h('Button', {
-                props: {
-                  type: 'text',
-                  shape: 'circle',
-                  icon: 'md-trash'
-                },
-                on: { click: () => { this.cfg.MatchCustom[params.row.index].List.splice(params.index, 1) } }
-              })
-            ])
-          }
+          width: 150
         }
       ]
     }
@@ -155,10 +134,61 @@ export default {
     ])
   },
   methods: {
+
+    oncheck (index, match_index, value) {
+      var row = this.cfg.MatchCustom[index].List[match_index]
+      row.Valid = value
+    },
+    modify (index, match_index) {
+      this.modal.editing = true
+      this.modal.index = index
+      this.modal.match_index = match_index
+      var row = this.cfg.MatchCustom[index].List[match_index]
+      this.modal.title = '修改手势'
+      this.modal.sign = row.Sign
+      this.modal.name = row.Name
+      this.modal.actions = row.Actions
+      this.modal.new_actions = row.Actions
+    },
+    clone (index, match_index) {
+      this.modal.editing = true
+      this.modal.index = index
+      this.modal.match_index = undefined
+      var row = this.cfg.MatchCustom[index].List[match_index]
+      this.modal.title = '添加手势'
+      this.modal.sign = row.Sign
+      this.modal.name = row.Name
+      this.modal.actions = row.Actions
+      this.modal.new_actions = row.Actions
+    },
+    on_modify () {
+      this.modal.editing = false
+      var index = this.modal.index
+      var match_index = this.modal.match_index
+      if (match_index !== undefined) {
+        // 修改
+        var row = this.cfg.MatchCustom[index].List[match_index]
+        row.Sign = this.modal.sign
+        row.Name = this.modal.name
+        row.Actions = this.modal.new_actions
+      } else {
+        // 克隆
+        var new_row = {
+          Valid: true,
+          Sign: this.modal.sign,
+          Name: this.modal.name,
+          Actions: this.modal.new_actions
+        }
+        this.cfg.MatchCustom[index].List.push(new_row)
+      }
+    },
     remove (index, match_index) {
+      this.cfg.MatchCustom[index].List.splice(match_index, 1)
+    },
+    removematch (index, match_index) {
       this.cfg.MatchCustom[index].Match.splice(match_index, 1)
     },
-    add (index, match_index) {
+    addmatch (index) {
       this.cfg.MatchCustom[index].Match.push(this.value)
       this.value = ''
     },

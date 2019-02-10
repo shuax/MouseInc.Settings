@@ -6,14 +6,19 @@
     </Select>
     <Tabs size="small">
       <TabPane v-for="(item,lang) in cfg.Locales" :label="lang" :name="lang" :key="lang">
-        <Table size="small" :columns="lang_col" :data="LangTable(item, lang)"></Table>
+        <Table size="small" :columns="lang_col" :data="LangTable(item)">
+
+          <template slot-scope="{ row, index }" slot="value">
+            <Input :value="row.value" @on-change="change(row.key, lang, $event)" type="textarea" :autosize="true"/>
+          </template>
+        </Table>
       </TabPane>
     </Tabs>
   </div>
 </template>
 
 <script>
-import TextEdit from './text_edit.vue'
+// import TextEdit from './text_edit.vue'
 import { mapGetters } from 'vuex'
 export default {
   name: 'i18n',
@@ -27,25 +32,25 @@ export default {
         },
         {
           title: 'value',
-          key: 'value',
-          ellipsis: true,
-          renderHeader: (h, params) => {
-            return h('div', [
-              h('em', 'value'),
-              h('Icon', {
-                props: {
-                  type: 'md-create'
-                }
-              })
-            ])
-          },
-          render: (h, params) => {
-            var row = this.cfg.Locales[params.row.lang]
-            return h(TextEdit, {
-              props: { value: row[params.row.key] },
-              on: { input: (value) => { row[params.row.key] = value } }
-            })
-          }
+          slot: 'value',
+          ellipsis: true
+          // renderHeader: (h, params) => {
+          //   return h('div', [
+          //     h('em', 'value'),
+          //     h('Icon', {
+          //       props: {
+          //         type: 'md-create'
+          //       }
+          //     })
+          //   ])
+          // },
+          // render: (h, params) => {
+          //   var row = this.cfg.Locales[params.row.lang]
+          //   return h(TextEdit, {
+          //     props: { value: row[params.row.key] },
+          //     on: { input: (value) => { row[params.row.key] = value } }
+          //   })
+          // }
         }
       ]
     }
@@ -63,15 +68,20 @@ export default {
     }
   },
   methods: {
-    LangTable (data, lang) {
+    LangTable (data) {
       var result = []
       for (var k in data) {
         result.push({
           key: k,
-          lang: lang
+          value: data[k]
         })
       }
       return result
+    },
+    change (key, lang, event) {
+      var value = event.target.value
+      var row = this.cfg.Locales[lang]
+      row[key] = value
     }
   }
 }

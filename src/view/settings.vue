@@ -24,9 +24,10 @@
       <FormItem label="轨迹宽度">
         <Slider v-model="proxy.TraceWidth" :min="1" :max="10" style="width: 300px"></Slider>
       </FormItem>
-      <FormItem label="灵敏度">
-        <Slider v-model="proxy.Sensitive" :step="5" :max="100" style="width: 300px"></Slider>
-      </FormItem>
+    <Collapse>
+        <Panel>
+            更多设置
+            <p slot="content">
       <FormItem label="失败颜色">
         <ColorPicker v-model="proxy.FailColor" recommend size="large"/>
       </FormItem>
@@ -47,6 +48,13 @@
         <br />
         手势失效时是否还原鼠标按下事件
       </FormItem>
+      <FormItem label="灵敏度">
+        <Slider v-model="proxy.Sensitive" :step="5" :max="100" style="width: 300px"></Slider>
+      </FormItem>
+            </p>
+        </Panel>
+        </Panel>
+    </Collapse>
     </Form>
   </div>
 </template>

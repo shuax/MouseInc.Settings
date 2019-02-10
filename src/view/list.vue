@@ -1,65 +1,33 @@
 <template>
   <div>
-    <p>这里是手势的形状和名称，打开添加模式后可以添加未识别的手势</p>
-    <Table size="small" :columns="list_col" :data="cfg.Gestures"></Table>
+    <p style="padding-bottom: 10px;">这里列出所有手势的形状和名称，打开添加模式后可以添加未识别的手势</p>
+    <Row :gutter="10">
+      <Col span="6" v-for="(info, i) in cfg.Gestures" :key="`info-${i}`" style="padding-bottom: 10px;">
+        <Card shadow>
+          <div style="text-align:center">
+            <img :src="imgsrc(info)" style="width: 48px;height: 48px;">
+            <Input :value="info.Sign" @on-change="change(info, $event)"/>
+      </div>
+        </Card>
+      </Col>
+    </Row>
     <!-- {{gestures}} -->
   </div>
 </template>
 
 <script>
-import TextEdit from './text_edit.vue'
 import { mapGetters } from 'vuex'
 export default {
   name: 'list',
-  data () {
-    return {
-      list_col: [
-        {
-          title: '手势',
-          key: '',
-          align: 'center',
-          width: 120,
-          render: (h, params) => {
-            // console.log(h, params.row.Sign, this.gestures[params.row.Sign])
-            // var row = this.proxy.Menu[params.index]
-            return h('img', {
-              domProps: { src: this.gestures[params.row.Sign] ? this.gestures[params.row.Sign] : this.gestures['placeholder'] },
-              style: {
-                marginTop: '5px',
-                width: '48px',
-                height: '48px'
-              }
-            })
-          }
-        },
-        {
-          title: '名称',
-          key: '',
-          renderHeader: (h, params) => {
-            return h('div', [
-              h('em', '名称'),
-              h('Icon', {
-                props: {
-                  type: 'md-create'
-                }
-              })
-            ])
-          },
-          render: (h, params) => {
-            var row = this.cfg.Gestures[params.index]
-            return h(TextEdit, {
-              props: { value: row.Sign },
-              on: {
-                input: (value) => {
-                  this.gestures[value] = this.gestures[row.Sign]
-                  delete this.gestures[row.Sign]
-                  row.Sign = value
-                }
-              }
-            })
-          }
-        }
-      ]
+  methods: {
+    imgsrc (info) {
+      return this.gestures[info.Sign] ? this.gestures[info.Sign] : this.gestures['placeholder']
+    },
+    change (info, event) {
+      var value = event.target.value
+      this.gestures[value] = this.gestures[info.Sign]
+      delete this.gestures[info.Sign]
+      info.Sign = value
     }
   },
   computed: {
