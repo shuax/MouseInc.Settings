@@ -1,7 +1,8 @@
 <template>
   <div>
     <Select :value="value" :filterable="true" :clearable="true" style="width:200px" @on-change='onchange'>
-      <Option v-for="(gesture,index) in gestures" :key="index" :value="index" :label="index">
+      <Option v-for="(gesture,index) in valid_gestures" :key="index" :value="index" :label="index">
+
         <div style="display:flex;justify-content:space-between;align-items:Center;">
           <span><img :src="gesture" style="marginTop: 2px;width: 32px;height: 32px" /></span>
           <span style="float:right;align-items:flex-end;color:#ccc">{{index}}</span>
@@ -21,7 +22,16 @@ export default {
   computed: {
     ...mapGetters([
       'gestures'
-    ])
+    ]),
+    valid_gestures () {
+      var result = {}
+      for (var k in this.gestures) {
+        if (k !== 'placeholder') {
+          result[k] = this.gestures[k]
+        }
+      }
+      return result
+    }
   },
   methods: {
     onchange (value) {

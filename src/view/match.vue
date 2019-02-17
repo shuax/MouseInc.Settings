@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>这里的手势会对全部程序生效</p>
+    <p style="padding-bottom: 10px;">这里的手势会对全部程序生效</p>
     <Table size="small" :columns="match_col" :data="cfg.MatchGlobal">
 
       <template slot-scope="{ row, index }" slot="valid">

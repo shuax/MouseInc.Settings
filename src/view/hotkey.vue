@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>直接使用快捷键绑定动作</p>
+    <p style="padding-bottom: 10px;">直接使用快捷键触发动作</p>
     <Table size="small" :columns="hotkey_col" :data="cfg.Hotkeys">
 
       <template slot-scope="{ row, index }" slot="valid">

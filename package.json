@@ -17,7 +17,7 @@
     "codemirror": "^5.43.0",
     "countup": "^1.8.2",
     "cropperjs": "^1.2.2",
-    "dayjs": "^1.8.5",
+    "dayjs": "^1.8.6",
     "echarts": "^4.0.4",
     "html2canvas": "^1.0.0-alpha.12",
     "iview": "^3.2.2",
@@ -26,10 +26,10 @@
     "js-cookie": "^2.2.0",
     "json-stringify-pretty-compact": "^1.2.0",
     "simplemde": "^1.11.2",
-    "sortablejs": "^1.8.1",
+    "sortablejs": "^1.8.3",
     "tree-table-vue": "^1.1.0",
     "v-org-tree": "^1.0.6",
-    "vue": "^2.6.4",
+    "vue": "^2.6.6",
     "vue-codemirror": "^4.0.6",
     "vue-i18n": "^7.8.0",
     "vue-router": "^3.0.1",
@@ -51,7 +51,7 @@
     "less-loader": "^4.0.5",
     "lint-staged": "^6.0.0",
     "mockjs": "^1.0.1-beta3",
-    "vue-template-compiler": "^2.6.4"
+    "vue-template-compiler": "^2.6.6"
   },
   "browserslist": [
     "> 1%",

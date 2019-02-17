@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>这里的手势会对匹配成功的程序生效</p>
+    <p style="padding-bottom: 10px;">这里的手势会对匹配成功的程序生效</p>
     <Tabs size="small" v-model="tab">
       <TabPane v-for="(item,index) in cfg.MatchCustom" :label="item.Name" :key="index">
         <Table size="small" :columns="match_col" :data="MatchTable(item.List, index)">
@@ -43,9 +43,19 @@
           <Input v-model="value" search enter-button="添加" placeholder="Photoshop.exe" @on-search="addmatch(index)" />
         </div>
       </TabPane>
-      <Button type="text" shape="circle" @click="modtab" slot="extra" icon="md-create" />
-      <Button type="text" shape="circle" @click="addtab" slot="extra" icon="md-copy" />
-      <Button type="text" shape="circle" @click="removetab" slot="extra" icon="md-trash"/>
+      <div slot="extra">
+        <a @click="modtab">修改</a>
+        <Divider type="vertical" />
+        <a @click="addtab">克隆</a>
+        <Divider type="vertical" />
+            <Poptip
+                confirm
+                title="确定删除此项吗？"
+                :transfer="true"
+                @on-ok="removetab">
+                <a>删除</a>
+            </Poptip>
+      </div>
     </Tabs>
     <Modal v-model="modal.editing">
       <p slot="header" style="text-align:center">
@@ -129,8 +139,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'cfg',
-      'gestures'
+      'cfg'
     ])
   },
   methods: {
@@ -214,7 +223,7 @@ export default {
         }
       })
       let options = {
-        title: '编辑文字',
+        title: '编辑名称',
         icon: 'info',
         showCancel: true,
         onRemove: () => {

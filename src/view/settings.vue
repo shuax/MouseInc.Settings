@@ -53,7 +53,6 @@
       </FormItem>
             </p>
         </Panel>
-        </Panel>
     </Collapse>
     </Form>
   </div>

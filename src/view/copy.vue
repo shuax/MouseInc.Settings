@@ -6,7 +6,7 @@
         <i-switch v-model="proxy.Open" />
       </b>
     </div>
-    <p>选中文字快速按下两次Ctrl+C后，会弹出快捷操作菜单。空白名称代表分割线</p>
+    <p style="padding-bottom: 10px;">选中文字快速按下两次Ctrl+C后，会弹出快捷操作菜单。空白名称代表分割线，可通过拖拽调整菜单顺序。</p>
     <Table size="small" :columns="hotkey_col" :data="proxy.Menu">
 
       <template slot-scope="{ row, index }" slot="valid">
@@ -26,10 +26,6 @@
             <a>删除</a>
         </Poptip>
         <br>
-
-        <a @click="up(index)">上移</a>
-        <Divider type="vertical" />
-        <a @click="down(index)">下移</a>
 
       </template>
     </Table>
@@ -60,6 +56,7 @@ import JsonEdit from './components/json.vue'
 // import JsonEdit from './json_edit.vue'
 // import TextEdit from './text_edit.vue'
 import { mapGetters } from 'vuex'
+import Sortable from 'sortablejs'
 export default {
   name: 'copy',
   components: {
@@ -224,19 +221,21 @@ export default {
     },
     remove (index) {
       this.proxy.Menu.splice(index, 1)
-    },
-    up (index) {
-      if (index > 0) {
-        var row = this.proxy.Menu.splice(index, 1)[0]
-        this.proxy.Menu.splice(index - 1, 0, row)
-      }
-    },
-    down (index) {
-      if (index < this.proxy.Menu.length) {
-        var row = this.proxy.Menu.splice(index, 1)[0]
-        this.proxy.Menu.splice(index + 1, 0, row)
-      }
     }
+  },
+  mounted () {
+    const el = document.querySelectorAll('.ivu-table-tbody')[0]
+    this.sortable = Sortable.create(el, {
+      // ghostClass: 'sortable-ghost',
+      onEnd: (/** Event */ evt) => {
+        const targetRow = this.proxy.Menu.splice(evt.oldIndex, 1)[0]
+        this.proxy.Menu.splice(evt.newIndex, 0, targetRow)
+      },
+      onMove: (/** Event */ evt, /** Event */ originalEvent) => {
+        // Example: http://jsbin.com/tuyafe/1/edit?js,output
+        // console.log(evt, originalEvent)
+      }
+    })
   }
 }
 </script>

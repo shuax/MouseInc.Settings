@@ -6,7 +6,7 @@
         <i-switch v-model="proxy.Open" />
       </b>
     </div>
-    <p>鼠标在屏幕四个边滚动时触发的功能。</p>
+    <p style="padding-bottom: 10px;">鼠标在屏幕四个边滚动时触发的功能。</p>
     <Table size="small" :columns="edge_col" :data="edge_data">
 
       <template slot-scope="{ row, index }" slot="valid">

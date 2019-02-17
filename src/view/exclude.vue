@@ -1,8 +1,8 @@
 <template>
   <div>
-    <p>默认配置下，画手势Z可以添加程序到列表中</p>
-    <p>在列表中的程序不会启用鼠标手势等功能，忽略大小写。</p>
-    <p><b>当前排除程序列表：</b></p>
+    <p style="padding-bottom: 10px;">默认配置下，画手势Z可以添加程序到列表中</p>
+    <p style="padding-bottom: 10px;">在列表中的程序不会启用鼠标手势等功能，忽略大小写。</p>
+    <p style="padding-bottom: 10px;"><b>当前排除程序列表：</b></p>
     <div style="padding: 5px 0px" v-for="(exclude,index) in cfg.Excludes" :key="exclude" >
       <card shadow :padding="8" style="width: 300px">
         <span>
