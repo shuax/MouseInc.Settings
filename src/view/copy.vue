@@ -1,12 +1,15 @@
 <template>
   <div>
-    <div style="padding: 0px 0px 10px 0px">
+    <div style="padding-bottom: 10px;">
       <b>
         开启
         <i-switch v-model="proxy.Open" />
       </b>
     </div>
-    <p style="padding-bottom: 10px;">选中文字快速按下两次Ctrl+C后，会弹出快捷操作菜单。空白名称代表分割线，可通过拖拽调整菜单顺序。</p>
+    <p style="padding-bottom: 10px;">
+      选中文字快速按下两次Ctrl+C后，会弹出快捷操作菜单。
+      空白名称代表分割线，可通过拖拽调整菜单顺序。
+    </p>
     <Table size="small" :columns="hotkey_col" :data="proxy.Menu">
 
       <template slot-scope="{ row, index }" slot="valid">

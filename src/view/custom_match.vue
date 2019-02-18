@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p style="padding-bottom: 10px;">这里的手势会对匹配成功的程序生效</p>
+    <p style="padding-bottom: 10px;">这里的手势只会对指定的程序生效</p>
     <Tabs size="small" v-model="tab">
       <TabPane v-for="(item,index) in cfg.MatchCustom" :label="item.Name" :key="index">
         <Table size="small" :columns="match_col" :data="MatchTable(item.List, index)">
@@ -29,7 +29,7 @@
 
         </Table>
         <div style="padding: 10px 0px">
-          <b>匹配程序：</b>
+          <b>程序列表：</b>
         </div>
         <div style="padding: 5px 0px" v-for="(match,match_index) in item.Match" :key="match" >
           <card shadow :padding="8" style="width: 300px">
@@ -50,7 +50,7 @@
         <Divider type="vertical" />
             <Poptip
                 confirm
-                title="确定删除此项吗？"
+                title="确定删除此分组？"
                 :transfer="true"
                 @on-ok="removetab">
                 <a>删除</a>
@@ -223,7 +223,7 @@ export default {
         }
       })
       let options = {
-        title: '编辑名称',
+        title: '编辑分组名称',
         icon: 'info',
         showCancel: true,
         onRemove: () => {

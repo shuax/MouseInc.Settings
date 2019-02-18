@@ -57,7 +57,7 @@
     <div style="padding: 0px 0px 20px 0px">
       <Card shadow :padding="0" style="width: 100%;max-width: 750px">
         <CellGroup>
-          <Cell title="复制增强" label="选中文字快速按两次Ctrl+C即可呼出快捷菜单">
+          <Cell title="复制增强" label="选中文字快速按下两次Ctrl+C后，会弹出快捷操作菜单">
             <i-switch v-model="proxy.ClipboardManager.Open" slot="extra" />
           </Cell>
         </CellGroup>
@@ -75,7 +75,7 @@
     <div style="padding: 0px 0px 20px 0px">
       <Card shadow :padding="0" style="width: 100%;max-width: 750px">
         <CellGroup>
-          <Cell title="滚轮穿透" label="不在焦点的窗口可以自由滚动，WIN10自带">
+          <Cell title="滚轮穿透" label="不在焦点的窗口可以自由滚动，Win10系统已经自带">
             <i-switch v-model="proxy.WheelThrough" slot="extra" />
           </Cell>
         </CellGroup>

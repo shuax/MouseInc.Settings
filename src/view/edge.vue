@@ -6,7 +6,7 @@
         <i-switch v-model="proxy.Open" />
       </b>
     </div>
-    <p style="padding-bottom: 10px;">鼠标在屏幕四个边滚动时触发的功能。</p>
+    <p style="padding-bottom: 10px;">鼠标滚轮在屏幕四个边滚动、按下时触发的功能。</p>
     <Table size="small" :columns="edge_col" :data="edge_data">
 
       <template slot-scope="{ row, index }" slot="valid">
@@ -29,7 +29,7 @@
         </p>
         <div>
           <Form :label-width="80">
-            <FormItem label="备注">
+            <FormItem label="名称">
               <Input v-model="modal.Name" style="width:200px"/>
             </FormItem>
             <FormItem label="向上动作">
@@ -97,12 +97,12 @@ export default {
           // }
         },
         {
-          title: '备注',
+          title: '名称',
           key: 'Name',
           width: 100
           // renderHeader: (h, params) => {
           //   return h('div', [
-          //     h('em', '备注'),
+          //     h('em', '名称'),
           //     h('Icon', {
           //       props: {
           //         type: 'md-create'
@@ -234,7 +234,7 @@ export default {
       this.modal.editing = true
       this.modal.Location = Location
       var row = this.proxy[Location]
-      this.modal.title = '修改屏幕' + this.$t(Location) + '边缘滚动功能'
+      this.modal.title = '屏幕' + this.$t(Location) + '边缘滚动功能'
       this.modal.Name = row.Name
       this.modal.UpActions = row.UpActions
       this.modal.DownActions = row.DownActions

@@ -12,10 +12,10 @@
       <FormItem label="手势颜色">
         <ColorPicker v-model="proxy.DrawColor" recommend size="large"/>
       </FormItem>
-      <FormItem label="识别结果">
+      <FormItem label="显示操作">
         <i-switch v-model="proxy.DrawResult" />
       </FormItem>
-      <FormItem label="鼠标轨迹">
+      <FormItem label="显示轨迹">
         <i-switch v-model="proxy.DrawTrace" />
       </FormItem>
       <FormItem label="轨迹箭头">
@@ -41,14 +41,14 @@
         <InputNumber v-model="proxy.Timeout" style="width: 300px"></InputNumber>
         （毫秒）
         <br />
-        超过这个时间未移动鼠标，会放弃手势
+        鼠标超过这个时间未移动，会中断手势
       </FormItem>
       <FormItem label="还原事件">
         <i-switch v-model="proxy.RestoreEvent" />
         <br />
         手势失效时是否还原鼠标按下事件
       </FormItem>
-      <FormItem label="灵敏度">
+      <FormItem label="识别灵敏度">
         <Slider v-model="proxy.Sensitive" :step="5" :max="100" style="width: 300px"></Slider>
       </FormItem>
             </p>

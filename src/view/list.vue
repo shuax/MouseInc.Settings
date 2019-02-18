@@ -1,13 +1,13 @@
 <template>
   <div>
-    <p style="padding-bottom: 10px;">这里列出所有手势的形状和名称，打开添加模式后可以添加未识别的手势</p>
+    <p style="padding-bottom: 10px;">这里列出所有手势的形状和名称，打开 <router-link to="settings">添加模式</router-link> 后可以添加未识别的手势</p>
     <Row :gutter="10">
       <Col span="6" v-for="(info, i) in cfg.Gestures" :key="`info-${i}`" style="padding-bottom: 10px;">
         <Card shadow>
-          <div style="text-align:center">
+          <div style="text-align:center" class="gestures">
             <img :src="imgsrc(info)" style="width: 48px;height: 48px;">
-            <Input :value="info.Sign" @on-change="change(info, $event)"/>
-      </div>
+            <Input :value="info.Sign" @on-change="change(info, $event)" />
+          </div>
         </Card>
       </Col>
     </Row>
@@ -38,3 +38,6 @@ export default {
   }
 }
 </script>
+<style>
+.gestures input { text-align:center }
+</style>
