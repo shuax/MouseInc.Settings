@@ -28,7 +28,7 @@
             <span>{{modal.title}}</span>
         </p>
         <div>
-          <Form :label-width="80">
+          <Form :label-width="80" @submit.native.prevent>
             <FormItem label="名称">
               <Input v-model="modal.Name" style="width:200px"/>
             </FormItem>
@@ -54,7 +54,6 @@
 
 <script>
 import JsonEdit from './components/json.vue'
-// import JsonEdit from './json_edit.vue'
 // import TextEdit from './text_edit.vue'
 import { mapGetters } from 'vuex'
 export default {

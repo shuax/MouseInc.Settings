@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Form :label-width="100">
+    <Form :label-width="100" @submit.native.prevent>
       <FormItem label="开启">
         <i-switch v-model="proxy.Open" />
       </FormItem>

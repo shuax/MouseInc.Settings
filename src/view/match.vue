@@ -32,7 +32,7 @@
             <span>{{modal.title}}</span>
         </p>
         <div>
-          <Form :label-width="80">
+          <Form :label-width="80" @submit.native.prevent>
             <FormItem label="手势">
               <SelectEdit v-model="modal.sign"></SelectEdit>
             </FormItem>

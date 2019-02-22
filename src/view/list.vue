@@ -38,6 +38,7 @@ export default {
   }
 }
 </script>
+
 <style>
 .gestures input { text-align:center }
 </style>

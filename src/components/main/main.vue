@@ -71,12 +71,14 @@ import { LoadSettings, SaveSettings, ResetSettings } from '@/api/data'
 // import { js as beautify_js } from 'js-beautify'
 import jsBeautify from 'js-beautify/js/lib/beautify'
 // import beautify from 'js-beautify'
+// import JsonEdit from '@/view/components/json.vue'
 import './main.less'
 export default {
   name: 'Main',
   components: {
     SideMenu,
     HeaderBar,
+    // JsonEdit,
     Language
     // TagsNav,
     // Fullscreen,

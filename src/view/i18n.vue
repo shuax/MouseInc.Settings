@@ -9,7 +9,8 @@
         <Table size="small" :columns="lang_col" :data="LangTable(item)">
 
           <template slot-scope="{ row, index }" slot="value">
-            <Input :value="row.value" @on-change="change(row.key, lang, $event)" type="textarea" :autosize="true"/>
+            <TextEdit :value="row.value" @on-input="change(row.key, lang, $event)"></TextEdit>
+            <!-- <Input :value="row.value" @on-change="change(row.key, lang, $event)" type="textarea" :autosize="true"/> -->
           </template>
         </Table>
       </TabPane>
@@ -18,10 +19,15 @@
 </template>
 
 <script>
-// import TextEdit from './text_edit.vue'
+import TextEdit from './components/text.vue'
 import { mapGetters } from 'vuex'
 export default {
   name: 'i18n',
+  components: {
+    TextEdit
+    // SelectEdit,
+    // GestureEdit
+  },
   data () {
     return {
       lang_col: [
@@ -78,8 +84,7 @@ export default {
       }
       return result
     },
-    change (key, lang, event) {
-      var value = event.target.value
+    change (key, lang, value) {
       var row = this.cfg.Locales[lang]
       row[key] = value
     }

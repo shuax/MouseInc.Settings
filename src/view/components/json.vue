@@ -39,11 +39,11 @@ export default {
         indentUnit: 4,
         indentWithTabs: true,
         // line: true,
+        // keyMap: 'sublime',
         mode: {
           name: 'javascript',
           json: true
         }
-        // keyMap: 'sublime',
         // theme: 'default'
       }
     }
