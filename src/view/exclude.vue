@@ -36,6 +36,10 @@ export default {
       this.cfg.Excludes.splice(index, 1)
     },
     add () {
+      if (this.value.indexOf('.') === -1) {
+        this.$Message.error('请输入正确的程序名')
+        return
+      }
       this.cfg.Excludes.push(this.value)
       this.value = ''
     }

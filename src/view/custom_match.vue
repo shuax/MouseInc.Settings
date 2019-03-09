@@ -198,6 +198,10 @@ export default {
       this.cfg.MatchCustom[index].Match.splice(match_index, 1)
     },
     addmatch (index) {
+      if (this.value.indexOf('.') === -1) {
+        this.$Message.error('请输入正确的程序名')
+        return
+      }
       this.cfg.MatchCustom[index].Match.push(this.value)
       this.value = ''
     },
