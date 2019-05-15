@@ -4,6 +4,7 @@
     <Row :gutter="10">
       <Col span="6" v-for="(info, i) in cfg.Gestures" :key="`info-${i}`" style="padding-bottom: 10px;">
         <Card shadow>
+          <tooltip content="删除" style="float: right; color: red; cursor: pointer"><Icon type="md-close" @click="remove(info)" /></tooltip>
           <div style="text-align:center" class="gestures">
             <img :src="imgsrc(info)" style="width: 48px;height: 48px;">
             <Input :value="info.Sign" @on-change="change(info, $event)" />
@@ -28,6 +29,10 @@ export default {
       this.gestures[value] = this.gestures[info.Sign]
       delete this.gestures[info.Sign]
       info.Sign = value
+    },
+    remove (info) {
+      delete this.gestures[info.Sign]
+      this.cfg.Gestures.splice(this.cfg.Gestures.findIndex(item => item.Sign === info.Sign), 1)
     }
   },
   computed: {
