@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p style="padding-bottom: 10px;">这里列出所有手势的形状和名称，打开 <router-link to="settings">添加模式</router-link> 后可以添加未识别的手势</p>
+    <p style="padding-bottom: 10px;">这里列出所有手势的形状和名称，打开 <router-link to="settings">添加模式</router-link> 后可以添加未识别的手势。添加后记得按F5刷新设置页面。</p>
     <Row :gutter="10">
       <Col span="6" v-for="(info, i) in cfg.Gestures" :key="`info-${i}`" style="padding-bottom: 10px;">
         <Card shadow>
@@ -8,9 +8,9 @@
             confirm
             title="确定删除此手势？"
             :transfer="true"
-            style="float: right; color: red; cursor: pointer"
+            style="position: absolute;right:13px;top:13px; cursor: pointer"
             @on-ok="remove(info)">
-            <Icon type="md-close"/>
+            <Icon type="md-close-circle" color="#d5d8de" size="18"/>
           </Poptip>
           <div style="text-align:center" class="gestures">
             <img :src="imgsrc(info)" style="width: 48px;height: 48px;">

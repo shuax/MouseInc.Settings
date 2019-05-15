@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p style="padding-bottom: 10px;">这里的手势会对全部程序生效</p>
+    <p style="padding-bottom: 10px;">在没有特别设置的情况下，这里的手势会对全部程序生效。</p>
     <Table size="small" :columns="match_col" :data="cfg.MatchGlobal">
 
       <template slot-scope="{ row, index }" slot="valid">
@@ -45,7 +45,7 @@
           </Form>
         </div>
         <div slot="footer">
-            <Button type="primary" size="large" long @click="on_modify">确定</Button>
+            <Button :type="modal.btn" size="large" long @click="on_modify">确定</Button>
         </div>
     </Modal>
   </div>
@@ -114,6 +114,7 @@ export default {
       this.modal.index = index
       var row = this.cfg.MatchGlobal[index]
       this.modal.title = '修改手势'
+      this.modal.btn = 'primary'
       this.modal.sign = row.Sign
       this.modal.name = row.Name
       this.modal.actions = row.Actions
@@ -124,6 +125,7 @@ export default {
       this.modal.index = undefined
       var row = this.cfg.MatchGlobal[index]
       this.modal.title = '添加手势'
+      this.modal.btn = 'success'
       this.modal.sign = row.Sign
       this.modal.name = row.Name
       this.modal.actions = row.Actions

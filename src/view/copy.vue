@@ -48,7 +48,7 @@
         </Form>
       </div>
       <div slot="footer">
-          <Button type="primary" size="large" long @click="on_modify">确定</Button>
+          <Button :type="modal.btn" size="large" long @click="on_modify">确定</Button>
       </div>
     </Modal>
   </div>
@@ -190,6 +190,7 @@ export default {
       this.modal.index = index
       var row = this.proxy.Menu[index]
       this.modal.title = '修改菜单项'
+      this.modal.btn = 'primary'
       this.modal.Name = row.Name
       this.modal.Actions = row.Actions
       this.modal.NewActions = row.Actions
@@ -199,6 +200,7 @@ export default {
       this.modal.index = undefined
       var row = this.proxy.Menu[index]
       this.modal.title = '添加菜单项'
+      this.modal.btn = 'success'
       this.modal.Name = row.Name
       this.modal.Actions = row.Actions
       this.modal.NewActions = row.Actions

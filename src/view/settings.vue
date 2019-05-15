@@ -7,7 +7,7 @@
       <FormItem label="添加模式">
         <i-switch v-model="proxy.AddMode" />
         <br />
-        开启后画出未识别的手势将会打开添加界面
+        开启后画出未识别的手势将会打开添加界面，添加后记得按F5刷新设置页面。
       </FormItem>
       <FormItem label="手势颜色">
         <ColorPicker v-model="proxy.DrawColor" recommend size="large"/>
