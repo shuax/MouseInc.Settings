@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p style="padding-bottom: 10px;">这里的手势只会对指定的程序生效</p>
+    <p style="padding-bottom: 10px;">这里对指定程序设置的手势会优先于通用手势响应。</p>
     <Tabs size="small" v-model="tab">
       <TabPane v-for="(item,index) in cfg.MatchCustom" :label="item.Name" :key="index">
         <Table size="small" :columns="match_col" :data="MatchTable(item.List, index)">
@@ -75,7 +75,7 @@
         </Form>
       </div>
       <div slot="footer">
-          <Button type="primary" size="large" long @click="on_modify">确定</Button>
+          <Button :type="modal.btn" size="large" long @click="on_modify">确定</Button>
       </div>
     </Modal>
   </div>
@@ -154,6 +154,7 @@ export default {
       this.modal.match_index = match_index
       var row = this.cfg.MatchCustom[index].List[match_index]
       this.modal.title = '修改手势'
+      this.modal.btn = 'primary'
       this.modal.sign = row.Sign
       this.modal.name = row.Name
       this.modal.actions = row.Actions
@@ -165,6 +166,7 @@ export default {
       this.modal.match_index = undefined
       var row = this.cfg.MatchCustom[index].List[match_index]
       this.modal.title = '添加手势'
+      this.modal.btn = 'success'
       this.modal.sign = row.Sign
       this.modal.name = row.Name
       this.modal.actions = row.Actions
