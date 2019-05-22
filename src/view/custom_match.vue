@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p style="padding-bottom: 10px;">这里对指定程序设置的手势会优先于通用手势响应。</p>
+    <p style="padding-bottom: 10px;">{{$t('custom_tips')}}</p>
     <Tabs size="small" v-model="tab">
       <TabPane v-for="(item,index) in cfg.MatchCustom" :label="item.Name" :key="index">
         <Table size="small" :columns="match_col" :data="MatchTable(item.List, index)">
@@ -13,23 +13,23 @@
             <GestureEdit :value="row.Sign"></GestureEdit>
           </template>
 
-          <template slot-scope="{ row, index }" slot="action">
-            <a @click="modify(row.index, index)">修改</a>
+          <template slot-scope="{ row, index }" slot="operate">
+            <a @click="modify(row.index, index)">{{$t('modify')}}</a>
             <Divider type="vertical" />
-            <a @click="clone(row.index, index)">克隆</a>
+            <a @click="clone(row.index, index)">{{$t('clone')}}</a>
             <Divider type="vertical" />
             <Poptip
                 confirm
-                title="确定删除此项吗？"
+                :title="$t('match_warning')"
                 :transfer="true"
                 @on-ok="remove(row.index, index)">
-                <a>删除</a>
+                <a>{{$t('delete')}}</a>
             </Poptip>
           </template>
 
         </Table>
         <div style="padding: 10px 0px">
-          <b>程序列表：</b>
+          <b>{{$t('custom_list')}}</b>
         </div>
         <div style="padding: 5px 0px" v-for="(match,match_index) in item.Match" :key="match" >
           <card shadow :padding="8" style="width: 300px">
@@ -40,20 +40,20 @@
           </card>
         </div>
         <div style="width: 300px;padding: 5px 0px">
-          <Input v-model="value" search enter-button="添加" placeholder="Photoshop.exe" @on-search="addmatch(index)" />
+          <Input v-model="value" search :enter-button="$t('add')" placeholder="Photoshop.exe" @on-search="addmatch(index)" />
         </div>
       </TabPane>
       <div slot="extra">
-        <a @click="modtab">修改</a>
+        <a @click="modtab">{{$t('modify')}}</a>
         <Divider type="vertical" />
-        <a @click="addtab">克隆</a>
+        <a @click="addtab">{{$t('clone')}}</a>
         <Divider type="vertical" />
             <Poptip
                 confirm
-                title="确定删除此分组？"
+                :title="$t('custom_warning')"
                 :transfer="true"
                 @on-ok="removetab">
-                <a>删除</a>
+                <a>{{$t('delete')}}</a>
             </Poptip>
       </div>
     </Tabs>
@@ -63,19 +63,19 @@
       </p>
       <div>
         <Form :label-width="80" @submit.native.prevent>
-          <FormItem label="手势">
+          <FormItem :label="$t('sign')">
             <SelectEdit v-model="modal.sign"></SelectEdit>
           </FormItem>
-          <FormItem label="名称">
+          <FormItem :label="$t('name')">
             <Input v-model="modal.name" style="width:200px"/>
           </FormItem>
-          <FormItem label="动作">
+          <FormItem :label="$t('actions')">
             <JsonEdit :value="modal.actions" @on-input="modal.new_actions=$event"></JsonEdit>
           </FormItem>
         </Form>
       </div>
       <div slot="footer">
-          <Button :type="modal.btn" size="large" long @click="on_modify">确定</Button>
+          <Button :type="modal.btn" size="large" long @click="on_modify">{{$t('ok')}}</Button>
       </div>
     </Modal>
   </div>
@@ -107,29 +107,29 @@ export default {
       },
       match_col: [
         {
-          title: '有效',
+          title: this.$t('valid'),
           width: 60,
           slot: 'valid'
         },
         {
-          title: '手势',
+          title: this.$t('sign'),
           slot: 'sign',
           align: 'center',
           width: 180
         },
         {
-          title: '名称',
+          title: this.$t('name'),
           key: 'Name',
           width: 120
         },
         {
-          title: '动作',
+          title: this.$t('actions'),
           key: 'Actions',
           ellipsis: true
         },
         {
-          title: '操作',
-          slot: 'action',
+          title: this.$t('operate'),
+          slot: 'operate',
           align: 'center',
           fixed: 'right',
           width: 150
@@ -153,7 +153,7 @@ export default {
       this.modal.index = index
       this.modal.match_index = match_index
       var row = this.cfg.MatchCustom[index].List[match_index]
-      this.modal.title = '修改手势'
+      this.modal.title = this.$t('modify_gesture')
       this.modal.btn = 'primary'
       this.modal.sign = row.Sign
       this.modal.name = row.Name
@@ -165,7 +165,7 @@ export default {
       this.modal.index = index
       this.modal.match_index = undefined
       var row = this.cfg.MatchCustom[index].List[match_index]
-      this.modal.title = '添加手势'
+      this.modal.title = this.$t('add_gesture')
       this.modal.btn = 'success'
       this.modal.sign = row.Sign
       this.modal.name = row.Name
@@ -201,7 +201,7 @@ export default {
     },
     addmatch (index) {
       if (this.value.indexOf('.') === -1) {
-        this.$Message.error('请输入正确的程序名')
+        this.$Message.error(this.$t('exclude_warning'))
         return
       }
       this.cfg.MatchCustom[index].Match.push(this.value)
@@ -229,7 +229,7 @@ export default {
         }
       })
       let options = {
-        title: '编辑分组名称',
+        title: this.$t('custom_edit'),
         icon: 'info',
         showCancel: true,
         onRemove: () => {

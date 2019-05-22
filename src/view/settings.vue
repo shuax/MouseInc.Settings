@@ -1,54 +1,54 @@
 <template>
   <div>
     <Form :label-width="100" @submit.native.prevent>
-      <FormItem label="开启">
+      <FormItem :label="$t('open_label')">
         <i-switch v-model="proxy.Open" />
       </FormItem>
-      <FormItem label="添加模式">
+      <FormItem :label="$t('addmode_label')">
         <i-switch v-model="proxy.AddMode" />
         <br />
-        开启后画出未识别的手势将会打开添加界面，添加后记得按F5刷新设置页面。
+        {{$t('addmode_tip')}}
       </FormItem>
-      <FormItem label="手势颜色">
+      <FormItem :label="$t('drawcolor_label')">
         <ColorPicker v-model="proxy.DrawColor" recommend size="large"/>
       </FormItem>
-      <FormItem label="显示操作">
+      <FormItem :label="$t('drawresult_label')">
         <i-switch v-model="proxy.DrawResult" />
       </FormItem>
-      <FormItem label="显示轨迹">
+      <FormItem :label="$t('drawtrace_label')">
         <i-switch v-model="proxy.DrawTrace" />
       </FormItem>
-      <FormItem label="轨迹箭头">
+      <FormItem :label="$t('tracearrow_label')">
         <i-switch v-model="proxy.TraceArrow" />
       </FormItem>
-      <FormItem label="轨迹宽度">
+      <FormItem :label="$t('tracewidth_label')">
         <Slider v-model="proxy.TraceWidth" :min="1" :max="10" style="width: 300px"></Slider>
       </FormItem>
     <Collapse>
         <Panel>
-            更多设置
+            {{$t('more_setting')}}
             <p slot="content">
-      <FormItem label="失败颜色">
+      <FormItem :label="$t('failcolor_label')">
         <ColorPicker v-model="proxy.FailColor" recommend size="large"/>
       </FormItem>
-      <FormItem label="触发距离">
+      <FormItem :label="$t('startdistance_label')">
         <InputNumber v-model="proxy.StartDistance" style="width: 300px"></InputNumber>
-        （像素）
+        {{$t('startdistance_unit')}}
         <br />
-        按下鼠标右键以后移动超过这个距离才会开启手势
+        {{$t('startdistance_tip')}}
       </FormItem>
-      <FormItem label="停顿超时">
+      <FormItem :label="$t('timeout_label')">
         <InputNumber v-model="proxy.Timeout" style="width: 300px"></InputNumber>
-        （毫秒）
+        {{$t('timeout_unit')}}
         <br />
-        鼠标超过这个时间未移动，会中断手势
+        {{$t('timeout_tip')}}
       </FormItem>
-      <FormItem label="还原事件">
+      <FormItem :label="$t('restoreevent_label')">
         <i-switch v-model="proxy.RestoreEvent" />
         <br />
-        手势失效时是否还原鼠标按下事件
+        {{$t('restoreevent_tip')}}
       </FormItem>
-      <FormItem label="识别灵敏度">
+      <FormItem :label="$t('sensitive_label')">
         <Slider v-model="proxy.Sensitive" :step="5" :max="100" style="width: 300px"></Slider>
       </FormItem>
             </p>

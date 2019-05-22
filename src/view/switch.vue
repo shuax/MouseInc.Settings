@@ -3,7 +3,7 @@
     <div style="padding: 0px 0px 20px 0px">
       <Card shadow :padding="0" style="width: 100%;max-width: 750px">
         <CellGroup>
-          <Cell title="鼠标手势" label="按住鼠标右键持续移动画出形状，放开右键即可触发对应动作">
+          <Cell :title="$t('mousegesture')" :label="$t('mousegesture_label')">
             <i-switch v-model="proxy.MouseGesture.Open" slot="extra" />
           </Cell>
         </CellGroup>
@@ -12,7 +12,7 @@
     <div style="padding: 0px 0px 20px 0px">
       <Card shadow :padding="0" style="width: 100%;max-width: 750px">
         <CellGroup>
-          <Cell title="滚轮切换" label="按住鼠标右键时，滚动滚轮可以进行切换标签页动作（依赖鼠标手势开关）">
+          <Cell :title="$t('wheelswitch')" :label="$t('wheelswitch_label')">
             <i-switch v-model="proxy.MouseGesture.WheelSwitch" slot="extra" :disabled="!proxy.MouseGesture.Open"/>
           </Cell>
         </CellGroup>
@@ -21,7 +21,7 @@
     <div style="padding: 0px 0px 20px 0px">
       <Card shadow :padding="0" style="width: 100%;max-width: 750px">
         <CellGroup>
-          <Cell title="按键回显" label="在屏幕上显示键盘按键，方便录制教程">
+          <Cell :title="$t('keycast')" :label="$t('keycast_label')">
             <i-switch v-model="proxy.Keycast.Open" slot="extra" />
           </Cell>
         </CellGroup>
@@ -30,7 +30,7 @@
     <div style="padding: 0px 0px 20px 0px">
       <Card shadow :padding="0" style="width: 100%;max-width: 750px">
         <CellGroup>
-          <Cell title="快速音量调节" label="按住Alt时滚动滚轮调节音量大小，按下滚轮禁音">
+          <Cell :title="$t('wheelaltcontrol')" :label="$t('wheelaltcontrol_label')">
             <i-switch v-model="proxy.WheelAltControl" slot="extra" />
           </Cell>
         </CellGroup>
@@ -39,7 +39,7 @@
     <div style="padding: 0px 0px 20px 0px">
       <Card shadow :padding="0" style="width: 100%;max-width: 750px">
         <CellGroup>
-          <Cell title="音效回馈" label="音量调节时播放音效">
+          <Cell :title="$t('volumecontrolsound')" :label="$t('volumecontrolsound_label')">
             <i-switch v-model="proxy.VolumeControlSound" slot="extra" />
           </Cell>
         </CellGroup>
@@ -48,7 +48,7 @@
     <div style="padding: 0px 0px 20px 0px">
       <Card shadow :padding="0" style="width: 100%;max-width: 750px">
         <CellGroup>
-          <Cell title="边缘滚动" label="鼠标滚轮在屏幕四个边滚动、按下时触发的功能">
+          <Cell :title="$t('wheeledge')" :label="$t('wheeledge_label')">
             <i-switch v-model="proxy.WheelEdge.Open" slot="extra" />
           </Cell>
         </CellGroup>
@@ -57,7 +57,7 @@
     <div style="padding: 0px 0px 20px 0px">
       <Card shadow :padding="0" style="width: 100%;max-width: 750px">
         <CellGroup>
-          <Cell title="复制增强" label="选中文字快速按下两次Ctrl+C后，会弹出快捷操作菜单">
+          <Cell :title="$t('clipboardmanager')" :label="$t('clipboardmanager_label')">
             <i-switch v-model="proxy.ClipboardManager.Open" slot="extra" />
           </Cell>
         </CellGroup>
@@ -66,7 +66,7 @@
     <div style="padding: 0px 0px 20px 0px">
       <Card shadow :padding="0" style="width: 100%;max-width: 750px">
         <CellGroup>
-          <Cell title="忽略全屏" label="当前程序如果是一个全屏程序，会自动暂停MouseInc功能">
+          <Cell :title="$t('ignorefullscreen')" :label="$t('ignorefullscreen_label')">
             <i-switch v-model="proxy.IgnoreFullScreen" slot="extra" />
           </Cell>
         </CellGroup>
@@ -75,7 +75,7 @@
     <div style="padding: 0px 0px 20px 0px">
       <Card shadow :padding="0" style="width: 100%;max-width: 750px">
         <CellGroup>
-          <Cell title="滚轮穿透" label="不在焦点的窗口可以自由滚动，Win10系统已经自带">
+          <Cell :title="$t('wheelthrough')" :label="$t('wheelthrough_label')">
             <i-switch v-model="proxy.WheelThrough" slot="extra" />
           </Cell>
         </CellGroup>
@@ -84,7 +84,7 @@
     <div style="padding: 0px 0px 20px 0px">
       <Card shadow :padding="0" style="width: 100%;max-width: 750px">
         <CellGroup>
-          <Cell title="自然滚动" label="滚轮反向，和Mac OS X一致">
+          <Cell :title="$t('wheelnatural')" :label="$t('wheelnatural_label')">
             <i-switch v-model="proxy.WheelNatural" slot="extra" />
           </Cell>
         </CellGroup>

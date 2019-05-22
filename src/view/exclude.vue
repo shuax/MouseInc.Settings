@@ -1,8 +1,8 @@
 <template>
   <div>
-    <p style="padding-bottom: 10px;">默认配置下，画手势Z可以添加程序到列表中</p>
-    <p style="padding-bottom: 10px;">在列表中的程序不会启用鼠标手势等功能，忽略大小写。</p>
-    <p style="padding-bottom: 10px;"><b>当前排除程序列表：</b></p>
+    <p style="padding-bottom: 10px;">{{$t('exclude_tips1')}}</p>
+    <p style="padding-bottom: 10px;">{{$t('exclude_tips2')}}</p>
+    <p style="padding-bottom: 10px;">{{$t('exclude_tips3')}}</p>
     <div style="padding: 5px 0px" v-for="(exclude,index) in cfg.Excludes" :key="exclude" >
       <card shadow :padding="8" style="width: 300px">
         <span>
@@ -12,7 +12,7 @@
       </card>
     </div>
     <div style="width: 300px;padding: 5px 0px">
-      <Input v-model="value" search enter-button="添加" placeholder="Photoshop.exe" @on-search="add" />
+      <Input v-model="value" search :enter-button="$t('add')" placeholder="Photoshop.exe" @on-search="add" />
     </div>
   </div>
 </template>
@@ -37,7 +37,7 @@ export default {
     },
     add () {
       if (this.value.indexOf('.') === -1) {
-        this.$Message.error('请输入正确的程序名')
+        this.$Message.error(this.$t('exclude_warning'))
         return
       }
       this.cfg.Excludes.push(this.value)
