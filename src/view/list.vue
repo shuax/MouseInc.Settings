@@ -1,12 +1,12 @@
 <template>
   <div>
-    <p style="padding-bottom: 10px;">这里列出所有手势的形状和名称，打开 <router-link to="settings">添加模式</router-link> 后可以添加未识别的手势。添加后记得按F5刷新设置页面。</p>
+    <p style="padding-bottom: 10px;">{{$t('list_tips1')}} <router-link to="settings">{{$t('list_tips2')}}</router-link> {{$t('list_tips3')}}</p>
     <Row :gutter="10">
       <Col span="6" v-for="(info, i) in cfg.Gestures" :key="`info-${i}`" style="padding-bottom: 10px;">
         <Card shadow>
           <Poptip
             confirm
-            title="确定删除此手势？"
+            :title="$t('list_warning')"
             :transfer="true"
             style="position: absolute;right:13px;top:13px; cursor: pointer"
             @on-ok="remove(info)">

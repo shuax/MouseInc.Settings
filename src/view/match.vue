@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p style="padding-bottom: 10px;">在没有特别设置的情况下，这里的手势会对全部程序生效。</p>
+    <p style="padding-bottom: 10px;">{{$t('match_tips')}}</p>
     <Table size="small" :columns="match_col" :data="cfg.MatchGlobal">
 
       <template slot-scope="{ row, index }" slot="valid">
@@ -11,17 +11,17 @@
         <GestureEdit :value="row.Sign"></GestureEdit>
       </template>
 
-      <template slot-scope="{ row, index }" slot="action">
-        <a @click="modify(index)">修改</a>
+      <template slot-scope="{ row, index }" slot="operate">
+        <a @click="modify(index)">{{$t('modify')}}</a>
         <Divider type="vertical" />
-        <a @click="clone(index)">克隆</a>
+        <a @click="clone(index)">{{$t('clone')}}</a>
         <Divider type="vertical" />
         <Poptip
             confirm
-            title="确定删除此项吗？"
+            :title="$t('match_warning')"
             :transfer="true"
             @on-ok="remove(index)">
-            <a>删除</a>
+            <a>{{$t('delete')}}</a>
         </Poptip>
       </template>
 
@@ -33,19 +33,19 @@
         </p>
         <div>
           <Form :label-width="80" @submit.native.prevent>
-            <FormItem label="手势">
+            <FormItem :label="$t('sign')">
               <SelectEdit v-model="modal.sign"></SelectEdit>
             </FormItem>
-            <FormItem label="名称">
+            <FormItem :label="$t('name')">
               <Input v-model="modal.name" style="width:200px"/>
             </FormItem>
-            <FormItem label="动作">
+            <FormItem :label="$t('actions')">
               <JsonEdit :value="modal.actions" @on-input="modal.new_actions=$event"></JsonEdit>
             </FormItem>
           </Form>
         </div>
         <div slot="footer">
-            <Button :type="modal.btn" size="large" long @click="on_modify">确定</Button>
+            <Button :type="modal.btn" size="large" long @click="on_modify">{{$t('ok')}}</Button>
         </div>
     </Modal>
   </div>
@@ -74,29 +74,29 @@ export default {
       },
       match_col: [
         {
-          title: '有效',
+          title: this.$t('valid'),
           width: 60,
           slot: 'valid'
         },
         {
-          title: '手势',
+          title: this.$t('sign'),
           slot: 'sign',
           align: 'center',
           width: 180
         },
         {
-          title: '名称',
+          title: this.$t('name'),
           key: 'Name',
           width: 120
         },
         {
-          title: '动作',
+          title: this.$t('actions'),
           key: 'Actions',
           ellipsis: true
         },
         {
-          title: '操作',
-          slot: 'action',
+          title: this.$t('operate'),
+          slot: 'operate',
           align: 'center',
           fixed: 'right',
           width: 150
@@ -113,7 +113,7 @@ export default {
       this.modal.editing = true
       this.modal.index = index
       var row = this.cfg.MatchGlobal[index]
-      this.modal.title = '修改手势'
+      this.modal.title = this.$t('modify_gesture')
       this.modal.btn = 'primary'
       this.modal.sign = row.Sign
       this.modal.name = row.Name
@@ -124,7 +124,7 @@ export default {
       this.modal.editing = true
       this.modal.index = undefined
       var row = this.cfg.MatchGlobal[index]
-      this.modal.title = '添加手势'
+      this.modal.title = this.$t('add_gesture')
       this.modal.btn = 'success'
       this.modal.sign = row.Sign
       this.modal.name = row.Name

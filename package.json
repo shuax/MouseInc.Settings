@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "codemirror": "^5.46.0",
-    "iview": "^3.4.1",
+    "codemirror": "^5.47.0",
+    "iview": "^3.4.2",
     "js-beautify": "^1.10.0",
     "vue": "^2.6.10",
     "vue-codemirror": "^4.0.6",
