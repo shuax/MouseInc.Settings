@@ -1,42 +1,42 @@
 <template>
   <div>
     <Form :label-width="100" @submit.native.prevent>
-      <FormItem label="开启">
+      <FormItem :label="$t('open_label')">
         <i-switch v-model="proxy.Open" />
       </FormItem>
-      <FormItem label="忽略单字符">
+      <FormItem :label="$t('ignoresingle_label')">
         <i-switch v-model="proxy.IgnoreSingle" />
       </FormItem>
-      <FormItem label="背景颜色">
+      <FormItem :label="$t('backgroundcolor_label')">
         <ColorPicker v-model="proxy.BackgroundColor" recommend size="large"/>
       </FormItem>
-      <FormItem label="阴影颜色">
+      <FormItem :label="$t('textshadowcolor_label')">
         <ColorPicker v-model="proxy.TextShadowColor" recommend size="large"/>
       </FormItem>
-      <FormItem label="文字颜色">
+      <FormItem :label="$t('textcolor_label')">
         <ColorPicker v-model="proxy.TextColor" recommend size="large"/>
       </FormItem>
     <Collapse>
         <Panel>
-            更多设置
+            {{$t('more_setting')}}
             <p slot="content">
-      <FormItem label="X偏移">
+      <FormItem :label="$t('x_label')">
         <InputNumber v-model="proxy.X" style="width: 300px"></InputNumber>
         <br />
-        窗口相对屏幕左边偏移，如果是负数则相对右边
+        {{$t('x_tips')}}
       </FormItem>
-      <FormItem label="Y偏移">
+      <FormItem :label="$t('y_label')">
         <InputNumber v-model="proxy.Y" style="width: 300px"></InputNumber>
         <br />
-        窗口相对屏幕顶部偏移，如果是负数则相对底部
+        {{$t('y_tips')}}
       </FormItem>
-      <FormItem label="间距">
+      <FormItem :label="$t('space_label')">
         <InputNumber v-model="proxy.Space" style="width: 300px"></InputNumber>
       </FormItem>
-      <FormItem label="字体大小">
+      <FormItem :label="$t('fontsize_label')">
         <Slider v-model="proxy.FontSize" :step="4" :min="8" :max="72" style="width: 300px"></Slider>
       </FormItem>
-      <FormItem label="消失时间">
+      <FormItem :label="$t('fade_label')">
         <Slider v-model="proxy.Fade" :min="1" :max="10" style="width: 300px"></Slider>
       </FormItem>
             </p>

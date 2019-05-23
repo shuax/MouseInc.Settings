@@ -103,10 +103,39 @@ export default {
 
   ok: 'OK',
 
+  edge_tips1: 'The function that the mouse wheel scrolls on the four sides of the screen and is triggered when pressed. ',
+  upactions: 'Up action',
+  downactions: 'down action',
+  pressactions: 'Press action',
+  location: 'location',
+  edge_tips2: 'screen',
+  edge_tips3: 'Edge scrolling function',
+
   Left: 'Left',
-  Top: 'Top',
+  Top: 'On',
   Right: 'Right',
   Bottom: 'Bottom',
+
+  copy_tips1: 'Select the text and press Ctrl+C twice quickly, the shortcut menu will pop up. The blank name represents the dividing line, and the menu order can be adjusted by dragging and dropping. ',
+  modify_menu: 'Modify menu item',
+  add_menu: 'Add menu item',
+
+  hotkey_tips1: 'Use the shortcut to trigger the action directly',
+  keys: 'shortcut',
+  modify_keys: 'Modify shortcuts',
+  add_keys: 'Add shortcuts',
+
+  ignoresingle_label: 'Ignore single character',
+  backgroundcolor_label: 'background color',
+  textshadowcolor_label: 'shadow color',
+  textcolor_label: 'text color',
+  x_label: 'X offset',
+  y_label: 'Y offset',
+  space_label: 'pitch',
+  fontsize_label: 'font size',
+  fade_label: 'disappear time',
+  x_tips: 'The window is offset from the left side of the screen, and if it is negative, it is relative to the right side',
+  y_tips: 'The window is offset from the top of the screen, if it is negative, it is relative to the bottom',
 
   LanguageSelect: 'Please select a language',
   auto: 'automatic',

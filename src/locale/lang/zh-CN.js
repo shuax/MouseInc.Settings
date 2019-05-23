@@ -102,10 +102,39 @@ export default {
 
   ok: '确定',
 
+  edge_tips1: '鼠标滚轮在屏幕四个边滚动、按下时触发的功能。',
+  upactions: '向上动作',
+  downactions: '向下动作',
+  pressactions: '按下动作',
+  location: '位置',
+  edge_tips2: '屏幕',
+  edge_tips3: '边缘滚动功能',
+
   Left: '左',
   Top: '上',
   Right: '右',
   Bottom: '下',
+
+  copy_tips1: '选中文字快速按下两次Ctrl+C后，会弹出快捷操作菜单。空白名称代表分割线，可通过拖拽调整菜单顺序。',
+  modify_menu: '修改菜单项',
+  add_menu: '添加菜单项',
+
+  hotkey_tips1: '直接使用快捷键触发动作',
+  keys: '快捷键',
+  modify_keys: '修改快捷键',
+  add_keys: '添加快捷键',
+
+  ignoresingle_label: '忽略单字符',
+  backgroundcolor_label: '背景颜色',
+  textshadowcolor_label: '阴影颜色',
+  textcolor_label: '文字颜色',
+  x_label: 'X偏移',
+  y_label: 'Y偏移',
+  space_label: '间距',
+  fontsize_label: '字体大小',
+  fade_label: '消失时间',
+  x_tips: '窗口相对屏幕左边偏移，如果是负数则相对右边',
+  y_tips: '窗口相对屏幕顶部偏移，如果是负数则相对底部',
 
   LanguageSelect: '请选择语言',
   auto: '自动',

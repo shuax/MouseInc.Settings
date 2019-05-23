@@ -1,23 +1,23 @@
 <template>
   <div>
-    <p style="padding-bottom: 10px;">直接使用快捷键触发动作</p>
+    <p style="padding-bottom: 10px;">{{$t('hotkey_tips1')}}</p>
     <Table size="small" :columns="hotkey_col" :data="cfg.Hotkeys">
 
       <template slot-scope="{ row, index }" slot="valid">
         <Checkbox :value="row.Valid" @on-change="oncheck(index, $event)"></Checkbox>
       </template>
 
-      <template slot-scope="{ row, index }" slot="action">
-        <a @click="modify(index)">修改</a>
+      <template slot-scope="{ row, index }" slot="operate">
+        <a @click="modify(index)">{{$t('modify')}}</a>
         <Divider type="vertical" />
-        <a @click="clone(index)">克隆</a>
+        <a @click="clone(index)">{{$t('clone')}}</a>
         <Divider type="vertical" />
         <Poptip
             confirm
-            title="确定删除此项吗？"
+            :title="$t('match_warning')"
             :transfer="true"
             @on-ok="remove(index)">
-            <a>删除</a>
+            <a>{{$t('delete')}}</a>
         </Poptip>
       </template>
     </Table>
@@ -28,16 +28,16 @@
       </p>
       <div>
         <Form :label-width="80" @submit.native.prevent>
-          <FormItem label="快捷键">
+          <FormItem :label="$t('keys')">
             <Input v-model="modal.Keys" style="width:200px"/>
           </FormItem>
-          <FormItem label="动作">
+          <FormItem :label="$t('actions')">
             <JsonEdit :value="modal.Actions" @on-input="modal.NewActions=$event"></JsonEdit>
           </FormItem>
         </Form>
       </div>
       <div slot="footer">
-          <Button :type="modal.btn" size="large" long @click="on_modify">确定</Button>
+          <Button :type="modal.btn" size="large" long @click="on_modify">{{$t('ok')}}</Button>
       </div>
     </Modal>
   </div>
@@ -64,7 +64,7 @@ export default {
       },
       hotkey_col: [
         {
-          title: '有效',
+          title: this.$t('valid'),
           slot: 'valid',
           width: 60
           // render: (h, params) => {
@@ -76,7 +76,7 @@ export default {
           // }
         },
         {
-          title: '快捷键',
+          title: this.$t('keys'),
           key: 'Keys',
           width: 120
           // renderHeader: (h, params) => {
@@ -98,7 +98,7 @@ export default {
           // }
         },
         {
-          title: '动作',
+          title: this.$t('actions'),
           key: 'Actions',
           ellipsis: true
           // renderHeader: (h, params) => {
@@ -120,8 +120,8 @@ export default {
           // }
         },
         {
-          title: '操作',
-          slot: 'action',
+          title: this.$t('operate'),
+          slot: 'operate',
           align: 'center',
           fixed: 'right',
           width: 150
@@ -170,7 +170,7 @@ export default {
       this.modal.editing = true
       this.modal.index = index
       var row = this.cfg.Hotkeys[index]
-      this.modal.title = '修改快捷键'
+      this.modal.title = this.$t('modify_keys')
       this.modal.btn = 'primary'
       this.modal.Keys = row.Keys
       this.modal.Actions = row.Actions
@@ -180,7 +180,7 @@ export default {
       this.modal.editing = true
       this.modal.index = undefined
       var row = this.cfg.Hotkeys[index]
-      this.modal.title = '添加快捷键'
+      this.modal.title = this.$t('add_keys')
       this.modal.btn = 'success'
       this.modal.Keys = row.Keys
       this.modal.Actions = row.Actions
