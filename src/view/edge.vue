@@ -2,11 +2,11 @@
   <div>
     <div style="padding: 0px 0px 10px 0px">
       <b>
-        开启
+        {{$t('open_label')}}
         <i-switch v-model="proxy.Open" />
       </b>
     </div>
-    <p style="padding-bottom: 10px;">鼠标滚轮在屏幕四个边滚动、按下时触发的功能。</p>
+    <p style="padding-bottom: 10px;">{{$t('edge_tips1')}}</p>
     <Table size="small" :columns="edge_col" :data="edge_data">
 
       <template slot-scope="{ row, index }" slot="valid">
@@ -17,8 +17,8 @@
         <span>{{$t(row.Location)}}</span>
       </template>
 
-      <template slot-scope="{ row, index }" slot="action">
-        <a @click="modify(row.Location)">修改</a>
+      <template slot-scope="{ row, index }" slot="operate">
+        <a @click="modify(row.Location)">{{$t('modify')}}</a>
       </template>
 
     </Table>
@@ -29,22 +29,22 @@
         </p>
         <div>
           <Form :label-width="80" @submit.native.prevent>
-            <FormItem label="名称">
+            <FormItem :label="$t('name')">
               <Input v-model="modal.Name" style="width:200px"/>
             </FormItem>
-            <FormItem label="向上动作">
+            <FormItem :label="$t('upactions')">
               <JsonEdit :value="modal.UpActions" @on-input="modal.NewUpActions=$event"></JsonEdit>
             </FormItem>
-            <FormItem label="向下动作">
+            <FormItem :label="$t('downactions')">
               <JsonEdit :value="modal.DownActions" @on-input="modal.NewDownActions=$event"></JsonEdit>
             </FormItem>
-            <FormItem label="按下动作">
+            <FormItem :label="$t('pressactions')">
               <JsonEdit :value="modal.PressActions" @on-input="modal.NewPressActions=$event"></JsonEdit>
             </FormItem>
           </Form>
         </div>
         <div slot="footer">
-            <Button type="primary" size="large" long @click="on_modify">确定</Button>
+            <Button type="primary" size="large" long @click="on_modify">{{$t('ok')}}</Button>
         </div>
     </Modal>
 
@@ -75,7 +75,7 @@ export default {
       },
       edge_col: [
         {
-          title: '有效',
+          title: this.$t('valid'),
           width: 60,
           slot: 'valid'
           // key: 'Valid',
@@ -88,7 +88,7 @@ export default {
           // }
         },
         {
-          title: '位置',
+          title: this.$t('location'),
           slot: 'location',
           width: 60
           // render: (h, params) => {
@@ -96,7 +96,7 @@ export default {
           // }
         },
         {
-          title: '名称',
+          title: this.$t('name'),
           key: 'Name',
           width: 100
           // renderHeader: (h, params) => {
@@ -118,7 +118,7 @@ export default {
           // }
         },
         {
-          title: '向上动作',
+          title: this.$t('upactions'),
           key: 'UpActions',
           ellipsis: true
           // renderHeader: (h, params) => {
@@ -140,7 +140,7 @@ export default {
           // }
         },
         {
-          title: '向下动作',
+          title: this.$t('downactions'),
           key: 'DownActions',
           ellipsis: true
           // renderHeader: (h, params) => {
@@ -162,7 +162,7 @@ export default {
           // }
         },
         {
-          title: '按下动作',
+          title: this.$t('pressactions'),
           key: 'PressActions',
           ellipsis: true
           // renderHeader: (h, params) => {
@@ -184,8 +184,8 @@ export default {
           // }
         },
         {
-          title: '操作',
-          slot: 'action',
+          title: this.$t('operate'),
+          slot: 'operate',
           align: 'center',
           fixed: 'right',
           width: 60
@@ -233,7 +233,7 @@ export default {
       this.modal.editing = true
       this.modal.Location = Location
       var row = this.proxy[Location]
-      this.modal.title = '屏幕' + this.$t(Location) + '边缘滚动功能'
+      this.modal.title = this.$t('edge_tips2') + this.$t(Location) + this.$t('edge_tips3')
       this.modal.Name = row.Name
       this.modal.UpActions = row.UpActions
       this.modal.DownActions = row.DownActions
