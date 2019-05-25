@@ -34,6 +34,7 @@ export default {
   ignorefullscreen: '忽略全屏',
   wheelthrough: '滚轮穿透',
   wheelnatural: '自然滚动',
+  showtrayicon: '显示图标',
 
   mousegesture_label: '按住鼠标右键持续移动画出形状，放开右键即可触发对应动作',
   wheelswitch_label: '按住鼠标右键时，滚动滚轮可以进行切换标签页动作（依赖鼠标手势开关）',
@@ -45,6 +46,7 @@ export default {
   ignorefullscreen_label: '当前程序如果是一个全屏程序，会自动暂停MouseInc功能',
   wheelthrough_label: '不在焦点的窗口可以自由滚动，Win10系统已经自带',
   wheelnatural_label: '滚轮反向，和Mac OS X一致',
+  showtrayicon_label: '是否在系统托盘处显示MouseInc图标',
 
   exclude_tips1: '默认配置下，画手势Z可以添加程序到列表中',
   exclude_tips2: '在列表中的程序不会启用鼠标手势等功能，忽略大小写。',

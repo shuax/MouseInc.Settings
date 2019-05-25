@@ -90,6 +90,15 @@
         </CellGroup>
       </Card>
     </div>
+    <div style="padding: 0px 0px 20px 0px">
+      <Card shadow :padding="0" style="width: 100%;max-width: 750px">
+        <CellGroup>
+          <Cell :title="$t('showtrayicon')" :label="$t('showtrayicon_label')">
+            <i-switch v-model="proxy.ShowTrayIcon" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </div>
     <!-- {{proxy.MouseGesture.Open}} -->
     <!-- {{cfg.MouseGesture.Open}} -->
   </div>
@@ -114,7 +123,8 @@ export default {
         ClipboardManager: { Open: false },
         IgnoreFullScreen: false,
         WheelThrough: false,
-        WheelNatural: false
+        WheelNatural: false,
+        ShowTrayIcon: true
       }
       return ret
     }
