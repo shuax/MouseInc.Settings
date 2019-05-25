@@ -38,7 +38,7 @@ export default {
   mousegesture_label: '按住鼠标右键持续移动画出形状，放开右键即可触发对应动作',
   wheelswitch_label: '按住鼠标右键时，滚动滚轮可以进行切换标签页动作（依赖鼠标手势开关）',
   keycast_label: '在屏幕上显示键盘按键，方便录制教程',
-  wheelaltcontrol_label: '按住Alt时滚动滚轮调节音量大小，按下滚轮禁音',
+  wheelaltcontrol_label: '按住Alt时滚动滚轮调节音量大小，按下滚轮静音',
   volumecontrolsound_label: '音量调节时播放音效',
   wheeledge_label: '鼠标滚轮在屏幕四个边滚动、按下时触发的功能',
   clipboardmanager_label: '选中文字快速按下两次Ctrl+C后，会弹出快捷操作菜单',
