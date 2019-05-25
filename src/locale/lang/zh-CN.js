@@ -36,7 +36,7 @@ export default {
   wheelnatural: '自然滚动',
 
   mousegesture_label: '按住鼠标右键持续移动画出形状，放开右键即可触发对应动作',
-  wheelswitch_label: '住鼠标右键时，滚动滚轮可以进行切换标签页动作（依赖鼠标手势开关）',
+  wheelswitch_label: '按住鼠标右键时，滚动滚轮可以进行切换标签页动作（依赖鼠标手势开关）',
   keycast_label: '在屏幕上显示键盘按键，方便录制教程',
   wheelaltcontrol_label: '按住Alt时滚动滚轮调节音量大小，按下滚轮禁音',
   volumecontrolsound_label: '音量调节时播放音效',
