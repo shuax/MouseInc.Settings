@@ -12,9 +12,10 @@
 </template>
 
 <script>
-import jsBeautify from 'js-beautify/js/lib/beautify'
+// import jsBeautify from 'js-beautify/js/lib/beautify'
+import beautify from 'js-beautify'
 function stringify (data) {
-  return jsBeautify.js_beautify(JSON.stringify(data), {
+  return beautify.js(JSON.stringify(data), {
     indent_size: 4,
     indent_with_tabs: true,
     eol: '\r\n'

@@ -69,8 +69,8 @@ import { mapMutations, mapGetters } from 'vuex'
 // import maxLogo from '@/assets/images/logo.jpg'
 import { LoadSettings, SaveSettings, ResetSettings } from '@/api/data'
 // import { js as beautify_js } from 'js-beautify'
-import jsBeautify from 'js-beautify/js/lib/beautify'
-// import beautify from 'js-beautify'
+// import jsBeautify from 'js-beautify/js/lib/beautify'
+import beautify from 'js-beautify'
 // import JsonEdit from '@/view/components/json.vue'
 import './main.less'
 export default {
@@ -193,7 +193,7 @@ export default {
       //   return value
       // }, 4)
       // cfg = cfg.replace(/"Data": "(.*)",/g, '"Data": $1,')
-      var cfg = jsBeautify.js_beautify(JSON.stringify(this.cfg), {
+      var cfg = beautify.js(JSON.stringify(this.cfg), {
         indent_size: 4,
         indent_with_tabs: true,
         eol: '\r\n'

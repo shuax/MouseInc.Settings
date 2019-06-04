@@ -10,7 +10,7 @@ import config from '@/config'
 // import importDirective from '@/directive'
 // import { directive as clickOutside } from 'v-click-outside-x'
 // import installPlugin from '@/plugin'
-import './index.less'
+// import './index.less'
 // require('babel-polyfill')
 // import '@/assets/icons/iconfont.css'
 // import TreeTable from 'tree-table-vue'
@@ -21,12 +21,12 @@ import './index.less'
 // if (process.env.NODE_ENV !== 'production') require('@/mock')
 
 import VueCodemirror from 'vue-codemirror'
-import 'codemirror/lib/codemirror.css'
+// import 'codemirror/lib/codemirror.css'
 
-import 'codemirror/mode/javascript/javascript.js'
+// import 'codemirror/mode/javascript/javascript.js'
 // theme css
 // active-line.js
-import 'codemirror/addon/selection/active-line.js'
+// import 'codemirror/addon/selection/active-line.js'
 // styleSelectedText
 // import 'codemirror/addon/selection/mark-selection.js'
 // import 'codemirror/keymap/sublime.js'
