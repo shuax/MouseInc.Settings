@@ -34,6 +34,7 @@ const externals = {
 if (process.env.NODE_ENV === 'production') {
   configureWebpack.externals = externals
 }
+configureWebpack.externals = externals
 
 const cdn = {
   css: [
@@ -76,6 +77,7 @@ module.exports = {
         if (process.env.NODE_ENV === 'production') {
           args[0].cdn = cdn
         }
+        args[0].cdn = cdn
         return args
       })
     config.resolve.alias
