@@ -70,7 +70,7 @@ export default {
 
   more_setting: '更多设置',
 
-  addmode_tip: '开启后画出未识别的手势将会打开添加界面，添加后记得按F5刷新设置页面。',
+  addmode_tip: '开启后画出未识别的手势将会打开添加界面（调高灵敏度更容易触发），添加后请刷新设置页面。',
   startdistance_tip: '按下鼠标右键以后移动超过这个距离才会开启手势',
   timeout_tip: '鼠标超过这个时间未移动，会中断手势',
   restoreevent_tip: '手势失效时是否还原鼠标按下事件',
