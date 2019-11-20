@@ -90,7 +90,7 @@ export default {
         {
           title: this.$t('location'),
           slot: 'location',
-          width: 60
+          width: 70
           // render: (h, params) => {
           //   return h('span', this.$t(params.row.Location))
           // }
@@ -188,7 +188,7 @@ export default {
           slot: 'operate',
           align: 'center',
           fixed: 'right',
-          width: 60
+          width: 70
         }
       ]
     }

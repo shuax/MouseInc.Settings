@@ -6,7 +6,7 @@
     </Select>
     <Tabs size="small">
       <TabPane v-for="(item,lang) in cfg.Locales" :label="lang" :name="lang" :key="lang">
-        <Table size="small" :columns="lang_col" :data="LangTable(item)">
+        <Table border size="small" :columns="lang_col" :data="LangTable(item)">
 
           <template slot-scope="{ row, index }" slot="value">
             <TextEdit :value="row.value" @on-input="change(row.key, lang, $event)"></TextEdit>

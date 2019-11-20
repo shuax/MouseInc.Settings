@@ -1,7 +1,7 @@
 <template>
   <div>
     <p style="padding-bottom: 10px;">{{$t('custom_tips')}}</p>
-    <Tabs size="small" v-model="tab">
+    <Tabs v-model="tab">
       <TabPane v-for="(item,index) in cfg.MatchCustom" :label="item.Name" :key="index">
         <Table size="small" :columns="match_col" :data="MatchTable(item.List, index)">
 
@@ -28,7 +28,21 @@
           </template>
 
         </Table>
-        <div style="padding: 10px 0px">
+
+        <List :header="$t('custom_list')" size="small" style="width: 450px;" item-layout="vertical">
+            <ListItem v-for="(match,match_index) in item.Match" :key="match" >
+              {{match}}
+              <template slot="extra">
+                <li>
+                    <a @click="removematch(index, match_index)">删除</a>
+                </li>
+              </template>
+            </ListItem>
+            <ListItem>
+              <Input v-model="value" search :enter-button="$t('add')" placeholder="Photoshop.exe" @on-search="addmatch(index)" />
+            </ListItem>
+        </List>
+<!--         <div style="padding: 10px 0px">
           <b>{{$t('custom_list')}}</b>
         </div>
         <div style="padding: 5px 0px" v-for="(match,match_index) in item.Match" :key="match" >
@@ -41,7 +55,7 @@
         </div>
         <div style="width: 300px;padding: 5px 0px">
           <Input v-model="value" search :enter-button="$t('add')" placeholder="Photoshop.exe" @on-search="addmatch(index)" />
-        </div>
+        </div> -->
       </TabPane>
       <div slot="extra">
         <a @click="modtab">{{$t('modify')}}</a>

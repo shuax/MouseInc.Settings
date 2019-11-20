@@ -26,7 +26,7 @@ const externals = {
   'vue-i18n': 'VueI18n',
   'axios': 'axios',
   'js-beautify': 'beautifier',
-  'iview': 'iview',
+  'view-design': 'iview',
   'codemirror': 'codemirror',
   'vue-codemirror': 'VueCodemirror'
 }
@@ -38,7 +38,7 @@ configureWebpack.externals = externals
 
 const cdn = {
   css: [
-    'https://cdn.jsdelivr.net/npm/iview/dist/styles/iview.css',
+    'https://cdn.jsdelivr.net/npm/view-design/dist/styles/iview.css',
     'https://cdn.jsdelivr.net/npm/codemirror/lib/codemirror.css'
   ],
   js: [
@@ -48,7 +48,7 @@ const cdn = {
     'https://cdn.jsdelivr.net/npm/vue-i18n/dist/vue-i18n.min.js',
     'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js',
     'https://cdn.jsdelivr.net/npm/js-beautify/js/lib/beautifier.min.js',
-    'https://cdn.jsdelivr.net/npm/iview/dist/iview.min.js',
+    'https://cdn.jsdelivr.net/npm/view-design/dist/iview.min.js',
     'https://cdn.jsdelivr.net/npm/codemirror/lib/codemirror.js',
     'https://cdn.jsdelivr.net/npm/codemirror/mode/javascript/javascript.js',
     'https://cdn.jsdelivr.net/npm/codemirror/addon/selection/active-line.js',

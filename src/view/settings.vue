@@ -4,6 +4,8 @@
       <FormItem :label="$t('open_label')">
         <i-switch v-model="proxy.Open" />
       </FormItem>
+    </Form>
+    <Form :label-width="100" @submit.native.prevent :disabled="!proxy.Open">
       <FormItem :label="$t('addmode_label')">
         <i-switch v-model="proxy.AddMode" />
         <br />
@@ -22,7 +24,7 @@
         <i-switch v-model="proxy.TraceArrow" />
       </FormItem>
       <FormItem :label="$t('tracewidth_label')">
-        <Slider v-model="proxy.TraceWidth" :min="1" :max="10" style="width: 300px"></Slider>
+        <Slider v-model="proxy.TraceWidth" :min="1" :max="10" style="width: 300px" :marks="TraceWidthMarks"></Slider>
       </FormItem>
     <Collapse>
         <Panel>
@@ -49,7 +51,7 @@
         {{$t('restoreevent_tip')}}
       </FormItem>
       <FormItem :label="$t('sensitive_label')">
-        <Slider v-model="proxy.Sensitive" :step="5" :max="100" style="width: 300px"></Slider>
+        <Slider v-model="proxy.Sensitive" :step="5" :max="100" style="width: 300px" :marks="SensitiveMarks"></Slider>
       </FormItem>
             </p>
         </Panel>
@@ -62,6 +64,18 @@
 import { mapGetters } from 'vuex'
 export default {
   name: 'cfg',
+  data () {
+    return {
+      TraceWidthMarks: {
+        3: '默认'
+      },
+      SensitiveMarks: {
+        0: '低',
+        50: '默认',
+        100: '高'
+      }
+    }
+  },
   computed: {
     ...mapGetters([
       'cfg'

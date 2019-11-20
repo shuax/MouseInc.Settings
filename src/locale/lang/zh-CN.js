@@ -48,8 +48,8 @@ export default {
   wheelnatural_label: '滚轮反向，和Mac OS X一致',
   showtrayicon_label: '是否在系统托盘处显示MouseInc图标',
 
-  exclude_tips1: '默认配置下，画手势Z可以添加程序到列表中',
-  exclude_tips2: '在列表中的程序不会启用鼠标手势等功能，忽略大小写。',
+  exclude_tips1: '默认配置下，画手势Z可以添加程序到此列表中',
+  exclude_tips2: '在此列表中的程序不会启用鼠标手势等功能，忽略大小写。',
   exclude_tips3: '当前排除程序列表：',
   exclude_warning: '请输入正确的程序名',
 
