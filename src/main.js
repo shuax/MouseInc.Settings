@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-import iView from 'iview'
+import ViewUI from 'view-design'
 import i18n from '@/locale'
 import config from '@/config'
 // import importDirective from '@/directive'
@@ -35,7 +35,7 @@ Vue.use(VueCodemirror, /* {
   events: ['scroll', ...]
 } */)
 
-Vue.use(iView, {
+Vue.use(ViewUI, {
   i18n: (key, value) => i18n.t(key, value)
 })
 // Vue.use(TreeTable)

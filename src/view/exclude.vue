@@ -2,8 +2,20 @@
   <div>
     <p style="padding-bottom: 10px;">{{$t('exclude_tips1')}}</p>
     <p style="padding-bottom: 10px;">{{$t('exclude_tips2')}}</p>
-    <p style="padding-bottom: 10px;">{{$t('exclude_tips3')}}</p>
-    <div style="padding: 5px 0px" v-for="(exclude,index) in cfg.Excludes" :key="exclude" >
+    <List :header="$t('exclude_tips3')" size="small" style="width: 450px;" item-layout="vertical">
+        <ListItem v-for="(exclude,index) in cfg.Excludes" :key="exclude">
+          {{exclude}}
+          <template slot="extra">
+            <li>
+                <a @click="remove(index)">删除</a>
+            </li>
+          </template>
+        </ListItem>
+        <ListItem>
+          <Input v-model="value" search :enter-button="$t('add')" placeholder="Photoshop.exe" @on-search="add" />
+        </ListItem>
+    </List>
+<!--     <div style="padding: 5px 0px" v-for="(exclude,index) in cfg.Excludes" :key="exclude" >
       <card shadow :padding="8" style="width: 300px">
         <span>
         {{exclude}}
@@ -11,9 +23,9 @@
         </span>
       </card>
     </div>
-    <div style="width: 300px;padding: 5px 0px">
+    <div style="width: 400px;padding: 5px 0px">
       <Input v-model="value" search :enter-button="$t('add')" placeholder="Photoshop.exe" @on-search="add" />
-    </div>
+    </div> -->
   </div>
 </template>
 

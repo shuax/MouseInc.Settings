@@ -4,6 +4,8 @@
       <FormItem :label="$t('open_label')">
         <i-switch v-model="proxy.Open" />
       </FormItem>
+    </Form>
+    <Form :label-width="100" @submit.native.prevent :disabled="!proxy.Open">
       <FormItem :label="$t('ignoresingle_label')">
         <i-switch v-model="proxy.IgnoreSingle" />
       </FormItem>
@@ -34,10 +36,10 @@
         <InputNumber v-model="proxy.Space" style="width: 300px"></InputNumber>
       </FormItem>
       <FormItem :label="$t('fontsize_label')">
-        <Slider v-model="proxy.FontSize" :step="4" :min="8" :max="72" style="width: 300px"></Slider>
+        <Slider v-model="proxy.FontSize" :step="4" :min="8" :max="72" style="width: 300px" :marks="FontSizeMarks"></Slider>
       </FormItem>
       <FormItem :label="$t('fade_label')">
-        <Slider v-model="proxy.Fade" :min="1" :max="10" style="width: 300px"></Slider>
+        <Slider v-model="proxy.Fade" :min="1" :max="10" style="width: 300px" :marks="FadeMarks"></Slider>
       </FormItem>
             </p>
         </Panel>
@@ -50,6 +52,16 @@
 import { mapGetters } from 'vuex'
 export default {
   name: 'keycast',
+  data () {
+    return {
+      FontSizeMarks: {
+        32: '默认'
+      },
+      FadeMarks: {
+        5: '默认'
+      }
+    }
+  },
   computed: {
     ...mapGetters([
       'cfg'
