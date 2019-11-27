@@ -3,7 +3,7 @@
     <p style="padding-bottom: 10px;">{{$t('custom_tips')}}</p>
     <Tabs v-model="tab">
       <TabPane v-for="(item,index) in cfg.MatchCustom" :label="item.Name" :key="index">
-        <Table size="small" :columns="match_col" :data="MatchTable(item.List, index)">
+        <Table border :columns="match_col" :data="MatchTable(item.List, index)">
 
           <template slot-scope="{ row, index }" slot="valid">
             <Checkbox :value="row.Valid" @on-change="oncheck(row.index, index, $event)"></Checkbox>
@@ -29,7 +29,7 @@
 
         </Table>
 
-        <List :header="$t('custom_list')" size="small" style="width: 450px;" item-layout="vertical">
+        <List :header="$t('custom_list')" item-layout="vertical">
             <ListItem v-for="(match,match_index) in item.Match" :key="match" >
               {{match}}
               <template slot="extra">
@@ -122,7 +122,8 @@ export default {
       match_col: [
         {
           title: this.$t('valid'),
-          width: 60,
+          width: 65,
+          align: 'center',
           slot: 'valid'
         },
         {
@@ -134,7 +135,7 @@ export default {
         {
           title: this.$t('name'),
           key: 'Name',
-          width: 120
+          width: 130
         },
         {
           title: this.$t('actions'),
@@ -146,7 +147,7 @@ export default {
           slot: 'operate',
           align: 'center',
           fixed: 'right',
-          width: 150
+          width: 155
         }
       ]
     }

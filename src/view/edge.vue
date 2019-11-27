@@ -7,7 +7,7 @@
       </b>
     </div>
     <p style="padding-bottom: 10px;">{{$t('edge_tips1')}}</p>
-    <Table size="small" :columns="edge_col" :data="edge_data">
+    <Table border :columns="edge_col" :data="edge_data">
 
       <template slot-scope="{ row, index }" slot="valid">
         <Checkbox :value="row.Valid" @on-change="oncheck(row.Location, $event)"></Checkbox>
@@ -76,7 +76,8 @@ export default {
       edge_col: [
         {
           title: this.$t('valid'),
-          width: 60,
+          width: 65,
+          align: 'center',
           slot: 'valid'
           // key: 'Valid',
           // render: (h, params) => {
@@ -98,7 +99,7 @@ export default {
         {
           title: this.$t('name'),
           key: 'Name',
-          width: 100
+          width: 120
           // renderHeader: (h, params) => {
           //   return h('div', [
           //     h('em', '名称'),

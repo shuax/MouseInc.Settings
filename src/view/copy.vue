@@ -7,7 +7,7 @@
       </b>
     </div>
     <p style="padding-bottom: 10px;">{{$t('copy_tips1')}}</p>
-    <Table size="small" :columns="hotkey_col" :data="proxy.Menu" :draggable="true" @on-drag-drop="ondrag">
+    <Table border :columns="hotkey_col" :data="proxy.Menu" :draggable="true" @on-drag-drop="ondrag">
 
       <template slot-scope="{ row, index }" slot="valid">
         <Checkbox :value="row.Valid" @on-change="oncheck(index, $event)"></Checkbox>
@@ -74,7 +74,8 @@ export default {
       hotkey_col: [
         {
           title: this.$t('valid'),
-          width: 60,
+          width: 65,
+          align: 'center',
           slot: 'valid'
           // render: (h, params) => {
           //   var row = this.proxy.Menu[params.index]
@@ -87,7 +88,7 @@ export default {
         {
           title: this.$t('name'),
           key: 'Name',
-          width: 120
+          width: 140
           // renderHeader: (h, params) => {
           //   return h('div', [
           //     h('em', '名称'),
@@ -133,7 +134,7 @@ export default {
           slot: 'operate',
           align: 'center',
           fixed: 'right',
-          width: 150
+          width: 155
         }
         // {
         //   title: '克隆 / 删除',

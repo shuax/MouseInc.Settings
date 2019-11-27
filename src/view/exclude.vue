@@ -2,7 +2,7 @@
   <div>
     <p style="padding-bottom: 10px;">{{$t('exclude_tips1')}}</p>
     <p style="padding-bottom: 10px;">{{$t('exclude_tips2')}}</p>
-    <List :header="$t('exclude_tips3')" size="small" style="width: 450px;" item-layout="vertical">
+    <List :header="$t('exclude_tips3')" item-layout="vertical">
         <ListItem v-for="(exclude,index) in cfg.Excludes" :key="exclude">
           {{exclude}}
           <template slot="extra">
