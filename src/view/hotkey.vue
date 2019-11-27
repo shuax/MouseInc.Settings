@@ -1,7 +1,7 @@
 <template>
   <div>
     <p style="padding-bottom: 10px;">{{$t('hotkey_tips1')}}</p>
-    <Table size="small" :columns="hotkey_col" :data="cfg.Hotkeys">
+    <Table border :columns="hotkey_col" :data="cfg.Hotkeys">
 
       <template slot-scope="{ row, index }" slot="valid">
         <Checkbox :value="row.Valid" @on-change="oncheck(index, $event)"></Checkbox>
@@ -66,7 +66,8 @@ export default {
         {
           title: this.$t('valid'),
           slot: 'valid',
-          width: 60
+          align: 'center',
+          width: 65
           // render: (h, params) => {
           //   var row = this.cfg.Hotkeys[params.index]
           //   return h('Checkbox', {
@@ -124,7 +125,7 @@ export default {
           slot: 'operate',
           align: 'center',
           fixed: 'right',
-          width: 150
+          width: 155
         }
         // {
         //   title: '克隆 / 删除',

@@ -114,7 +114,7 @@ export default {
   edge_tips3: 'Edge scrolling function',
 
   Left: 'Left',
-  Top: 'On',
+  Top: 'Top',
   Right: 'Right',
   Bottom: 'Bottom',
 

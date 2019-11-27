@@ -1,7 +1,7 @@
 <template>
   <div>
     <p style="padding-bottom: 10px;">{{$t('match_tips')}}</p>
-    <Table size="small" :columns="match_col" :data="cfg.MatchGlobal">
+    <Table border :columns="match_col" :data="cfg.MatchGlobal">
 
       <template slot-scope="{ row, index }" slot="valid">
         <Checkbox :value="row.Valid" @on-change="oncheck(index, $event)"></Checkbox>
@@ -75,7 +75,8 @@ export default {
       match_col: [
         {
           title: this.$t('valid'),
-          width: 60,
+          width: 65,
+          align: 'center',
           slot: 'valid'
         },
         {
@@ -87,7 +88,7 @@ export default {
         {
           title: this.$t('name'),
           key: 'Name',
-          width: 120
+          width: 130
         },
         {
           title: this.$t('actions'),
@@ -99,7 +100,7 @@ export default {
           slot: 'operate',
           align: 'center',
           fixed: 'right',
-          width: 150
+          width: 155
         }
       ]
     }
