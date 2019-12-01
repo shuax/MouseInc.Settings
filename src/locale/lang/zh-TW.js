@@ -88,7 +88,7 @@ export default {
   add_gesture: '新增手勢',
 
   custom_tips: '這裡對指定程式設定的手勢會優先於通用手勢回應。',
-  custom_list: '程式清單：',
+  custom_list: '程式清單',
   custom_warning: '確定刪除此分組？',
   custom_edit: '編輯分組名稱',
 

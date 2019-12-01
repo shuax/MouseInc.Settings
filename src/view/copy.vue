@@ -7,7 +7,7 @@
       </b>
     </div>
     <p style="padding-bottom: 10px;">{{$t('copy_tips1')}}</p>
-    <Table border :columns="hotkey_col" :data="proxy.Menu" :draggable="true" @on-drag-drop="ondrag">
+    <Table border size="small" :columns="hotkey_col" :data="proxy.Menu" :draggable="true" @on-drag-drop="ondrag">
 
       <template slot-scope="{ row, index }" slot="valid">
         <Checkbox :value="row.Valid" @on-change="oncheck(index, $event)"></Checkbox>
