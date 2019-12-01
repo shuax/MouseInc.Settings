@@ -7,7 +7,7 @@
       </b>
     </div>
     <p style="padding-bottom: 10px;">{{$t('edge_tips1')}}</p>
-    <Table border :columns="edge_col" :data="edge_data">
+    <Table border size="small" :columns="edge_col" :data="edge_data">
 
       <template slot-scope="{ row, index }" slot="valid">
         <Checkbox :value="row.Valid" @on-change="oncheck(row.Location, $event)"></Checkbox>

@@ -88,7 +88,7 @@ export default {
   add_gesture: '添加手势',
 
   custom_tips: '这里对指定程序设置的手势会优先于通用手势响应。',
-  custom_list: '程序列表：',
+  custom_list: '程序列表',
   custom_warning: '确定删除此分组？',
   custom_edit: '编辑分组名称',
 

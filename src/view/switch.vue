@@ -1,8 +1,8 @@
 <template>
   <div>
-    <Row>
-    <Col :md="24" :lg="12" style="padding: 0px 0px 10px 10px">
-      <Card shadow :padding="0">
+    <Row :gutter="10">
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card :padding="0">
         <CellGroup>
           <Cell :title="$t('mousegesture')" :label="$t('mousegesture_label')">
             <i-switch v-model="proxy.MouseGesture.Open" slot="extra" />
@@ -10,8 +10,8 @@
         </CellGroup>
       </Card>
     </Col>
-    <Col :md="24" :lg="12" style="padding: 0px 0px 10px 10px">
-      <Card shadow :padding="0">
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card :padding="0">
         <CellGroup>
           <Cell :title="$t('wheelswitch')" :label="$t('wheelswitch_label')">
             <i-switch v-model="proxy.MouseGesture.WheelSwitch" slot="extra" :disabled="!proxy.MouseGesture.Open"/>
@@ -19,8 +19,8 @@
         </CellGroup>
       </Card>
     </Col>
-    <Col :md="24" :lg="12" style="padding: 0px 0px 10px 10px">
-      <Card shadow :padding="0">
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card :padding="0">
         <CellGroup>
           <Cell :title="$t('keycast')" :label="$t('keycast_label')">
             <i-switch v-model="proxy.Keycast.Open" slot="extra" />
@@ -28,8 +28,8 @@
         </CellGroup>
       </Card>
     </Col>
-    <Col :md="24" :lg="12" style="padding: 0px 0px 10px 10px">
-      <Card shadow :padding="0">
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card :padding="0">
         <CellGroup>
           <Cell :title="$t('wheelaltcontrol')" :label="$t('wheelaltcontrol_label')">
             <i-switch v-model="proxy.WheelAltControl" slot="extra" />
@@ -37,8 +37,8 @@
         </CellGroup>
       </Card>
     </Col>
-    <Col :md="24" :lg="12" style="padding: 0px 0px 10px 10px">
-      <Card shadow :padding="0">
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card :padding="0">
         <CellGroup>
           <Cell :title="$t('volumecontrolsound')" :label="$t('volumecontrolsound_label')">
             <i-switch v-model="proxy.VolumeControlSound" slot="extra" />
@@ -46,8 +46,8 @@
         </CellGroup>
       </Card>
     </Col>
-    <Col :md="24" :lg="12" style="padding: 0px 0px 10px 10px">
-      <Card shadow :padding="0">
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card :padding="0">
         <CellGroup>
           <Cell :title="$t('wheeledge')" :label="$t('wheeledge_label')">
             <i-switch v-model="proxy.WheelEdge.Open" slot="extra" />
@@ -55,8 +55,8 @@
         </CellGroup>
       </Card>
     </Col>
-    <Col :md="24" :lg="12" style="padding: 0px 0px 10px 10px">
-      <Card shadow :padding="0">
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card :padding="0">
         <CellGroup>
           <Cell :title="$t('clipboardmanager')" :label="$t('clipboardmanager_label')">
             <i-switch v-model="proxy.ClipboardManager.Open" slot="extra" />
@@ -64,8 +64,8 @@
         </CellGroup>
       </Card>
     </Col>
-    <Col :md="24" :lg="12" style="padding: 0px 0px 10px 10px">
-      <Card shadow :padding="0">
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card :padding="0">
         <CellGroup>
           <Cell :title="$t('ignorefullscreen')" :label="$t('ignorefullscreen_label')">
             <i-switch v-model="proxy.IgnoreFullScreen" slot="extra" />
@@ -73,8 +73,8 @@
         </CellGroup>
       </Card>
     </Col>
-    <Col :md="24" :lg="12" style="padding: 0px 0px 10px 10px">
-      <Card shadow :padding="0">
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card :padding="0">
         <CellGroup>
           <Cell :title="$t('wheelthrough')" :label="$t('wheelthrough_label')">
             <i-switch v-model="proxy.WheelThrough" slot="extra" />
@@ -82,8 +82,8 @@
         </CellGroup>
       </Card>
     </Col>
-    <Col :md="24" :lg="12" style="padding: 0px 0px 10px 10px">
-      <Card shadow :padding="0">
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card :padding="0">
         <CellGroup>
           <Cell :title="$t('wheelnatural')" :label="$t('wheelnatural_label')">
             <i-switch v-model="proxy.WheelNatural" slot="extra" />
@@ -91,8 +91,8 @@
         </CellGroup>
       </Card>
     </Col>
-    <Col :md="24" :lg="12" style="padding: 0px 0px 10px 10px">
-      <Card shadow :padding="0">
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card :padding="0">
         <CellGroup>
           <Cell :title="$t('showtrayicon')" :label="$t('showtrayicon_label')">
             <i-switch v-model="proxy.ShowTrayIcon" slot="extra" />
@@ -105,6 +105,14 @@
     </Row>
   </div>
 </template>
+
+<style>
+.ivu-cell-title
+{
+    font-size: 16px;
+    padding: 8px 0px 10px 0px;
+}
+</style>
 
 <script>
 import { mapGetters } from 'vuex'

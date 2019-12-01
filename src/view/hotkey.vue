@@ -1,7 +1,7 @@
 <template>
   <div>
     <p style="padding-bottom: 10px;">{{$t('hotkey_tips1')}}</p>
-    <Table border :columns="hotkey_col" :data="cfg.Hotkeys">
+    <Table border size="small" :columns="hotkey_col" :data="cfg.Hotkeys">
 
       <template slot-scope="{ row, index }" slot="valid">
         <Checkbox :value="row.Valid" @on-change="oncheck(index, $event)"></Checkbox>

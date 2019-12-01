@@ -1,7 +1,7 @@
 <template>
   <div>
     <p style="padding-bottom: 10px;">{{$t('match_tips')}}</p>
-    <Table border :columns="match_col" :data="cfg.MatchGlobal">
+    <Table border size="small" :columns="match_col" :data="cfg.MatchGlobal">
 
       <template slot-scope="{ row, index }" slot="valid">
         <Checkbox :value="row.Valid" @on-change="oncheck(index, $event)"></Checkbox>
