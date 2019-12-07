@@ -15,8 +15,8 @@
 
       <template slot-scope="{ row, index }" slot="operate">
         <a @click="modify(index)">{{$t('modify')}}</a>
-        <Divider type="vertical" />
-        <a @click="clone(index)">{{$t('clone')}}</a>
+<!--         <Divider type="vertical" />
+        <a @click="clone(index)">{{$t('clone')}}</a> -->
         <Divider type="vertical" />
         <Poptip
             confirm
@@ -29,6 +29,10 @@
 
       </template>
     </Table>
+
+    <div style="padding-top: 10px">
+        <Button type="primary" @click="create">{{$t('create')}}</Button>
+    </div>
 
     <Modal v-model="modal.editing">
       <p slot="header" style="text-align:center">
@@ -134,7 +138,7 @@ export default {
           slot: 'operate',
           align: 'center',
           fixed: 'right',
-          width: 155
+          width: 110
         }
         // {
         //   title: '克隆 / 删除',
@@ -193,15 +197,15 @@ export default {
       this.modal.Actions = row.Actions
       this.modal.NewActions = row.Actions
     },
-    clone (index) {
+    create () {
       this.modal.editing = true
       this.modal.index = undefined
-      var row = this.proxy.Menu[index]
-      this.modal.title = this.$t('modify_menu')
+      this.modal.title = this.$t('add_menu')
       this.modal.btn = 'success'
-      this.modal.Name = row.Name
-      this.modal.Actions = row.Actions
-      this.modal.NewActions = row.Actions
+      this.modal.Name = ''
+      var actions = [['action', 'args']]
+      this.modal.Actions = actions
+      this.modal.NewActions = actions
     },
     on_modify () {
       this.modal.editing = false

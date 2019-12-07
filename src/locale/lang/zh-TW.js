@@ -95,12 +95,15 @@ export default {
   modify: '變更',
   clone: '複製',
   delete: '刪除',
+  create: '新增',
 
   valid: '有效',
   sign: '手勢',
   name: '名稱',
   actions: '動作',
   operate: '操作',
+
+  ignore_global: '忽略全域手勢',
 
   ok: '確定',
 
