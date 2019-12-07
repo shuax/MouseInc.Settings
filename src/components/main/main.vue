@@ -67,7 +67,7 @@ import { mapMutations, mapGetters } from 'vuex'
 // import routers from '@/router/routers'
 // import minLogo from '@/assets/images/logo-min.jpg'
 // import maxLogo from '@/assets/images/logo.jpg'
-import { LoadSettings, SaveSettings, ResetSettings } from '@/api/data'
+import { LoadSettings, SaveSettings, ResetSettings, Ping } from '@/api/data'
 // import { js as beautify_js } from 'js-beautify'
 // import jsBeautify from 'js-beautify/js/lib/beautify'
 import beautify from 'js-beautify'
@@ -210,6 +210,24 @@ export default {
       }).then(() => {
         this.save_loading = false
       })
+    },
+    heartbeat () {
+      // console.log('heartbeat')
+      Ping().then(response => {
+
+      }).catch(() => {
+        clearInterval(this.timer)
+        // this.loading = 'Network connection is down'
+        // this.$Message.error({content:'Network connection is down', duration: 999999})
+
+        this.$Spin.show({
+          render: (h) => {
+            return h('div', '设置连接通道错误，可能是MouseInc主程序已经退出')
+          }
+        })
+      }).then(() => {
+
+      })
     }
     // handleCloseTag (res, type, route) {
     //   if (type !== 'others') {
@@ -282,6 +300,8 @@ export default {
       this.init = false
       this.modified = false
       this.setSettings(response.data)
+
+      this.timer = setInterval(this.heartbeat, 1000)
       // console.log(this.$config)
     }).catch(error => {
       // this.$Spin.hide();

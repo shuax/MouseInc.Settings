@@ -33,6 +33,17 @@ export const ResetSettings = () => {
   })
 }
 
+export const Ping = () => {
+  return axios.request({
+    url: '/ping',
+    data: {},
+    method: 'post',
+    headers: {
+      'Content-Type': 'text/plain'
+    }
+  })
+}
+
 // export const getTableData = () => {
 //   return axios.request({
 //     url: 'get_table_data',
