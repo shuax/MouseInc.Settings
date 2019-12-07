@@ -14,7 +14,7 @@
               {{match}}
               <template slot="extra">
                 <li>
-                    <a @click="removematch(index, match_index)">删除</a>
+                    <a @click="removematch(index, match_index)">{{$t('delete')}}</a>
                 </li>
               </template>
             </ListItem>
@@ -22,6 +22,7 @@
               <Input v-model="value" search :enter-button="$t('add')" placeholder="Photoshop.exe" @on-search="addmatch(index)" />
             </ListItem>
         </List>
+        {{$t('ignore_global')}} <i-switch v-model="item.IgnoreGlobal" />
     </p>
     </Panel>
     </Collapse>
@@ -39,8 +40,8 @@
 
           <template slot-scope="{ row, index }" slot="operate">
             <a @click="modify(row.index, index)">{{$t('modify')}}</a>
-            <Divider type="vertical" />
-            <a @click="clone(row.index, index)">{{$t('clone')}}</a>
+<!--             <Divider type="vertical" />
+            <a @click="clone(row.index, index)">{{$t('clone')}}</a> -->
             <Divider type="vertical" />
             <Poptip
                 confirm
@@ -52,6 +53,10 @@
           </template>
 
         </Table>
+        <div style="padding-top: 10px">
+            <Button type="primary" @click="create(index)">{{$t('create')}}</Button>
+        </div>
+        <!-- {{item.IgnoreGlobal}} -->
 <!--         <div style="padding: 10px 0px">
           <b>{{$t('custom_list')}}</b>
         </div>
@@ -157,7 +162,7 @@ export default {
           slot: 'operate',
           align: 'center',
           fixed: 'right',
-          width: 155
+          width: 110
         }
       ]
     }
@@ -185,17 +190,18 @@ export default {
       this.modal.actions = row.Actions
       this.modal.new_actions = row.Actions
     },
-    clone (index, match_index) {
+    create (index) {
       this.modal.editing = true
       this.modal.index = index
       this.modal.match_index = undefined
-      var row = this.cfg.MatchCustom[index].List[match_index]
+      // var row = this.cfg.MatchCustom[index].List[match_index]
       this.modal.title = this.$t('add_gesture')
       this.modal.btn = 'success'
-      this.modal.sign = row.Sign
-      this.modal.name = row.Name
-      this.modal.actions = row.Actions
-      this.modal.new_actions = row.Actions
+      this.modal.sign = ''
+      this.modal.name = ''
+      var actions = [['action', 'args']]
+      this.modal.actions = actions
+      this.modal.new_actions = actions
     },
     on_modify () {
       this.modal.editing = false

@@ -13,8 +13,8 @@
 
       <template slot-scope="{ row, index }" slot="operate">
         <a @click="modify(index)">{{$t('modify')}}</a>
-        <Divider type="vertical" />
-        <a @click="clone(index)">{{$t('clone')}}</a>
+<!--         <Divider type="vertical" />
+        <a @click="clone(index)">{{$t('clone')}}</a> -->
         <Divider type="vertical" />
         <Poptip
             confirm
@@ -26,6 +26,10 @@
       </template>
 
     </Table>
+
+    <div style="padding-top: 10px">
+        <Button type="primary" @click="create">{{$t('create')}}</Button>
+    </div>
 
     <Modal v-model="modal.editing">
         <p slot="header" style="text-align:center">
@@ -100,7 +104,7 @@ export default {
           slot: 'operate',
           align: 'center',
           fixed: 'right',
-          width: 155
+          width: 110
         }
       ]
     }
@@ -121,16 +125,16 @@ export default {
       this.modal.actions = row.Actions
       this.modal.new_actions = row.Actions
     },
-    clone (index) {
+    create () {
       this.modal.editing = true
       this.modal.index = undefined
-      var row = this.cfg.MatchGlobal[index]
       this.modal.title = this.$t('add_gesture')
       this.modal.btn = 'success'
-      this.modal.sign = row.Sign
-      this.modal.name = row.Name
-      this.modal.actions = row.Actions
-      this.modal.new_actions = row.Actions
+      this.modal.sign = ''
+      this.modal.name = ''
+      var actions = [['action', 'args']]
+      this.modal.actions = actions
+      this.modal.new_actions = actions
     },
     on_modify () {
       this.modal.editing = false

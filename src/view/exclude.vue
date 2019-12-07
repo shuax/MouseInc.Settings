@@ -2,12 +2,12 @@
   <div>
     <p style="padding-bottom: 10px;">{{$t('exclude_tips1')}}</p>
     <p style="padding-bottom: 10px;">{{$t('exclude_tips2')}}</p>
-    <List :header="$t('exclude_tips3')" item-layout="vertical" size="small" :split='false'>
+    <List :header="$t('exclude_tips3')" item-layout="vertical" size="small">
         <ListItem v-for="(exclude,index) in cfg.Excludes" :key="exclude">
           {{exclude}}
           <template slot="extra">
             <li>
-                <a @click="remove(index)">删除</a>
+                <a @click="remove(index)">{{$t('delete')}}</a>
             </li>
           </template>
         </ListItem>

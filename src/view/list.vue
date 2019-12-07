@@ -2,7 +2,7 @@
   <div>
     <p style="padding-bottom: 10px;">{{$t('list_tips1')}} <router-link to="settings">{{$t('list_tips2')}}</router-link> {{$t('list_tips3')}}</p>
     <Row :gutter="10">
-      <Col :md="8" :lg="6" v-for="(info, i) in cfg.Gestures" :key="`info-${i}`" style="padding-bottom: 10px;">
+      <Col :sm="12" :md="8" :lg="6" :xl="4" :xxl="3" v-for="(info, i) in cfg.Gestures" :key="`info-${i}`" style="padding-bottom: 10px;">
         <Card shadow>
           <Poptip
             confirm
