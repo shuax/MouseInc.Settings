@@ -1,13 +1,32 @@
 <template>
   <div>
-    <codemirror
-    :value="content"
-    @input="input"
-    :options="option">
-    </codemirror>
-    <div v-if="error_msg" style="padding-top: 10px;">
-      <Alert type="error" show-icon>{{error_msg}}</Alert>
-    </div>
+    <!-- {{value}} -->
+    <Tabs v-model="tab" size="small">
+    <TabPane label="Raw">
+        <codemirror
+        :value="content"
+        @input="input"
+        :options="option">
+        </codemirror>
+        <div v-if="error_msg" style="padding-top: 10px;">
+          <Alert type="error" show-icon>{{error_msg}}</Alert>
+        </div>
+    </TabPane>
+    <TabPane label="Preview">
+        <Collapse accordion simple1>
+            <Panel v-for="(item,index) in this.value" :key="index">
+                {{item[0]}}
+                <p slot="content">
+                <List item-layout="vertical" size="small" :split='false'>
+                    <template  v-for="(args,args_index) in item" >
+                        <ListItem v-if="args_index != 0"  :key="args">{{args}}</ListItem>
+                    </template>
+                </List>
+                </p>
+            </Panel>
+        </Collapse>
+    </TabPane>
+    </Tabs>
   </div>
 </template>
 
