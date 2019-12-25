@@ -9,6 +9,7 @@
     <Panel>
         {{$t('custom_list')}}
         <p slot="content">
+        {{$t('ignore_global')}} <i-switch v-model="item.IgnoreGlobal" />
         <List item-layout="vertical" size="small" :split='false'>
             <ListItem v-for="(match,match_index) in item.Match" :key="match" >
               {{match}}
@@ -22,7 +23,6 @@
               <Input v-model="value" search :enter-button="$t('add')" placeholder="Photoshop.exe" @on-search="addmatch(index)" />
             </ListItem>
         </List>
-        {{$t('ignore_global')}} <i-switch v-model="item.IgnoreGlobal" />
     </p>
     </Panel>
     </Collapse>

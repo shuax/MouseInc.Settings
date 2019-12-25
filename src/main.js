@@ -20,6 +20,10 @@ import config from '@/config'
 /* eslint-disable */
 // if (process.env.NODE_ENV !== 'production') require('@/mock')
 
+import clipboard from 'clipboard'
+
+Vue.prototype.Clipboard = clipboard
+
 import VueCodemirror from 'vue-codemirror'
 // import 'codemirror/lib/codemirror.css'
 

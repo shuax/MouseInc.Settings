@@ -6,8 +6,9 @@ export default {
   gesture: '鼠标手势',
   settings: '手势设置',
   list: '手势列表',
-  global: '通用手势',
-  custom: '特定手势',
+  global: '通用动作',
+  custom: '特定动作',
+  demo: '动作示例',
   other: '其它设置',
   edge: '边缘滚动',
   copy: '复制增强',
@@ -82,12 +83,12 @@ export default {
   list_tips3: '后可以添加未识别的手势。添加后记得按F5刷新设置页面。',
   list_warning: '确定删除此手势？',
 
-  match_tips: '在没有特别设置的情况下，这里的手势会对全部程序生效。',
+  match_tips: '在没有特别设置的情况下，这里的手势动作会对全部程序生效。',
   match_warning: '确定删除此项吗？',
-  modify_gesture: '修改手势',
-  add_gesture: '添加手势',
+  modify_gesture: '修改手势动作',
+  add_gesture: '添加手势动作',
 
-  custom_tips: '这里对指定程序设置的手势会优先于通用手势响应。',
+  custom_tips: '这里对指定程序设置的手势动作会优先于通用动作手势响应。',
   custom_list: '程序列表',
   custom_warning: '确定删除此分组？',
   custom_edit: '编辑分组名称',
@@ -121,13 +122,13 @@ export default {
   Bottom: '下',
 
   copy_tips1: '选中文字快速按下两次Ctrl+C后，会弹出快捷操作菜单。空白名称代表分割线，可通过拖拽调整菜单顺序。',
-  modify_menu: '修改菜单项',
-  add_menu: '添加菜单项',
+  modify_menu: '修改菜单项动作',
+  add_menu: '添加菜单项动作',
 
   hotkey_tips1: '直接使用快捷键触发动作',
   keys: '快捷键',
-  modify_keys: '修改快捷键',
-  add_keys: '添加快捷键',
+  modify_keys: '修改快捷键动作',
+  add_keys: '添加快捷键动作',
 
   ignoresingle_label: '忽略单字符',
   backgroundcolor_label: '背景颜色',
@@ -140,6 +141,9 @@ export default {
   fade_label: '消失时间',
   x_tips: '窗口相对屏幕左边偏移，如果是负数则相对右边',
   y_tips: '窗口相对屏幕顶部偏移，如果是负数则相对底部',
+
+  copy_ok: '动作复制成功',
+  copy_error: '动作复制失败，请手动复制',
 
   LanguageSelect: '请选择语言',
   auto: '自动',

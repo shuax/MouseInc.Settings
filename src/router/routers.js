@@ -132,6 +132,16 @@ export default [
         },
         component: () => import('@/view/custom_match')
         // component: custom_match// () => import('@/view/custom_match')
+      },
+      {
+        path: 'demo',
+        name: 'demo',
+        meta: {
+          icon: 'md-mail-open',
+          title: 'demo'
+        },
+        component: () => import('@/view/demo')
+        // component: custom_match// () => import('@/view/custom_match')
       }
     ]
   },
