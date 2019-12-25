@@ -8,6 +8,7 @@ export default {
   list: 'Gesture list',
   global: 'Global match',
   custom: 'Custom match',
+  demo: 'demo',
   other: 'Other settings',
   edge: 'Edge scrolling',
   copy: 'Copy enhance',

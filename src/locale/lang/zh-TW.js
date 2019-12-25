@@ -8,6 +8,7 @@ export default {
   list: '手勢清單',
   global: '全域手勢',
   custom: '自訂手勢',
+  demo: '动作示例',
   other: '其它設定',
   edge: '邊緣滾動',
   copy: '複製增強',

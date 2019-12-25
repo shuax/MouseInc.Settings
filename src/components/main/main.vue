@@ -163,7 +163,7 @@ export default {
         name,
         params,
         query
-      })
+      }).catch(() => { })
     },
     handleCollapsedChange (state) {
       this.collapsed = state
