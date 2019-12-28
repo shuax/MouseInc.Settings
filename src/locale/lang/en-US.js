@@ -142,6 +142,11 @@ export default {
   x_tips: 'The window is offset from the left side of the screen, and if it is negative, it is relative to the right side',
   y_tips: 'The window is offset from the top of the screen, if it is negative, it is relative to the bottom',
 
+  copy_btn: 'copy',
+  demo_tips: 'You can copy the action code you want. Note that some paths need to be modified according to the machine.',
+  copy_ok: 'Action copied successfully',
+  copy_error: 'Action copy failed, please copy manually',
+
   LanguageSelect: 'Please select a language',
   auto: 'automatic',
   'en-US': 'English',

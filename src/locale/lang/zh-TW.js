@@ -142,6 +142,11 @@ export default {
   x_tips: '視窗相對螢幕左邊位移，如果是負數則相對右邊',
   y_tips: '視窗相對螢幕頂部位移，如果是負數則相對底部',
 
+  copy_btn: '複製',
+  demo_tips: '您可以複製想要的动作代码，注意部分路径需要按照本机修改',
+  copy_ok: '动作複製成功',
+  copy_error: '动作複製失败，请手动複製',
+
   LanguageSelect: '請選擇語言',
   auto: '自動',
   'en-US': '英語',
