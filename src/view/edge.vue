@@ -23,7 +23,7 @@
 
     </Table>
 
-    <Modal v-model="modal.editing">
+    <Modal v-model="modal.editing" :styles="{top: '10px'}">
         <p slot="header" style="text-align:center">
             <span>{{modal.title}}</span>
         </p>
@@ -44,7 +44,7 @@
           </Form>
         </div>
         <div slot="footer">
-            <Button type="primary" size="large" long @click="on_modify">{{$t('ok')}}</Button>
+            <Button type="primary" long @click="on_modify">{{$t('ok')}}</Button>
         </div>
     </Modal>
 

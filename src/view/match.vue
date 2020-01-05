@@ -49,7 +49,7 @@
           </Form>
         </div>
         <div slot="footer">
-            <Button :type="modal.btn" size="large" long @click="on_modify">{{$t('ok')}}</Button>
+            <Button :type="modal.btn" long @click="on_modify">{{$t('ok')}}</Button>
         </div>
     </Modal>
   </div>
