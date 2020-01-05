@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="display:flex;justify-content:space-between;align-items:Center;">
-      <img :src="src" style="margin: 5px;width: 48px;height: 48px" />
+      <img v-if="value!='WheelSwitchUp' && value!='WheelSwitchDown'" :src="src" style="margin: 5px;width: 48px;height: 48px" />
       <span style="float:right;align-items:flex-end;color:#ccc">{{value}}</span>
     </div>
   </div>
