@@ -281,6 +281,12 @@ export default {
     // 设置初始语言
     this.setLocal(this.$i18n.locale)
 
+    this.$Message.config({
+      top: 50,
+      background: true,
+      duration: 5
+    })
+
     this.$Spin.show({
       render: (h) => {
         return h('div', [
@@ -302,7 +308,13 @@ export default {
       this.setSettings(response.data)
 
       this.timer = setInterval(this.heartbeat, 1000)
-      // console.log(this.$config)
+      if (response.data.version !== '2.9.9') {
+        this.$Message.error({
+          content: '当前使用的MouseInc版本较低，建议您升级',
+          background: true,
+          duration: 86400
+        })
+      }
     }).catch(error => {
       // this.$Spin.hide();
       // console.log(error)

@@ -31,6 +31,15 @@
     <Col :md="24" :lg="12" style="margin: 5px 0px">
       <Card dis-hover :padding="0">
         <CellGroup>
+          <Cell :title="$t('altdrag')" :label="$t('altdrag_label')">
+            <i-switch v-model="proxy.AltDrag" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Col>
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card dis-hover :padding="0">
+        <CellGroup>
           <Cell :title="$t('wheelaltcontrol')" :label="$t('wheelaltcontrol_label')">
             <i-switch v-model="proxy.WheelAltControl" slot="extra" />
           </Cell>
@@ -128,6 +137,7 @@ export default {
         MouseGesture: { Open: false, WheelSwitch: false },
         Keycast: { Open: false },
         WheelAltControl: false,
+        AltDrag: true,
         VolumeControlSound: false,
         WheelEdge: { Open: false },
         ClipboardManager: { Open: false },

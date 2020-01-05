@@ -13,7 +13,7 @@
   "dependencies": {
     "axios": "^0.18.1",
     "clipboard": "^2.0.4",
-    "codemirror": "^5.50.0",
+    "codemirror": "^5.50.2",
     "js-beautify": "^1.10.2",
     "view-design": "^4.0.2",
     "vue": "^2.6.11",

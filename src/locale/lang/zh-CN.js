@@ -28,6 +28,7 @@ export default {
   mousegesture: '鼠标手势',
   wheelswitch: '滚轮切换',
   // keycast: '按键回显',
+  altdrag: '快速移动窗口',
   wheelaltcontrol: '快速音量调节',
   volumecontrolsound: '音效回馈',
   wheeledge: '边缘滚动',
@@ -38,8 +39,9 @@ export default {
   showtrayicon: '显示图标',
 
   mousegesture_label: '按住鼠标右键持续移动画出形状，放开右键即可触发对应动作',
-  wheelswitch_label: '按住鼠标右键时，滚动滚轮可以进行切换标签页动作（依赖鼠标手势开关）',
+  wheelswitch_label: '按住鼠标右键时，滚动滚轮可以进行切换标签页动作（依赖鼠标手势）',
   keycast_label: '在屏幕上显示键盘按键，方便录制教程',
+  altdrag_label: '按住Alt时按住鼠标左键拖动，可以直接移动窗口',
   wheelaltcontrol_label: '按住Alt时滚动滚轮调节音量大小，按下滚轮静音',
   volumecontrolsound_label: '音量调节时播放音效',
   wheeledge_label: '鼠标滚轮在屏幕四个边滚动、按下时触发的功能',
