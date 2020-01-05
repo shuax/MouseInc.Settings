@@ -30,7 +30,7 @@
                   <p>{{$t('reset_tips2')}}</p>
               </div>
               <div slot="footer">
-                  <Button type="error" size="large" long :loading="reset_loading" @click="reset">{{$t('reset')}}</Button>
+                  <Button type="error" long :loading="reset_loading" @click="reset">{{$t('reset')}}</Button>
               </div>
           </Modal>
           <!-- <error-store v-if="$config.plugin['error-store'] && $config.plugin['error-store'].showInHeader" :has-read="hasReadErrorPage" :count="errorCount"></error-store> -->
