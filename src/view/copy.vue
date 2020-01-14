@@ -44,7 +44,7 @@
             <Input v-model="modal.Name" style="width:200px"/>
           </FormItem>
           <FormItem :label="$t('actions')">
-            <JsonEdit :value="modal.Actions" @on-input="modal.NewActions=$event"></JsonEdit>
+            <JsonEdit :value="modal.Actions" :editing="modal.editing" @on-input="modal.NewActions=$event"></JsonEdit>
           </FormItem>
         </Form>
       </div>
@@ -203,7 +203,7 @@ export default {
       this.modal.title = this.$t('add_menu')
       this.modal.btn = 'success'
       this.modal.Name = ''
-      var actions = [['action', 'args']]
+      var actions = []
       this.modal.Actions = actions
       this.modal.NewActions = actions
     },
