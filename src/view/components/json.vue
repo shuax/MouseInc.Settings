@@ -3,8 +3,8 @@
     <!-- {{value}} -->
     <Tabs v-model="tab" size="small">
     <TabPane label="UI">
-        <Collapse simple accordion value='0'>
-            <Panel v-for="(item,index) in this.value" :key="index" hide-arrow>
+        <Collapse simple accordion v-model='collapse_index'>
+            <Panel v-for="(item,index) in this.clone_value" :key="index">
                 {{item[0]}}
                 <p slot="content">
                 <List item-layout="vertical" size="small" :split='false'>
@@ -24,12 +24,14 @@
                 </p>
             </Panel>
         </Collapse>
-        <div style="padding-top: 10px;">
-            <Select v-model="action" :transfer='true' style="width:300px;">
-                <Option v-for="(item,index) in actions" :value="item" :key="index">{{item}}</Option>
-            </Select>
-            <Button type="primary" @click="add_action" style='width:95px;float:right'>{{$t('add')}}</Button>
-        </div>
+        <Row style="padding-top: 10px;">
+            <Col span="18">
+                <Cascader :data="actions" v-model="select_actions" :transfer='true' change-on-select filterable></Cascader>
+            </Col>
+            <Col span="6">
+                <Button @click="add_action" style='width:90px;float:right'>{{$t('add')}}</Button>
+            </Col>
+        </Row>
         </TabPane>
     <TabPane label="Raw">
         <codemirror
@@ -60,31 +62,412 @@ export default {
   name: 'json',
   computed: {
     content () {
-      return stringify(this.value)
+      // console.log('content')
+      return stringify(this.clone_value)
     }
   },
   data () {
     return {
-      actions: [
-        'Window',
-        'Internal',
-        'SendKeys',
-        'SendKeyDown',
-        'SendKeyUp',
-        'Activate',
-        'SendMouse',
-        'MouseMove',
-        'MouseMoveStart',
-        'SetClipboard',
-        'Execute',
-        'Screenshot',
-        'ScreenshotHQ',
-        'Algorithm',
-        'Explorer',
-        'PostMessage'
-      ],
+      clone_value: [],
+      actions: [{
+        value: 'Window',
+        label: 'Window',
+        children: [
+          {
+            value: 'Maximize',
+            label: 'Maximize'
+          },
+          {
+            value: 'Minimize',
+            label: 'Minimize'
+          },
+          {
+            value: 'Top',
+            label: 'Top'
+          },
+          {
+            value: 'Center',
+            label: 'Center'
+          },
+          {
+            value: 'Close',
+            label: 'Close'
+          },
+          {
+            value: 'CloseSimilar',
+            label: 'CloseSimilar'
+          }
+        ]
+      }, {
+        value: 'Internal',
+        label: 'Internal',
+        children: [
+          {
+            value: 'Exit',
+            label: 'Exit'
+          },
+          {
+            value: 'Exclude',
+            label: 'Exclude'
+          },
+          {
+            value: 'Reload',
+            label: 'Reload'
+          },
+          {
+            value: 'Settings',
+            label: 'Settings'
+          },
+          {
+            value: 'Delay',
+            label: 'Delay',
+            children: [
+              {
+                value: '1000',
+                label: '1000'
+              }
+            ]
+          },
+          {
+            value: 'Print',
+            label: 'Print',
+            children: [
+              {
+                value: '%fullpath%',
+                label: '%fullpath%'
+              }
+            ]
+          }
+        ]
+      }, {
+        value: 'Activate',
+        label: 'Activate'
+      }, {
+        value: 'SendKeys',
+        label: 'SendKeys',
+        children: [
+          {
+            value: 'Ctrl+C',
+            label: 'Ctrl+C'
+          },
+          {
+            value: 'Ctrl+V',
+            label: 'Ctrl+V',
+            children: [
+              {
+                value: 'NOACTIVATE',
+                label: 'NOACTIVATE'
+              }
+            ]
+          }
+        ]
+      }, {
+        value: 'SendKeyDown',
+        label: 'SendKeyDown',
+        children: [
+          {
+            value: 'Ctrl',
+            label: 'Ctrl'
+          }
+        ]
+      }, {
+        value: 'SendKeyUp',
+        label: 'SendKeyUp',
+        children: [
+          {
+            value: 'Ctrl',
+            label: 'Ctrl'
+          }
+        ]
+      }, {
+        value: 'SendMouse',
+        label: 'SendMouse',
+        children: [
+          {
+            value: 'lclick',
+            label: 'lclick'
+          },
+          {
+            value: 'rclick',
+            label: 'rclick'
+          },
+          {
+            value: 'mclick',
+            label: 'mclick'
+          }
+        ]
+      }, {
+        value: 'MouseMove',
+        label: 'MouseMove',
+        children: [
+          {
+            value: '100',
+            label: '100',
+            children: [
+              {
+                value: '200',
+                label: '200'
+              }
+            ]
+          }
+        ]
+      }, {
+        value: 'MouseMoveStart',
+        label: 'MouseMoveStart'
+      }, {
+        value: 'SetClipboard',
+        label: 'SetClipboard',
+        children: [
+          {
+            value: 'text123',
+            label: 'text123'
+          }
+        ]
+      }, {
+        value: 'Execute',
+        label: 'Execute',
+        children: [
+          {
+            value: 'calc.exe',
+            label: 'calc.exe'
+          },
+          {
+            value: 'notepad.exe',
+            label: 'notepad.exe',
+            children: [
+              {
+                value: 'hide',
+                label: 'hide'
+              },
+              {
+                value: 'admin',
+                label: 'admin'
+              },
+              {
+                value: 'wait',
+                label: 'wait'
+              },
+              {
+                value: 'admin|wait',
+                label: 'admin|wait'
+              }
+            ]
+          }
+        ]
+      }, {
+        value: 'Screenshot',
+        label: 'Screenshot',
+        children: [
+          {
+            value: 'ToClipboard',
+            label: 'ToClipboard'
+          },
+          {
+            value: 'ToFile',
+            label: 'ToFile'
+          },
+          {
+            value: 'Reference',
+            label: 'Reference'
+          },
+          {
+            value: 'OCR',
+            label: 'OCR'
+          }
+        ]
+      }, {
+        value: 'ScreenshotHQ',
+        label: 'ScreenshotHQ',
+        children: [
+          {
+            value: 'ToClipboard',
+            label: 'ToClipboard',
+            children: [
+              {
+                value: 'DrawCursor',
+                label: 'DrawCursor'
+              },
+              {
+                value: 'TransparencyGrid',
+                label: 'TransparencyGrid'
+              },
+              {
+                value: 'DrawCursor|TransparencyGrid',
+                label: 'DrawCursor|TransparencyGrid'
+              }
+            ]
+          },
+          {
+            value: 'ToFile',
+            label: 'ToFile',
+            children: [
+              {
+                value: 'DrawCursor',
+                label: 'DrawCursor'
+              },
+              {
+                value: 'TransparencyGrid',
+                label: 'TransparencyGrid'
+              },
+              {
+                value: 'DrawCursor|TransparencyGrid',
+                label: 'DrawCursor|TransparencyGrid'
+              }
+            ]
+          }
+        ]
+      }, {
+        value: 'Algorithm',
+        label: 'Algorithm',
+        children: [
+          {
+            value: 'b64decode',
+            label: 'b64decode',
+            children: [
+              {
+                value: '%clipboard%',
+                label: '%clipboard%'
+              }
+            ]
+          },
+          {
+            value: 'b64encode',
+            label: 'b64encode',
+            children: [
+              {
+                value: '%clipboard%',
+                label: '%clipboard%'
+              }
+            ]
+          },
+          {
+            value: 'urlencode',
+            label: 'urlencode',
+            children: [
+              {
+                value: '%clipboard%',
+                label: '%clipboard%'
+              }
+            ]
+          },
+          {
+            value: 'urldecode',
+            label: 'urldecode',
+            children: [
+              {
+                value: '%clipboard%',
+                label: '%clipboard%'
+              }
+            ]
+          },
+          {
+            value: 'md5',
+            label: 'md5',
+            children: [
+              {
+                value: '%clipboard%',
+                label: '%clipboard%'
+              }
+            ]
+          },
+          {
+            value: 'sha1',
+            label: 'sha1',
+            children: [
+              {
+                value: '%clipboard%',
+                label: '%clipboard%'
+              }
+            ]
+          },
+          {
+            value: 'sha256',
+            label: 'sha256',
+            children: [
+              {
+                value: '%clipboard%',
+                label: '%clipboard%'
+              }
+            ]
+          },
+          {
+            value: 'qrcode',
+            label: 'qrcode',
+            children: [
+              {
+                value: '%clipboard%',
+                label: '%clipboard%'
+              }
+            ]
+          },
+          {
+            value: 'CyberChef',
+            label: 'CyberChef',
+            children: [
+              {
+                value: '%clipboard%',
+                label: '%clipboard%'
+              }
+            ]
+          }
+        ]
+      }, {
+        value: 'Explorer',
+        label: 'Explorer',
+        children: [
+          {
+            value: 'select',
+            label: 'select',
+            children: [
+              {
+                value: '%fullpath%',
+                label: '%fullpath%'
+              }
+            ]
+          },
+          {
+            value: 'recyclebin',
+            label: 'recyclebin',
+            children: [
+              {
+                value: 'noconfirmation',
+                label: 'noconfirmation'
+              },
+              {
+                value: 'noprogressui',
+                label: 'noprogressui'
+              },
+              {
+                value: 'noconfirmation|noprogressui',
+                label: 'noconfirmation|noprogressui'
+              }
+            ]
+          },
+          {
+            value: 'turnoffmonitor',
+            label: 'turnoffmonitor'
+          }
+        ]
+      }, {
+        value: 'PostMessage',
+        label: 'PostMessage',
+        children: [
+          {
+            value: '272',
+            label: '272',
+            children: [
+              {
+                value: '40022',
+                label: '40022'
+              }
+            ]
+          }
+        ]
+      }],
       args: '',
-      action: 'Window',
+      tab: 0,
+      collapse_index: ['0'],
+      select_actions: ['Window'],
       error_msg: '',
       option: {
         lineNumbers: true,
@@ -104,7 +487,20 @@ export default {
     }
   },
   props: {
-    value: Array
+    value: Array,
+    editing: Boolean
+  },
+  watch: {
+    editing (val) {
+      // console.log('editing',val, this.collapse_index, this.tab)
+      this.clone_value = JSON.parse(JSON.stringify(this.value))
+      this.args = ''
+      this.tab = 0
+      this.collapse_index = ['0']
+    // },
+    // value(val){
+    //     console.log('value')
+    }
   },
   methods: {
     remove (item, index) {
@@ -115,8 +511,8 @@ export default {
       this.args = ''
     },
     add_action () {
-      this.value.push([this.action])
-      this.action = 'Window'
+      this.clone_value.push(this.select_actions)
+      // this.select_actions = ['Window']
     },
     input (value) {
       try {

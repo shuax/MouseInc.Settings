@@ -33,13 +33,13 @@
               <Input v-model="modal.Name" style="width:200px"/>
             </FormItem>
             <FormItem :label="$t('upactions')">
-              <JsonEdit :value="modal.UpActions" @on-input="modal.NewUpActions=$event"></JsonEdit>
+              <JsonEdit :value="modal.UpActions" :editing="modal.editing" @on-input="modal.NewUpActions=$event"></JsonEdit>
             </FormItem>
             <FormItem :label="$t('downactions')">
-              <JsonEdit :value="modal.DownActions" @on-input="modal.NewDownActions=$event"></JsonEdit>
+              <JsonEdit :value="modal.DownActions" :editing="modal.editing" @on-input="modal.NewDownActions=$event"></JsonEdit>
             </FormItem>
             <FormItem :label="$t('pressactions')">
-              <JsonEdit :value="modal.PressActions" @on-input="modal.NewPressActions=$event"></JsonEdit>
+              <JsonEdit :value="modal.PressActions" :editing="modal.editing" @on-input="modal.NewPressActions=$event"></JsonEdit>
             </FormItem>
           </Form>
         </div>
