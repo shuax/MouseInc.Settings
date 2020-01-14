@@ -3,12 +3,12 @@
     <!-- {{value}} -->
     <Tabs v-model="tab" size="small">
     <TabPane label="UI">
-        <Collapse>
-            <Panel v-for="(item,index) in this.value" :key="index">
+        <Collapse simple accordion value='0'>
+            <Panel v-for="(item,index) in this.value" :key="index" hide-arrow>
                 {{item[0]}}
                 <p slot="content">
                 <List item-layout="vertical" size="small" :split='false'>
-                    <template  v-for="(args,args_index) in item" >
+                    <template v-for="(args,args_index) in item" >
                         <ListItem v-if="args_index != 0" :key="args_index">
                             <Input v-model="item[args_index]">
                                 <Button slot="append" type="primary" icon="md-close" @click="remove(item, args_index)"></Button>
@@ -24,10 +24,13 @@
                 </p>
             </Panel>
         </Collapse>
-        <Input v-model="action" style="padding-top: 5px;padding-bottom: 5px;">
-            <Button slot="append" type="primary" icon="md-add" @click="add_action"></Button>
-        </Input>
-    </TabPane>
+        <div style="padding-top: 10px;">
+            <Select v-model="action" :transfer='true' style="width:300px;">
+                <Option v-for="(item,index) in actions" :value="item" :key="index">{{item}}</Option>
+            </Select>
+            <Button type="primary" @click="add_action" style='width:95px;float:right'>{{$t('add')}}</Button>
+        </div>
+        </TabPane>
     <TabPane label="Raw">
         <codemirror
         :value="content"
@@ -62,8 +65,26 @@ export default {
   },
   data () {
     return {
+      actions: [
+        'Window',
+        'Internal',
+        'SendKeys',
+        'SendKeyDown',
+        'SendKeyUp',
+        'Activate',
+        'SendMouse',
+        'MouseMove',
+        'MouseMoveStart',
+        'SetClipboard',
+        'Execute',
+        'Screenshot',
+        'ScreenshotHQ',
+        'Algorithm',
+        'Explorer',
+        'PostMessage'
+      ],
       args: '',
-      action: '',
+      action: 'Window',
       error_msg: '',
       option: {
         lineNumbers: true,
@@ -95,7 +116,7 @@ export default {
     },
     add_action () {
       this.value.push([this.action])
-      this.action = ''
+      this.action = 'Window'
     },
     input (value) {
       try {
