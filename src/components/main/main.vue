@@ -308,7 +308,7 @@ export default {
       this.setSettings(response.data)
 
       this.timer = setInterval(this.heartbeat, 1000)
-      if (response.data.version !== '2.9.12') {
+      if (response.data.version !== '2.9.13') {
         this.$Message.error({
           content: '当前使用的MouseInc版本较低，建议您升级',
           background: true,
