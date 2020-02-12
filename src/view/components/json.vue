@@ -96,6 +96,10 @@ export default {
           {
             value: 'CloseSimilar',
             label: 'CloseSimilar'
+          },
+          {
+            value: 'HideTray',
+            label: 'HideTray'
           }
         ]
       }, {
@@ -180,20 +184,20 @@ export default {
           }
         ]
       }, {
-        value: 'SendMouse',
-        label: 'SendMouse',
+        value: 'SendClick',
+        label: 'SendClick',
         children: [
           {
-            value: 'lclick',
-            label: 'lclick'
+            value: 'left',
+            label: 'left'
           },
           {
-            value: 'rclick',
-            label: 'rclick'
+            value: 'right',
+            label: 'right'
           },
           {
-            value: 'mclick',
-            label: 'mclick'
+            value: 'middle',
+            label: 'middle'
           }
         ]
       }, {
@@ -209,11 +213,18 @@ export default {
                 label: '200'
               }
             ]
+          },
+          {
+            value: 'start_x',
+            label: 'start_x',
+            children: [
+              {
+                value: 'start_y',
+                label: 'start_y'
+              }
+            ]
           }
         ]
-      }, {
-        value: 'MouseMoveStart',
-        label: 'MouseMoveStart'
       }, {
         value: 'SetClipboard',
         label: 'SetClipboard',
@@ -446,6 +457,23 @@ export default {
           {
             value: 'turnoffmonitor',
             label: 'turnoffmonitor'
+          }
+        ]
+      }, {
+        value: 'SetBrightness',
+        label: 'SetBrightness',
+        children: [
+          {
+            value: 'UP',
+            label: 'UP'
+          },
+          {
+            value: 'DOWN',
+            label: 'DOWN'
+          },
+          {
+            value: 'DEFAULT',
+            label: 'DEFAULT'
           }
         ]
       }, {
