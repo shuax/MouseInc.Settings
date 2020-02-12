@@ -32,6 +32,9 @@
       </p>
       <div>
         <Form :label-width="80" @submit.native.prevent>
+          <FormItem :label="$t('name')">
+            <Input v-model="modal.Name" style="width:200px"/>
+          </FormItem>
           <FormItem :label="$t('keys')">
             <Input v-model="modal.Keys" style="width:200px"/>
           </FormItem>
@@ -79,6 +82,11 @@ export default {
           //     on: { 'on-change': (value) => { row.Valid = value } }
           //   })
           // }
+        },
+        {
+          title: this.$t('name'),
+          key: 'Name',
+          width: 140
         },
         {
           title: this.$t('keys'),
@@ -178,6 +186,7 @@ export default {
       this.modal.title = this.$t('modify_keys')
       this.modal.btn = 'primary'
       this.modal.Keys = row.Keys
+      this.modal.Name = row.Name
       this.modal.Actions = row.Actions
       this.modal.NewActions = row.Actions
     },
@@ -188,6 +197,7 @@ export default {
       this.modal.title = this.$t('add_keys')
       this.modal.btn = 'success'
       this.modal.Keys = ''
+      this.modal.Name = ''
       var actions = []
       this.modal.Actions = actions
       this.modal.NewActions = actions
@@ -199,12 +209,14 @@ export default {
         // 修改
         var row = this.cfg.Hotkeys[index]
         row.Keys = this.modal.Keys
+        row.Name = this.modal.Name
         row.Actions = this.modal.NewActions
       } else {
         // 克隆
         var new_row = {
           Valid: true,
           Keys: this.modal.Keys,
+          Name: this.modal.Name,
           Actions: this.modal.NewActions
         }
         this.cfg.Hotkeys.push(new_row)
