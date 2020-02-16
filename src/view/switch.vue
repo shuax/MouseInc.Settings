@@ -109,6 +109,24 @@
         </CellGroup>
       </Card>
     </Col>
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card dis-hover :padding="0">
+        <CellGroup>
+          <Cell :title="$t('capslockled')" :label="$t('capslockled_label')">
+            <i-switch v-model="proxy.CapsLockLed" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Col>
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card dis-hover :padding="0">
+        <CellGroup>
+          <Cell :title="$t('capsunlock')" :label="$t('capsunlock_label')">
+            <i-switch v-model="proxy.CapsUnlock" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Col>
     <!-- {{proxy.MouseGesture.Open}} -->
     <!-- {{cfg.MouseGesture.Open}} -->
     </Row>

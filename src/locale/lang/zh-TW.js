@@ -37,6 +37,8 @@ export default {
   wheelthrough: '滾輪穿透',
   wheelnatural: '自然滾動',
   showtrayicon: '顯示圖示',
+  capslockled: '大写锁定提示',
+  capsunlock: '自动关闭大写锁定',
 
   mousegesture_label: '按住滑鼠右鍵持續移動畫出形狀，放開右鍵即可觸發對應動作',
   wheelswitch_label: '按住滑鼠右鍵時，滾動滾輪可以進行切換分頁動作（依賴滑鼠手勢）',
@@ -50,6 +52,8 @@ export default {
   wheelthrough_label: '不在焦點的視窗可以自由滾動，Win10系統已經內建',
   wheelnatural_label: '滾輪反向，和Mac OS X一致',
   showtrayicon_label: '是否在工作列顯示MouseInc圖示',
+  capslockled_label: '在屏幕右上角显示大写锁定状态',
+  capsunlock_label: '在30秒后自动取消大写锁定',
 
   exclude_tips1: '預設設定下，畫手勢Z可以新增程式至清單中',
   exclude_tips2: '在清單中的程式不會啟用滑鼠手勢等功能，忽略大小寫。',
