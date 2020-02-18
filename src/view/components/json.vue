@@ -111,6 +111,14 @@ export default {
             label: 'Exit'
           },
           {
+            value: 'Pause',
+            label: 'Pause'
+          },
+          {
+            value: 'ClipboardMenu',
+            label: 'ClipboardMenu'
+          },
+          {
             value: 'Exclude',
             label: 'Exclude'
           },
@@ -139,6 +147,26 @@ export default {
               {
                 value: '%fullpath%',
                 label: '%fullpath%'
+              }
+            ]
+          },
+          {
+            value: 'ShowTips',
+            label: 'ShowTips',
+            children: [
+              {
+                value: '%clipboard%',
+                label: '%clipboard%'
+              },
+              {
+                value: 'Title',
+                label: 'Title',
+                children: [
+                  {
+                    value: '%clipboard%',
+                    label: '%clipboard%'
+                  }
+                ]
               }
             ]
           }
