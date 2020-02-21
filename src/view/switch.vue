@@ -22,8 +22,53 @@
     <Col :md="24" :lg="12" style="margin: 5px 0px">
       <Card dis-hover :padding="0">
         <CellGroup>
+          <Cell :title="$t('wheeledge')" :label="$t('wheeledge_label')">
+            <i-switch v-model="proxy.WheelEdge.Open" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Col>
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card dis-hover :padding="0">
+        <CellGroup>
           <Cell :title="$t('keycast')" :label="$t('keycast_label')">
             <i-switch v-model="proxy.Keycast.Open" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Col>
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card dis-hover :padding="0">
+        <CellGroup>
+          <Cell :title="$t('clipboardmanager')" :label="$t('clipboardmanager_label')">
+            <i-switch v-model="proxy.ClipboardManager.Open" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Col>
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card dis-hover :padding="0">
+        <CellGroup>
+          <Cell :title="$t('autoclip')" :label="$t('autoclip_label')">
+            <i-switch v-model="proxy.AutoClip" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Col>
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card dis-hover :padding="0">
+        <CellGroup>
+          <Cell :title="$t('capslockled')" :label="$t('capslockled_label')">
+            <i-switch v-model="proxy.CapsLockLed" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Col>
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card dis-hover :padding="0">
+        <CellGroup>
+          <Cell :title="$t('capsunlock')" :label="$t('capsunlock_label')">
+            <i-switch v-model="proxy.CapsUnlock" slot="extra" />
           </Cell>
         </CellGroup>
       </Card>
@@ -58,26 +103,17 @@
     <Col :md="24" :lg="12" style="margin: 5px 0px">
       <Card dis-hover :padding="0">
         <CellGroup>
-          <Cell :title="$t('wheeledge')" :label="$t('wheeledge_label')">
-            <i-switch v-model="proxy.WheelEdge.Open" slot="extra" />
-          </Cell>
-        </CellGroup>
-      </Card>
-    </Col>
-    <Col :md="24" :lg="12" style="margin: 5px 0px">
-      <Card dis-hover :padding="0">
-        <CellGroup>
-          <Cell :title="$t('clipboardmanager')" :label="$t('clipboardmanager_label')">
-            <i-switch v-model="proxy.ClipboardManager.Open" slot="extra" />
-          </Cell>
-        </CellGroup>
-      </Card>
-    </Col>
-    <Col :md="24" :lg="12" style="margin: 5px 0px">
-      <Card dis-hover :padding="0">
-        <CellGroup>
           <Cell :title="$t('ignorefullscreen')" :label="$t('ignorefullscreen_label')">
             <i-switch v-model="proxy.IgnoreFullScreen" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Col>
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card dis-hover :padding="0">
+        <CellGroup>
+          <Cell :title="$t('showtrayicon')" :label="$t('showtrayicon_label')">
+            <i-switch v-model="proxy.ShowTrayIcon" slot="extra" />
           </Cell>
         </CellGroup>
       </Card>
@@ -96,33 +132,6 @@
         <CellGroup>
           <Cell :title="$t('wheelnatural')" :label="$t('wheelnatural_label')">
             <i-switch v-model="proxy.WheelNatural" slot="extra" />
-          </Cell>
-        </CellGroup>
-      </Card>
-    </Col>
-    <Col :md="24" :lg="12" style="margin: 5px 0px">
-      <Card dis-hover :padding="0">
-        <CellGroup>
-          <Cell :title="$t('showtrayicon')" :label="$t('showtrayicon_label')">
-            <i-switch v-model="proxy.ShowTrayIcon" slot="extra" />
-          </Cell>
-        </CellGroup>
-      </Card>
-    </Col>
-    <Col :md="24" :lg="12" style="margin: 5px 0px">
-      <Card dis-hover :padding="0">
-        <CellGroup>
-          <Cell :title="$t('capslockled')" :label="$t('capslockled_label')">
-            <i-switch v-model="proxy.CapsLockLed" slot="extra" />
-          </Cell>
-        </CellGroup>
-      </Card>
-    </Col>
-    <Col :md="24" :lg="12" style="margin: 5px 0px">
-      <Card dis-hover :padding="0">
-        <CellGroup>
-          <Cell :title="$t('capsunlock')" :label="$t('capsunlock_label')">
-            <i-switch v-model="proxy.CapsUnlock" slot="extra" />
           </Cell>
         </CellGroup>
       </Card>
