@@ -243,12 +243,22 @@ export default {
             ]
           },
           {
-            value: 'start_x',
-            label: 'start_x',
+            value: 'start',
+            label: 'start',
             children: [
               {
-                value: 'start_y',
-                label: 'start_y'
+                value: 'start',
+                label: 'start'
+              }
+            ]
+          },
+          {
+            value: 'end',
+            label: 'end',
+            children: [
+              {
+                value: 'end',
+                label: 'end'
               }
             ]
           }
