@@ -57,7 +57,15 @@ export default {
         ['打开QQ', [['Execute', '"C:\\Program Files (x86)\\Tencent\\QQ\\Bin\\QQ.exe"']]],
         ['打开微信', [['Execute', '"C:\\Program Files (x86)\\Tencent\\WeChat\\WeChat.exe"']]],
         ['打开TIM', [['Execute', '"C:\\Program Files (x86)\\Tencent\\TIM\\Bin\\TIM.exe"']]],
-        ['系统属性', [['Execute', 'rundll32 shell32.dll,Control_RunDLL sysdm.cpl,,1']]]
+        ['系统属性', [['Execute', 'rundll32 shell32.dll,Control_RunDLL sysdm.cpl,,1']]],
+        ['快递查询', [['Execute', 'https://m.kuaidi100.com/result.jsp?nu=%clipboard%']]],
+        ['有道翻译', [['Execute', 'http://fanyi.youdao.com/translate?i=%clipboard%&keyfrom=plugin&smartresult=dict&smartresult=rule']]],
+        ['京东搜索', [['Execute', 'https://search.jd.com/Search?keyword=%clipboard%&enc=utf-8']]],
+        ['淘宝搜索', [['Execute', 'http://s.taobao.com/search?q=%clipboard%']]],
+        ['哔哩哔哩', [['Execute', 'http://www.bilibili.tv/search?keyword=%clipboard%']]],
+        ['高德地图', [['Execute', 'https://ditu.amap.com/search?query=%clipboard%']]],
+        ['知乎', [['Execute', 'http://www.zhihu.com/search?q=%clipboard%']]],
+        ['什么值得买', [['Execute', 'https://search.smzdm.com/?c=home&s=%clipboard%']]]
       ],
       option: {
         lineNumbers: false,
