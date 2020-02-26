@@ -103,6 +103,15 @@
     <Col :md="24" :lg="12" style="margin: 5px 0px">
       <Card dis-hover :padding="0">
         <CellGroup>
+          <Cell :title="$t('keysound')" :label="$t('keysound_label')">
+            <i-switch v-model="proxy.KeySound" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Col>
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card dis-hover :padding="0">
+        <CellGroup>
           <Cell :title="$t('ignorefullscreen')" :label="$t('ignorefullscreen_label')">
             <i-switch v-model="proxy.IgnoreFullScreen" slot="extra" />
           </Cell>

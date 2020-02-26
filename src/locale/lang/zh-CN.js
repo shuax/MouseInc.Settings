@@ -40,6 +40,7 @@ export default {
   capslockled: '大写锁定提示',
   capsunlock: '自动关闭大写锁定',
   autoclip: '自动复制',
+  keysound: '按键音效',
 
   mousegesture_label: '按住鼠标右键持续移动画出形状，放开右键即可触发对应动作',
   wheelswitch_label: '按住鼠标右键时，滚动滚轮可以进行切换标签页动作（依赖鼠标手势）',
@@ -55,7 +56,8 @@ export default {
   showtrayicon_label: '是否在系统托盘处显示MouseInc图标',
   capslockled_label: '在屏幕右上角显示大写锁定状态',
   capsunlock_label: '在30秒后自动取消大写锁定',
-  autoclip_label: '鼠标选中文字后自动复制到剪贴板',
+  autoclip_label: '鼠标选中文字后自动复制到剪贴板（按住Ctrl临时忽略）',
+  keysound_label: '在你打字时发出悦耳的声音',
 
   exclude_tips1: '默认配置下，画手势Z可以添加程序到此列表中',
   exclude_tips2: '在此列表中的程序不会启用鼠标手势等功能，忽略大小写。',
