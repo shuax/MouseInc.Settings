@@ -40,6 +40,7 @@ export default {
   capslockled: 'Caps Lock Tip',
   capsunlock: 'Turn Caps Lock Off Automatically',
   autoclip: 'Auto Clip',
+  keysound: 'Key Sound',
 
   mousegesture_label: 'Press and hold the right mouse button to move the shape, and release the right button to trigger the corresponding action',
   wheelswitch_label: 'When the right mouse button is held, the scroll wheel can switch tab actions (depending on the mouse gesture)',
@@ -56,6 +57,7 @@ export default {
   capslockled_label: 'Show Caps Lock status in the upper right corner of the screen',
   capsunlock_label: 'Automatically cancel caps lock after 30 seconds',
   autoclip_label: 'Copy text to clipboard automatically with mouse selection',
+  keysound_label: 'Make a pleasant sound when you type',
 
   exclude_tips1: 'In the default configuration, draw gesture Z can add programs to the list',
   exclude_tips2: 'Programs in the list do not enable features such as mouse gestures, ignoring case. ',
