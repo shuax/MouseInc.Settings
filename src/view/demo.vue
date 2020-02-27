@@ -46,6 +46,14 @@ export default {
   data () {
     return {
       action_list: [
+        ['复制', [['SendKeys', 'Ctrl+C']]],
+        ['粘贴', [['SendKeys', 'Ctrl+V']]],
+        ['关闭窗口', [['Window', 'Close']]],
+        ['置顶窗口', [['Window', 'Top']]],
+        ['隐藏窗口到托盘', [['Window', 'HideTray']]],
+        ['暂停恢复MouseInc', [['Internal', 'Pause']]],
+        ['调高亮度', [['SetBrightness', 'UP']]],
+        ['调低亮度', [['SetBrightness', 'DOWN']]],
         ['延迟1秒', [['Internal', 'Delay', '1000']]],
         ['锁屏', [['Execute', 'rundll32 user32.dll,LockWorkStation']]],
         ['关于电脑', [['Execute', 'rundll32 shell32.DLL,ShellAbout']]],
@@ -54,6 +62,12 @@ export default {
         ['设备管理器', [['Execute', 'rundll32 devmgr.dll DeviceManager_Execute']]],
         ['Everything搜索选中内容', [['SendKeys', 'Ctrl+C'], ['Execute', 'Everything.exe -s %clipboard%']]],
         ['Python运行选中代码', [['SendKeys', 'Ctrl+C'], ['Execute', 'python -i -c %clipboard%']]],
+        ['base64编码', [['SendKeys', 'Ctrl+C'], ['Algorithm', 'b64encode', '%clipboard%']]],
+        ['base64解码', [['SendKeys', 'Ctrl+C'], ['Algorithm', 'b64decode', '%clipboard%']]],
+        ['生成二维码', [['SendKeys', 'Ctrl+C'], ['Algorithm', 'qrcode', '%clipboard%']]],
+        ['百度搜索选中内容', [['SendKeys', 'Ctrl+C'], ['Execute', 'https://www.baidu.com/s?ie=UTF-8&wd=%clipboard%']]],
+        ['谷歌搜索选中内容', [['SendKeys', 'Ctrl+C'], ['Execute', 'https://www.google.com/search?q=%clipboard%']]],
+        ['谷歌翻译', [['SendKeys', 'Ctrl+C'], ['Execute', 'https://translate.google.com/?source=osdd#auto|auto|%clipboard%']]],
         ['打开QQ', [['Execute', '"C:\\Program Files (x86)\\Tencent\\QQ\\Bin\\QQ.exe"']]],
         ['打开微信', [['Execute', '"C:\\Program Files (x86)\\Tencent\\WeChat\\WeChat.exe"']]],
         ['打开TIM', [['Execute', '"C:\\Program Files (x86)\\Tencent\\TIM\\Bin\\TIM.exe"']]],
