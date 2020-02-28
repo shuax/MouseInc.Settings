@@ -2,7 +2,8 @@ export default {
   /**
    * @description 配置显示在浏览器标签的title
    */
-  title: 'MouseInc 设置',
+  title: 'MouseInc',
+  version: [''],
   /**
    * @description token在Cookie中存储的天数，默认1天
    */

@@ -2,7 +2,7 @@
 // cookie保存的天数
 import config from '@/config'
 import { forEach, objEqual } from '@/libs/tools'
-const { title, useI18n } = config
+const { title, version, useI18n } = config
 
 // export const TOKEN_KEY = 'token'
 
@@ -391,6 +391,8 @@ export const localRead = (key) => {
 export const setTitle = (routeItem, vm) => {
   const handledRoute = getRouteTitleHandled(routeItem)
   const pageTitle = showTitle(handledRoute, vm)
-  const resTitle = pageTitle ? `${title} - ${pageTitle}` : title
+  var resTitle
+  if (version[0]) { resTitle = pageTitle ? `${pageTitle} - ${title} ${version[0]}` : title } else { resTitle = pageTitle ? `${pageTitle} - ${title} ${version[0]}` : title }
+
   window.document.title = resTitle
 }

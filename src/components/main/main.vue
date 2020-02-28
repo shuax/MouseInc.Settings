@@ -72,7 +72,10 @@ import { LoadSettings, SaveSettings, ResetSettings, Ping } from '@/api/data'
 // import jsBeautify from 'js-beautify/js/lib/beautify'
 import beautify from 'js-beautify'
 // import JsonEdit from '@/view/components/json.vue'
+import config from '@/config'
+import { setTitle } from '@/libs/util'
 import './main.less'
+const { version } = config
 export default {
   name: 'Main',
   components: {
@@ -308,6 +311,8 @@ export default {
       this.setSettings(response.data)
 
       this.timer = setInterval(this.heartbeat, 1000)
+      version[0] = response.data.version
+      setTitle(this.$router.currentRoute, this.$router.app)
       if (response.data.version !== '2.10.5') {
         this.$Message.error({
           content: '当前使用的MouseInc版本较低，建议您升级',
