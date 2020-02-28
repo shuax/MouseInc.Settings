@@ -10,8 +10,13 @@
             <a href="#" slot="extra" @click.prevent="copy" class="copyCode" data-clipboard-action="copy" :data-clipboard-text="stringify(info[1])">
                 {{$t('copy_btn')}}
             </a>
-            <codemirror :value="JSON.stringify(info[1])" :options="option">
-            </codemirror>
+            <div  style="overflow: hidden;text-overflow: ellipsis;white-space:nowrap;color:#a11;">
+                <code>
+                    {{JSON.stringify(info[1])}}
+                </code>
+            </div>
+            <!-- <codemirror :value="JSON.stringify(info[1])" :options="option"> -->
+            <!-- </codemirror> -->
         </Card>
       </Col>
     </Row>
@@ -46,19 +51,19 @@ export default {
   data () {
     return {
       action_list: [
-        // ['复制', [['SendKeys', 'Ctrl+C']]],
-        // ['粘贴', [['SendKeys', 'Ctrl+V']]],
-        // ['关闭窗口', [['Window', 'Close']]],
-        // ['隐藏窗口到托盘', [['Window', 'HideTray']]],
-        // ['暂停恢复MouseInc', [['Internal', 'Pause']]],
-        // ['调高亮度', [['SetBrightness', 'UP']]],
-        // ['调低亮度', [['SetBrightness', 'DOWN']]],
-        // ['延迟1秒', [['Internal', 'Delay', '1000']]],
+        ['复制', [['SendKeys', 'Ctrl+C']]],
+        ['粘贴', [['SendKeys', 'Ctrl+V']]],
+        ['关闭窗口', [['Window', 'Close']]],
         ['置顶窗口', [['Window', 'Top']]],
+        ['隐藏窗口到托盘', [['Window', 'HideTray']]],
+        ['暂停恢复MouseInc', [['Internal', 'Pause']]],
+        ['调高亮度', [['SetBrightness', 'UP']]],
+        ['调低亮度', [['SetBrightness', 'DOWN']]],
+        ['截图参考同时复制', [['Screenshot', 'ToClipboard'], ['Screenshot', 'Reference']]],
+        ['延迟1秒', [['Internal', 'Delay', '1000']]],
         ['锁屏', [['Execute', 'rundll32 user32.dll,LockWorkStation']]],
         ['关于电脑', [['Execute', 'rundll32 shell32.DLL,ShellAbout']]],
         ['控制面板', [['Execute', 'rundll32 shell32.dll,Control_RunDLL']]],
-        ['截图参考同时复制', [['Screenshot', 'ToClipboard'], ['Screenshot', 'Reference']]],
         ['设备管理器', [['Execute', 'rundll32 devmgr.dll DeviceManager_Execute']]],
         ['系统属性', [['Execute', 'rundll32 shell32.dll,Control_RunDLL sysdm.cpl,,1']]],
         ['打开QQ', [['Execute', '"C:\\Program Files (x86)\\Tencent\\QQ\\Bin\\QQ.exe"']]],
@@ -66,44 +71,22 @@ export default {
         ['打开TIM', [['Execute', '"C:\\Program Files (x86)\\Tencent\\TIM\\Bin\\TIM.exe"']]],
         ['Everything搜索选中内容', [['SendKeys', 'Ctrl+C'], ['Execute', 'Everything.exe -s %clipboard%']]],
         ['Python运行选中代码', [['SendKeys', 'Ctrl+C'], ['Execute', 'python -i -c %clipboard%']]],
-        // ['base64编码', [['SendKeys', 'Ctrl+C'], ['Algorithm', 'b64encode', '%clipboard%']]],
-        // ['base64解码', [['SendKeys', 'Ctrl+C'], ['Algorithm', 'b64decode', '%clipboard%']]],
+        ['base64编码', [['SendKeys', 'Ctrl+C'], ['Algorithm', 'b64encode', '%clipboard%']]],
+        ['base64解码', [['SendKeys', 'Ctrl+C'], ['Algorithm', 'b64decode', '%clipboard%']]],
         ['生成二维码', [['SendKeys', 'Ctrl+C'], ['Algorithm', 'qrcode', '%clipboard%']]],
-        // ['百度搜索选中内容', [['SendKeys', 'Ctrl+C'], ['Execute', 'https://www.baidu.com/s?ie=UTF-8&wd=%clipboard%']]],
-        // ['谷歌搜索选中内容', [['SendKeys', 'Ctrl+C'], ['Execute', 'https://www.google.com/search?q=%clipboard%']]],
-        ['谷歌翻译', [['SendKeys', 'Ctrl+C'], ['Execute', 'https://translate.google.com/?source=osdd#auto|auto|%clipboard%']]],
         ['快递查询', [['Execute', 'https://m.kuaidi100.com/result.jsp?nu=%clipboard%']]],
+        ['百度搜索选中内容', [['SendKeys', 'Ctrl+C'], ['Execute', 'https://www.baidu.com/s?ie=UTF-8&wd=%clipboard%']]],
+        ['谷歌搜索选中内容', [['SendKeys', 'Ctrl+C'], ['Execute', 'https://www.google.com/search?q=%clipboard%']]],
+        ['谷歌翻译', [['Execute', 'https://translate.google.com/?source=osdd#auto|auto|%clipboard%']]],
         ['有道翻译', [['Execute', 'http://fanyi.youdao.com/translate?i=%clipboard%&keyfrom=plugin&smartresult=dict&smartresult=rule']]],
         ['京东搜索', [['Execute', 'https://search.jd.com/Search?keyword=%clipboard%&enc=utf-8']]],
         ['淘宝搜索', [['Execute', 'http://s.taobao.com/search?q=%clipboard%']]],
+        ['什么值得买', [['Execute', 'https://search.smzdm.com/?c=home&s=%clipboard%']]],
         ['哔哩哔哩', [['Execute', 'http://www.bilibili.tv/search?keyword=%clipboard%']]],
-        ['高德地图', [['Execute', 'https://ditu.amap.com/search?query=%clipboard%']]],
         ['知乎', [['Execute', 'http://www.zhihu.com/search?q=%clipboard%']]],
-        ['什么值得买', [['Execute', 'https://search.smzdm.com/?c=home&s=%clipboard%']]]
-      ],
-      option: {
-        lineNumbers: false,
-        readOnly: true,
-        styleActiveLine: false,
-        tabSize: 4,
-        indentUnit: 4,
-        indentWithTabs: true,
-        // line: true,
-        // keyMap: 'sublime',
-        mode: {
-          name: 'javascript',
-          json: true
-        }
-        // theme: 'default'
-      }
+        ['高德地图', [['Execute', 'https://ditu.amap.com/search?query=%clipboard%']]]
+      ]
     }
   }
 }
 </script>
-
-<style>
-.CodeMirror {
-  height: auto;
-  /*line-height: 2;*/
-}
-</style>
