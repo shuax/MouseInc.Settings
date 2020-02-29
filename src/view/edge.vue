@@ -234,7 +234,7 @@ export default {
       this.modal.editing = true
       this.modal.Location = Location
       var row = this.proxy[Location]
-      this.modal.title = this.$t('edge_tips2') + this.$t(Location) + this.$t('edge_tips3')
+      this.modal.title = this.$t('edge_tips2')
       this.modal.Name = row.Name
       this.modal.UpActions = row.UpActions
       this.modal.DownActions = row.DownActions

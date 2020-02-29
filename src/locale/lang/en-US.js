@@ -15,6 +15,7 @@ export default {
   hotkey: 'Global Hotkey',
   keycast: 'Press Echo',
   i18n: 'Multi-language',
+  corner: 'Hot Corner',
 
   reset: 'Reset',
   save: 'Save',
@@ -123,13 +124,19 @@ export default {
   downactions: 'down action',
   pressactions: 'Press action',
   location: 'location',
-  edge_tips2: 'screen',
-  edge_tips3: 'Edge scrolling function',
+  edge_tips2: 'Edge scrolling function',
 
   Left: 'Left',
   Top: 'Top',
   Right: 'Right',
   Bottom: 'Bottom',
+  TopLeft: 'TopLeft',
+  TopRight: 'TopRight',
+  BottomLeft: 'BottomLeft',
+  BottomRight: 'BottomRight',
+
+  corner_tips1: 'The function is triggered when the mouse moves to the four corners of the screen.',
+  corner_tips2: 'Modify the trigger angle action',
 
   copy_tips1: 'Select the text and press Ctrl+C twice quickly, the shortcut menu will pop up. The blank name represents the dividing line, and the menu order can be adjusted by dragging and dropping. ',
   modify_menu: 'Modify menu item',
