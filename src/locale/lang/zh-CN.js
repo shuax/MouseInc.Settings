@@ -15,6 +15,7 @@ export default {
   hotkey: '全局热键',
   keycast: '按键回显',
   i18n: '多语言',
+  corner: '触发角',
 
   reset: '重置',
   save: '保存',
@@ -123,13 +124,19 @@ export default {
   downactions: '向下动作',
   pressactions: '按下动作',
   location: '位置',
-  edge_tips2: '屏幕',
-  edge_tips3: '边缘滚动功能',
+  edge_tips2: '修改边缘滚动动作',
 
   Left: '左',
   Top: '上',
   Right: '右',
   Bottom: '下',
+  TopLeft: '左上',
+  TopRight: '右上',
+  BottomLeft: '左下',
+  BottomRight: '右下',
+
+  corner_tips1: '鼠标移动到屏幕四个角触发的功能。',
+  corner_tips2: '修改触发角动作',
 
   copy_tips1: '选中文字快速按下两次Ctrl+C后，会弹出快捷操作菜单。空白名称代表分割线，可通过拖拽调整菜单顺序。',
   modify_menu: '修改菜单项动作',

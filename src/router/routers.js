@@ -165,6 +165,16 @@ export default [
         // component: edge// () => import('@/view/edge')
       },
       {
+        path: 'corner',
+        name: 'corner',
+        meta: {
+          icon: 'md-qr-scanner',
+          title: 'corner'
+        },
+        component: () => import('@/view/corner')
+        // component: edge// () => import('@/view/edge')
+      },
+      {
         path: 'copy',
         name: 'copy',
         meta: {
