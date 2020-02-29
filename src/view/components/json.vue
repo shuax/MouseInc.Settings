@@ -70,6 +70,56 @@ export default {
     return {
       clone_value: [],
       actions: [{
+        value: 'SendKeys',
+        label: 'SendKeys',
+        children: [
+          {
+            value: 'Ctrl+C',
+            label: 'Ctrl+C'
+          },
+          {
+            value: 'Ctrl+V',
+            label: 'Ctrl+V',
+            children: [
+              {
+                value: 'NOACTIVATE',
+                label: 'NOACTIVATE'
+              }
+            ]
+          }
+        ]
+      }, {
+        value: 'Execute',
+        label: 'Execute',
+        children: [
+          {
+            value: 'calc.exe',
+            label: 'calc.exe'
+          },
+          {
+            value: 'notepad.exe',
+            label: 'notepad.exe',
+            children: [
+              {
+                value: 'hide',
+                label: 'hide'
+              },
+              {
+                value: 'admin',
+                label: 'admin'
+              },
+              {
+                value: 'wait',
+                label: 'wait'
+              },
+              {
+                value: 'admin|wait',
+                label: 'admin|wait'
+              }
+            ]
+          }
+        ]
+      }, {
         value: 'Window',
         label: 'Window',
         children: [
@@ -167,138 +217,6 @@ export default {
                     label: '%clipboard%'
                   }
                 ]
-              }
-            ]
-          }
-        ]
-      }, {
-        value: 'Activate',
-        label: 'Activate'
-      }, {
-        value: 'SendKeys',
-        label: 'SendKeys',
-        children: [
-          {
-            value: 'Ctrl+C',
-            label: 'Ctrl+C'
-          },
-          {
-            value: 'Ctrl+V',
-            label: 'Ctrl+V',
-            children: [
-              {
-                value: 'NOACTIVATE',
-                label: 'NOACTIVATE'
-              }
-            ]
-          }
-        ]
-      }, {
-        value: 'SendKeyDown',
-        label: 'SendKeyDown',
-        children: [
-          {
-            value: 'Ctrl',
-            label: 'Ctrl'
-          }
-        ]
-      }, {
-        value: 'SendKeyUp',
-        label: 'SendKeyUp',
-        children: [
-          {
-            value: 'Ctrl',
-            label: 'Ctrl'
-          }
-        ]
-      }, {
-        value: 'SendClick',
-        label: 'SendClick',
-        children: [
-          {
-            value: 'left',
-            label: 'left'
-          },
-          {
-            value: 'right',
-            label: 'right'
-          },
-          {
-            value: 'middle',
-            label: 'middle'
-          }
-        ]
-      }, {
-        value: 'MouseMove',
-        label: 'MouseMove',
-        children: [
-          {
-            value: '100',
-            label: '100',
-            children: [
-              {
-                value: '200',
-                label: '200'
-              }
-            ]
-          },
-          {
-            value: 'start',
-            label: 'start',
-            children: [
-              {
-                value: 'start',
-                label: 'start'
-              }
-            ]
-          },
-          {
-            value: 'end',
-            label: 'end',
-            children: [
-              {
-                value: 'end',
-                label: 'end'
-              }
-            ]
-          }
-        ]
-      }, {
-        value: 'SetClipboard',
-        label: 'SetClipboard',
-        children: [
-          {
-            value: 'text123',
-            label: 'text123'
-          }
-        ]
-      }, {
-        value: 'Execute',
-        label: 'Execute',
-        children: [
-          {
-            value: 'calc.exe',
-            label: 'calc.exe'
-          },
-          {
-            value: 'notepad.exe',
-            label: 'notepad.exe',
-            children: [
-              {
-                value: 'hide',
-                label: 'hide'
-              },
-              {
-                value: 'admin',
-                label: 'admin'
-              },
-              {
-                value: 'wait',
-                label: 'wait'
-              },
-              {
-                value: 'admin|wait',
-                label: 'admin|wait'
               }
             ]
           }
@@ -529,11 +447,32 @@ export default {
             ]
           }
         ]
+      }, {
+        value: 'SendKeyDown',
+        label: 'SendKeyDown',
+        children: [
+          {
+            value: 'Ctrl',
+            label: 'Ctrl'
+          }
+        ]
+      }, {
+        value: 'SendKeyUp',
+        label: 'SendKeyUp',
+        children: [
+          {
+            value: 'Ctrl',
+            label: 'Ctrl'
+          }
+        ]
+      }, {
+        value: 'Activate',
+        label: 'Activate'
       }],
       args: '',
       tab: 0,
       collapse_index: ['0'],
-      select_actions: ['Window'],
+      select_actions: ['SendKeys'],
       error_msg: '',
       option: {
         lineNumbers: true,

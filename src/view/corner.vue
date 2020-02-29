@@ -23,7 +23,7 @@
 
     </Table>
 
-    <Modal v-model="modal.editing" :styles="{top: '10px'}">
+    <Modal v-model="modal.editing">
         <p slot="header" style="text-align:center">
             <span>{{modal.title}}</span>
         </p>
