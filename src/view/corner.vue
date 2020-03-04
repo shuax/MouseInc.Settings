@@ -42,7 +42,7 @@
         </div>
     </Modal>
 
-    <!-- {{this.cfg.HotCorner}} -->
+    <!-- {{proxy}} -->
   </div>
 </template>
 

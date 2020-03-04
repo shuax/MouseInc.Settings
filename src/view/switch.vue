@@ -112,6 +112,15 @@
     <Col :md="24" :lg="12" style="margin: 5px 0px">
       <Card dis-hover :padding="0">
         <CellGroup>
+          <Cell :title="$t('corner')" :label="$t('corner_tips1')">
+            <i-switch v-model="proxy.HotCorner.Open" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Col>
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card dis-hover :padding="0">
+        <CellGroup>
           <Cell :title="$t('ignorefullscreen')" :label="$t('ignorefullscreen_label')">
             <i-switch v-model="proxy.IgnoreFullScreen" slot="extra" />
           </Cell>
@@ -180,6 +189,7 @@ export default {
         IgnoreFullScreen: false,
         WheelThrough: false,
         WheelNatural: false,
+        HotCorner: { Open: false },
         ShowTrayIcon: true
       }
       return ret
