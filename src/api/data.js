@@ -38,7 +38,6 @@ export const Ping = () => {
     url: '/ping',
     data: {},
     method: 'post',
-    timeout: 100,
     headers: {
       'Content-Type': 'text/plain'
     }
