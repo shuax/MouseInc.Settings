@@ -10,7 +10,7 @@ import config from '@/config'
 // import importDirective from '@/directive'
 // import { directive as clickOutside } from 'v-click-outside-x'
 // import installPlugin from '@/plugin'
-// import './index.less'
+import './scrollbar.css'
 // require('babel-polyfill')
 // import '@/assets/icons/iconfont.css'
 // import TreeTable from 'tree-table-vue'
