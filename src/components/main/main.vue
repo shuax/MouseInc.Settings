@@ -217,9 +217,9 @@ export default {
     heartbeat () {
       // console.log('heartbeat')
       Ping().then(response => {
-
+        this.timer = setTimeout(this.heartbeat, 1000)
       }).catch(() => {
-        clearInterval(this.timer)
+        // clearInterval(this.timer)
         // this.loading = 'Network connection is down'
         // this.$Message.error({content:'Network connection is down', duration: 999999})
 
@@ -310,10 +310,10 @@ export default {
       this.modified = false
       this.setSettings(response.data)
 
-      this.timer = setInterval(this.heartbeat, 1000)
+      this.timer = setTimeout(this.heartbeat, 1000)
       version[0] = response.data.version
       setTitle(this.$router.currentRoute, this.$router.app)
-      if (response.data.version !== '2.10.8') {
+      if (response.data.version !== '2.10.9') {
         this.$Message.error({
           content: '当前使用的MouseInc版本较低，建议您升级',
           background: true,

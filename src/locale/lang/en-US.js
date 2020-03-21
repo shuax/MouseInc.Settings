@@ -60,6 +60,8 @@ export default {
   autoclip_label: 'Copy text to clipboard automatically with mouse selection',
   keysound_label: 'Make a pleasant sound when you type',
 
+  icon_warning: 'After hiding, you can only open the setting interface through gestures. The default is M. Do you want to continue?',
+
   exclude_tips1: 'In the default configuration, draw gesture Z can add programs to the list',
   exclude_tips2: 'Programs in the list do not enable features such as mouse gestures, ignoring case. ',
   exclude_tips3: 'Current exclusion list:',
@@ -163,6 +165,15 @@ export default {
   demo_tips: 'You can copy the action code you want. Note that some paths need to be modified according to the machine.',
   copy_ok: 'Action copied successfully',
   copy_error: 'Action copy failed, please copy manually',
+
+  volume0: 'Clear',
+  volume1: 'Bubble',
+
+  key0: 'Typewriter',
+  key1: 'Green Axis',
+  key2: 'Tea Axis',
+  key3: 'Red Axis',
+  key4: 'G Axis',
 
   LanguageSelect: 'Please select a language',
   auto: 'automatic',

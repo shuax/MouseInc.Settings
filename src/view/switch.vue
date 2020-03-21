@@ -31,8 +31,8 @@
     <Col :md="24" :lg="12" style="margin: 5px 0px">
       <Card dis-hover :padding="0">
         <CellGroup>
-          <Cell :title="$t('keycast')" :label="$t('keycast_label')">
-            <i-switch v-model="proxy.Keycast.Open" slot="extra" />
+          <Cell :title="$t('corner')" :label="$t('corner_tips1')">
+            <i-switch v-model="proxy.HotCorner.Open" slot="extra" />
           </Cell>
         </CellGroup>
       </Card>
@@ -49,26 +49,8 @@
     <Col :md="24" :lg="12" style="margin: 5px 0px">
       <Card dis-hover :padding="0">
         <CellGroup>
-          <Cell :title="$t('autoclip')" :label="$t('autoclip_label')">
-            <i-switch v-model="proxy.AutoClip" slot="extra" />
-          </Cell>
-        </CellGroup>
-      </Card>
-    </Col>
-    <Col :md="24" :lg="12" style="margin: 5px 0px">
-      <Card dis-hover :padding="0">
-        <CellGroup>
-          <Cell :title="$t('capslockled')" :label="$t('capslockled_label')">
-            <i-switch v-model="proxy.CapsLockLed" slot="extra" />
-          </Cell>
-        </CellGroup>
-      </Card>
-    </Col>
-    <Col :md="24" :lg="12" style="margin: 5px 0px">
-      <Card dis-hover :padding="0">
-        <CellGroup>
-          <Cell :title="$t('capsunlock')" :label="$t('capsunlock_label')">
-            <i-switch v-model="proxy.CapsUnlock" slot="extra" />
+          <Cell :title="$t('keycast')" :label="$t('keycast_label')">
+            <i-switch v-model="proxy.Keycast.Open" slot="extra" />
           </Cell>
         </CellGroup>
       </Card>
@@ -112,15 +94,6 @@
     <Col :md="24" :lg="12" style="margin: 5px 0px">
       <Card dis-hover :padding="0">
         <CellGroup>
-          <Cell :title="$t('corner')" :label="$t('corner_tips1')">
-            <i-switch v-model="proxy.HotCorner.Open" slot="extra" />
-          </Cell>
-        </CellGroup>
-      </Card>
-    </Col>
-    <Col :md="24" :lg="12" style="margin: 5px 0px">
-      <Card dis-hover :padding="0">
-        <CellGroup>
           <Cell :title="$t('ignorefullscreen')" :label="$t('ignorefullscreen_label')">
             <i-switch v-model="proxy.IgnoreFullScreen" slot="extra" />
           </Cell>
@@ -131,7 +104,33 @@
       <Card dis-hover :padding="0">
         <CellGroup>
           <Cell :title="$t('showtrayicon')" :label="$t('showtrayicon_label')">
-            <i-switch v-model="proxy.ShowTrayIcon" slot="extra" />
+            <i-switch v-model="proxy.ShowTrayIcon" slot="extra" :before-change="BeforeShowTrayIconChange" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Col>
+    <!-- {{proxy.MouseGesture.Open}} -->
+    <!-- {{cfg.MouseGesture.Open}} -->
+    </Row>
+    <Collapse style="margin-top: 10px;">
+        <Panel>
+            {{$t('more_setting')}}
+            <p slot="content">
+    <Row :gutter="10">
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card dis-hover :padding="0">
+        <CellGroup>
+          <Cell :title="$t('capslockled')" :label="$t('capslockled_label')">
+            <i-switch v-model="proxy.CapsLockLed" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Col>
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card dis-hover :padding="0">
+        <CellGroup>
+          <Cell :title="$t('capsunlock')" :label="$t('capsunlock_label')">
+            <i-switch v-model="proxy.CapsUnlock" slot="extra" />
           </Cell>
         </CellGroup>
       </Card>
@@ -154,9 +153,31 @@
         </CellGroup>
       </Card>
     </Col>
-    <!-- {{proxy.MouseGesture.Open}} -->
-    <!-- {{cfg.MouseGesture.Open}} -->
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card dis-hover :padding="0">
+        <CellGroup>
+          <Cell :title="$t('autoclip')" :label="$t('autoclip_label')">
+            <i-switch v-model="proxy.AutoClip" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Col>
     </Row>
+    <Form style="width:50%;padding: 5px;margin-top: 10px;" label-position="top">
+      <FormItem :label="$t('volumecontrolsound')">
+        <Select v-model="proxy.VolumeSoundIndex">
+            <Option v-for="item in VolumeSoundList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+      </FormItem>
+      <FormItem :label="$t('keysound')">
+        <Select v-model="proxy.KeySoundIndex">
+            <Option v-for="item in KeySoundList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+      </FormItem>
+    </Form>
+            </p>
+        </Panel>
+    </Collapse>
   </div>
 </template>
 
@@ -172,10 +193,61 @@
 import { mapGetters } from 'vuex'
 export default {
   name: 'fast-switch',
+  data () {
+    return {
+    }
+  },
+  methods: {
+    BeforeShowTrayIconChange () {
+      if (!this.proxy.ShowTrayIcon) return true
+
+      return new Promise((resolve) => {
+        this.$Modal.confirm({
+          title: this.$t('warning'),
+          content: this.$t('icon_warning'),
+          onOk: () => {
+            resolve()
+          }
+        })
+      })
+    }
+  },
   computed: {
     ...mapGetters([
       'cfg'
     ]),
+    VolumeSoundList () {
+      return [{
+        value: 0,
+        label: this.$t('volume0')
+      },
+      {
+        value: 1,
+        label: this.$t('volume1')
+      }]
+    },
+    KeySoundList () {
+      return [{
+        value: 0,
+        label: this.$t('key0')
+      },
+      {
+        value: 1,
+        label: this.$t('key1')
+      },
+      {
+        value: 2,
+        label: this.$t('key2')
+      },
+      {
+        value: 3,
+        label: this.$t('key3')
+      },
+      {
+        value: 4,
+        label: this.$t('key4')
+      }]
+    },
     proxy () {
       var ret = this.cfg.MouseGesture ? this.cfg : {
         // temporary: true,
