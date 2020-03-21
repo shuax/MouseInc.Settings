@@ -31,7 +31,7 @@ export default {
   // keycast: '按鍵重顯',
   altdrag: '快速移动窗口',
   wheelaltcontrol: '快速音量調整',
-  volumecontrolsound: '音效回饋',
+  volumecontrolsound: '音量回饋',
   wheeledge: '邊緣滾動',
   clipboardmanager: '複製增強',
   ignorefullscreen: '忽略全螢幕',
@@ -59,6 +59,8 @@ export default {
   capsunlock_label: '在30秒后自动取消大写锁定',
   autoclip_label: '鼠标选中文字后自动复制到剪贴板',
   keysound_label: '在你打字时发出悦耳的声音',
+
+  icon_warning: '隐藏后只能通过手势打开设置界面，默认为M，是否继续？',
 
   exclude_tips1: '預設設定下，畫手勢Z可以新增程式至清單中',
   exclude_tips2: '在清單中的程式不會啟用滑鼠手勢等功能，忽略大小寫。',
@@ -163,6 +165,15 @@ export default {
   demo_tips: '您可以複製想要的动作代码，注意部分路径需要按照本机修改',
   copy_ok: '动作複製成功',
   copy_error: '动作複製失败，请手动複製',
+
+  volume0: '清脆',
+  volume1: '泡泡',
+
+  key0: '打字机',
+  key1: '青轴',
+  key2: '茶轴',
+  key3: '红轴',
+  key4: 'G轴',
 
   LanguageSelect: '請選擇語言',
   auto: '自動',
