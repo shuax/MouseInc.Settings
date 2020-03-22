@@ -54,7 +54,7 @@ export default [
     redirect: '/switch',
     component: Main,
     meta: {
-      icon: 'md-flash',
+      icon: 'md-home',
       title: 'index'
       // hideInMenu: true,
       // notCache: true
@@ -67,7 +67,7 @@ export default [
           // hideInMenu: true,
           title: 'switch',
           // notCache: true,
-          icon: 'ios-settings'
+          icon: 'md-flash'
         },
         component: () => import('@/view/switch')
         // component: switch2
@@ -76,7 +76,7 @@ export default [
         path: 'exclude',
         name: 'exclude',
         meta: {
-          icon: 'md-remove-circle',
+          icon: 'md-warning',
           title: 'exclude'
         },
         component: () => import('@/view/exclude')
@@ -88,7 +88,7 @@ export default [
     path: '/gesture',
     name: 'gesture',
     meta: {
-      icon: 'md-color-wand',
+      icon: 'md-settings',
       title: 'gesture'
     },
     component: Main,
@@ -97,7 +97,7 @@ export default [
         path: 'settings',
         name: 'settings',
         meta: {
-          icon: 'md-brush',
+          icon: 'md-color-palette',
           title: 'settings'
         },
         component: () => import('@/view/settings')
@@ -107,7 +107,7 @@ export default [
         path: 'list',
         name: 'list',
         meta: {
-          icon: 'md-apps',
+          icon: 'ios-keypad',
           title: 'list'
         },
         component: () => import('@/view/list')
@@ -117,7 +117,7 @@ export default [
         path: 'global',
         name: 'global',
         meta: {
-          icon: 'md-globe',
+          icon: 'md-cube',
           title: 'global'
         },
         component: () => import('@/view/match')
@@ -127,7 +127,7 @@ export default [
         path: 'custom',
         name: 'custom',
         meta: {
-          icon: 'md-color-palette',
+          icon: 'md-appstore',
           title: 'custom'
         },
         component: () => import('@/view/custom_match')
@@ -137,7 +137,7 @@ export default [
         path: 'demo',
         name: 'demo',
         meta: {
-          icon: 'md-mail-open',
+          icon: 'md-bulb',
           title: 'demo'
         },
         component: () => import('@/view/demo')
@@ -168,7 +168,7 @@ export default [
         path: 'corner',
         name: 'corner',
         meta: {
-          icon: 'md-qr-scanner',
+          icon: 'md-expand',
           title: 'corner'
         },
         component: () => import('@/view/corner')

@@ -26,7 +26,7 @@
       <FormItem :label="$t('tracewidth_label')">
         <Slider v-model="proxy.TraceWidth" :min="1" :max="10" style="width: 300px" :marks="TraceWidthMarks"></Slider>
       </FormItem>
-    <Collapse>
+    <Collapse @on-change="handleCollpasedChange">
         <Panel>
             {{$t('more_setting')}}
             <p slot="content">
@@ -73,6 +73,19 @@ export default {
         0: '低',
         50: '默认',
         100: '高'
+      }
+    }
+  },
+  methods: {
+    handleCollpasedChange (state) {
+      if (state.length) {
+        setTimeout(() => {
+          var content = document.querySelector('.content-wrapper')
+          content.scrollTo({
+            top: content.scrollHeight - content.clientHeight,
+            behavior: 'smooth'
+          })
+        }, 210)
       }
     }
   },

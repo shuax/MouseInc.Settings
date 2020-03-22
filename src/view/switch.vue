@@ -112,7 +112,7 @@
     <!-- {{proxy.MouseGesture.Open}} -->
     <!-- {{cfg.MouseGesture.Open}} -->
     </Row>
-    <Collapse style="margin-top: 10px;">
+    <Collapse style="margin-top: 10px;" @on-change="handleCollpasedChange">
         <Panel>
             {{$t('more_setting')}}
             <p slot="content">
@@ -198,6 +198,17 @@ export default {
     }
   },
   methods: {
+    handleCollpasedChange (state) {
+      if (state.length) {
+        setTimeout(() => {
+          var content = document.querySelector('.content-wrapper')
+          content.scrollTo({
+            top: content.scrollHeight - content.clientHeight,
+            behavior: 'smooth'
+          })
+        }, 210)
+      }
+    },
     BeforeShowTrayIconChange () {
       if (!this.proxy.ShowTrayIcon) return true
 
