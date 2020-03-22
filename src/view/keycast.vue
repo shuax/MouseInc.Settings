@@ -18,7 +18,7 @@
       <FormItem :label="$t('textcolor_label')">
         <ColorPicker v-model="proxy.TextColor" recommend size="large"/>
       </FormItem>
-    <Collapse>
+    <Collapse @on-change="handleCollpasedChange">
         <Panel>
             {{$t('more_setting')}}
             <p slot="content">
@@ -59,6 +59,19 @@ export default {
       },
       FadeMarks: {
         5: '默认'
+      }
+    }
+  },
+  methods: {
+    handleCollpasedChange (state) {
+      if (state.length) {
+        setTimeout(() => {
+          var content = document.querySelector('.content-wrapper')
+          content.scrollTo({
+            top: content.scrollHeight - content.clientHeight,
+            behavior: 'smooth'
+          })
+        }, 210)
       }
     }
   },

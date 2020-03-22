@@ -56,7 +56,11 @@ router.beforeEach((to, from, next) => {
 router.afterEach(to => {
   setTitle(to, router.app)
   ViewUI.LoadingBar.finish()
-  window.scrollTo(0, 0)
+
+  var content = document.querySelector('.content-wrapper')
+  if (content && content.scrollTop) {
+    content.scrollTo(0, 0)
+  }
 })
 
 export default router
