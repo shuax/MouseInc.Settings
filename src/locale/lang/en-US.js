@@ -42,6 +42,7 @@ export default {
   capsunlock: 'Turn Caps Lock Off Automatically',
   autoclip: 'Auto Clip',
   keysound: 'Key Sound',
+  administrator: 'Administrator Run',
 
   mousegesture_label: 'Press and hold the right mouse button to move the shape, and release the right button to trigger the corresponding action',
   wheelswitch_label: 'When the right mouse button is held, the scroll wheel can switch tab actions (depending on the mouse gesture)',
@@ -59,6 +60,7 @@ export default {
   capsunlock_label: 'Automatically cancel caps lock after 30 seconds',
   autoclip_label: 'Copy text to clipboard automatically with mouse selection',
   keysound_label: 'Make a pleasant sound when you type',
+  administrator_label: 'Whether the startup program automatically obtains administrator rights',
 
   icon_warning: 'After hiding, you can only open the setting interface through gestures. The default is M. Do you want to continue?',
 

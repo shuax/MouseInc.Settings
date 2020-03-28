@@ -42,6 +42,7 @@ export default {
   capsunlock: '自动关闭大写锁定',
   autoclip: '自动复制',
   keysound: '按键音效',
+  administrator: '管理员运行',
 
   mousegesture_label: '按住滑鼠右鍵持續移動畫出形狀，放開右鍵即可觸發對應動作',
   wheelswitch_label: '按住滑鼠右鍵時，滾動滾輪可以進行切換分頁動作（依賴滑鼠手勢）',
@@ -59,6 +60,7 @@ export default {
   capsunlock_label: '在30秒后自动取消大写锁定',
   autoclip_label: '鼠标选中文字后自动复制到剪贴板',
   keysound_label: '在你打字时发出悦耳的声音',
+  administrator_label: '启动程序是否自动获取管理员权限',
 
   icon_warning: '隐藏后只能通过手势打开设置界面，默认为M，是否继续？',
 
