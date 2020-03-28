@@ -162,6 +162,15 @@
         </CellGroup>
       </Card>
     </Col>
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card dis-hover :padding="0">
+        <CellGroup>
+          <Cell :title="$t('administrator')" :label="$t('administrator_label')">
+            <i-switch v-model="proxy.Administrator" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Col>
     </Row>
     <Form style="width:50%;padding: 5px;margin-top: 10px;" label-position="top">
       <FormItem :label="$t('volumecontrolsound')">
