@@ -40,7 +40,7 @@ export default {
   showtrayicon: '顯示圖示',
   capslockled: '大写锁定提示',
   capsunlock: '自动关闭大写锁定',
-  autoclip: '自动复制',
+  autoclip: '快速复制粘贴',
   keysound: '按键音效',
   administrator: '管理员运行',
 
