@@ -165,6 +165,10 @@ export default {
             label: 'Pause'
           },
           {
+            value: 'Icon',
+            label: 'Icon'
+          },
+          {
             value: 'ClipboardMenu',
             label: 'ClipboardMenu'
           },
@@ -234,8 +238,42 @@ export default {
             label: 'ToFile'
           },
           {
-            value: 'Reference',
-            label: 'Reference'
+            value: 'Stick',
+            label: 'Stick'
+          },
+          {
+            value: 'PiP',
+            label: 'PiP'
+          },
+          {
+            value: 'OCR',
+            label: 'OCR'
+          }
+        ]
+      }, {
+        value: 'Snapshot',
+        label: 'Snapshot',
+        children: [
+          {
+            value: 'Stick',
+            label: 'Stick'
+          },
+          {
+            value: 'PiP',
+            label: 'PiP'
+          },
+          {
+            value: 'OCR',
+            label: 'OCR'
+          }
+        ]
+      }, {
+        value: 'GetClipboard',
+        label: 'GetClipboard',
+        children: [
+          {
+            value: 'Stick',
+            label: 'Stick'
           },
           {
             value: 'OCR',

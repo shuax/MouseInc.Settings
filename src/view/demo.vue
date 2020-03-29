@@ -53,7 +53,7 @@ export default {
       action_list: [
         ['隐藏窗口到托盘', [['Window', 'HideTray']]],
         ['暂停恢复MouseInc', [['Internal', 'Pause']]],
-        ['截图参考同时复制', [['Screenshot', 'ToClipboard'], ['Screenshot', 'Reference']]],
+        ['贴图同时复制', [['Screenshot', 'ToClipboard'], ['Screenshot', 'Stick']]],
         ['强制结束程序', [['Execute', 'taskkill /f /pid %pid%', 'hide']]],
         ['锁屏', [['Execute', 'rundll32 user32.dll,LockWorkStation']]],
         ['关机', [['Execute', 'shutdown -s -t 0', 'hide']]],
