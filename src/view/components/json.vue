@@ -255,6 +255,14 @@ export default {
         label: 'Snapshot',
         children: [
           {
+            value: 'ToClipboard',
+            label: 'ToClipboard'
+          },
+          {
+            value: 'ToFile',
+            label: 'ToFile'
+          },
+          {
             value: 'Stick',
             label: 'Stick'
           },
@@ -271,6 +279,10 @@ export default {
         value: 'GetClipboard',
         label: 'GetClipboard',
         children: [
+          {
+            value: 'ToFile',
+            label: 'ToFile'
+          },
           {
             value: 'Stick',
             label: 'Stick'
