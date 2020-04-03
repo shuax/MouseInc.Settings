@@ -54,7 +54,7 @@ export default {
         ['隐藏窗口到托盘', [['Window', 'HideTray']]],
         ['暂停恢复MouseInc', [['Internal', 'Pause']]],
         ['贴图同时复制', [['Screenshot', 'ToClipboard'], ['Screenshot', 'Stick']]],
-        ['强制结束程序', [['Execute', 'taskkill /f /pid %pid%', 'hide']]],
+        ['强制结束程序', [['Execute', 'taskkill /f /pid %pid%', 'admin|hide']]],
         ['锁屏', [['Execute', 'rundll32 user32.dll,LockWorkStation']]],
         ['关机', [['Execute', 'shutdown -s -t 0', 'hide']]],
         ['复制', [['SendKeys', 'Ctrl+C']]],
