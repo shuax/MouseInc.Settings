@@ -313,7 +313,7 @@ export default {
       this.timer = setTimeout(this.heartbeat, 1000)
       version[0] = response.data.version
       setTitle(this.$router.currentRoute, this.$router.app)
-      if (response.data.version !== '2.10.14') {
+      if (response.data.version !== '2.10.16') {
         this.$Message.error({
           content: '当前使用的MouseInc版本较低，建议您升级',
           background: true,
