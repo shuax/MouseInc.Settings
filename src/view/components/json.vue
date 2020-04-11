@@ -120,6 +120,19 @@ export default {
           }
         ]
       }, {
+        value: 'Execute2',
+        label: 'Execute2',
+        children: [
+          {
+            value: 'calc.exe',
+            label: 'calc.exe'
+          },
+          {
+            value: 'notepad.exe',
+            label: 'notepad.exe'
+          }
+        ]
+      }, {
         value: 'Window',
         label: 'Window',
         children: [

@@ -37,7 +37,6 @@ export const Ping = () => {
   return axios.request({
     url: '/ping',
     data: {},
-    timeout: 2000,
     method: 'post',
     headers: {
       'Content-Type': 'text/plain'

@@ -85,7 +85,7 @@ export default {
             top: content.scrollHeight - content.clientHeight,
             behavior: 'smooth'
           })
-        }, 210)
+        }, 250)
       }
     }
   },
