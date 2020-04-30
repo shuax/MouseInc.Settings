@@ -163,6 +163,14 @@ export default {
           {
             value: 'HideTray',
             label: 'HideTray'
+          },
+          {
+            value: 'ShowTray',
+            label: 'ShowTray'
+          },
+          {
+            value: 'ToggleTray',
+            label: 'ToggleTray'
           }
         ]
       }, {
@@ -192,6 +200,22 @@ export default {
           {
             value: 'Reload',
             label: 'Reload'
+          },
+          {
+            value: 'Config',
+            label: 'Config',
+            children: [
+              {
+                value: 'Keycast.Open',
+                label: 'Keycast.Open',
+                children: [
+                  {
+                    value: 'true',
+                    label: 'true'
+                  }
+                ]
+              }
+            ]
           },
           {
             value: 'Settings',
@@ -526,6 +550,68 @@ export default {
           {
             value: 'Ctrl',
             label: 'Ctrl'
+          }
+        ]
+      }, {
+        value: 'SendClick',
+        label: 'SendClick',
+        children: [
+          {
+            value: 'left',
+            label: 'left'
+          },
+          {
+            value: 'right',
+            label: 'right'
+          },
+          {
+            value: 'middle',
+            label: 'middle'
+          }
+        ]
+      }, {
+        value: 'MouseMove',
+        label: 'MouseMove',
+        children: [
+          {
+            value: 'start_x',
+            label: 'start_x',
+            children: [
+              {
+                value: 'start_y',
+                label: 'start_y'
+              }
+            ]
+          }
+        ]
+      }, {
+        value: 'SetClipboard',
+        label: 'SetClipboard',
+        children: [
+          {
+            value: 'text123',
+            label: 'text123'
+          }
+        ]
+      }, {
+        value: 'RegSet',
+        label: 'RegSet',
+        children: [
+          {
+            value: 'HKEY_CURRENT_USER\\SOFTWARE',
+            label: 'HKEY_CURRENT_USER\\SOFTWARE',
+            children: [
+              {
+                value: 'Test',
+                label: 'Test',
+                children: [
+                  {
+                    value: '0',
+                    label: '0'
+                  }
+                ]
+              }
+            ]
           }
         ]
       }, {
