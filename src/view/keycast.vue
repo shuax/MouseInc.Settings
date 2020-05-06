@@ -55,7 +55,7 @@ export default {
   data () {
     return {
       FontSizeMarks: {
-        32: '默认'
+        24: '默认'
       },
       FadeMarks: {
         5: '默认'
@@ -86,8 +86,8 @@ export default {
         IgnoreSingle: false,
         Open: false,
         Fade: 5,
-        FontSize: 32,
-        Space: 50,
+        FontSize: 24,
+        Space: 10,
         Y: 84,
         X: 40,
         TextColor: '#FFFFFF',
