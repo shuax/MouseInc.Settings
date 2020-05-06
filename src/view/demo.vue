@@ -64,6 +64,8 @@ export default {
         ['关闭窗口', [['Window', 'Close']]],
         ['置顶窗口', [['Window', 'Top']]],
         ['延迟1秒', [['Internal', 'Delay', '1000']]],
+        ['我的电脑', [['Execute2', 'shell:MyComputerFolder']]],
+        ['我的文档', [['Execute2', 'shell:DocumentsLibrary']]],
         ['关于电脑', [['Execute', 'rundll32 shell32.DLL,ShellAbout']]],
         ['控制面板', [['Execute', 'rundll32 shell32.dll,Control_RunDLL']]],
         ['设备管理器', [['Execute', 'rundll32 devmgr.dll DeviceManager_Execute']]],
