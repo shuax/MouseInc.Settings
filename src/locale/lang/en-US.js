@@ -47,7 +47,7 @@ export default {
   mousegesture_label: 'Press and hold the right mouse button to move the shape, and release the right button to trigger the corresponding action',
   wheelswitch_label: 'When the right mouse button is held, the scroll wheel can switch tab actions (depending on the mouse gesture)',
   keycast_label: 'Show keyboard keys on the screen for easy recording of tutorials',
-  altdrag_label: 'Hold Alt and the left mouse button, you can move the window directly',
+  altdrag_label: 'Hold Alt and the middle mouse button, you can move the window directly',
   wheelaltcontrol_label: 'When you hold Alt, scroll the wheel to adjust the volume, press the wheel to disable the sound',
   volumecontrolsound_label: 'Play sound when volume is adjusted',
   wheeledge_label: 'The function of the mouse wheel scrolling on the four sides of the screen and triggered when pressed',
