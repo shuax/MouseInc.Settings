@@ -47,7 +47,7 @@ export default {
   mousegesture_label: '按住滑鼠右鍵持續移動畫出形狀，放開右鍵即可觸發對應動作',
   wheelswitch_label: '按住滑鼠右鍵時，滾動滾輪可以進行切換分頁動作（依賴滑鼠手勢）',
   keycast_label: '在螢幕上顯示鍵盤按鍵，方便錄製教學影片',
-  altdrag_label: '按住Alt时按住鼠标左键拖动，可以直接移动窗口',
+  altdrag_label: '按住Alt时按住鼠标滚轮拖动，可以直接移动窗口',
   wheelaltcontrol_label: '按住Alt時滾動滾輪調整音量大小，按下滾輪靜音',
   volumecontrolsound_label: '音量調整時播放音效',
   wheeledge_label: '滑鼠滾輪在螢幕四個邊滾動、按下時觸發的功能',
