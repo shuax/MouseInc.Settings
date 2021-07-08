@@ -39,15 +39,15 @@ export default [
   //   },
   //   component: () => import('@/view/login/login.vue')
   // },
-  {
-    path: '/doc',
-    name: 'doc',
-    meta: {
-      title: 'doc',
-      href: 'https://docs.shuax.com/MouseInc/#/',
-      icon: 'md-book'
-    }
-  },
+  // {
+  //   path: '/doc',
+  //   name: 'doc',
+  //   meta: {
+  //     title: 'doc',
+  //     href: 'https://docs.shuax.com/MouseInc/#/',
+  //     icon: 'md-book'
+  //   }
+  // },
   {
     path: '/',
     name: 'index',
