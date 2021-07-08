@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 
 const resolve = dir => {
   console.log(path.join(__dirname, dir))
@@ -36,6 +37,12 @@ if (process.env.NODE_ENV === 'production') {
 }
 configureWebpack.externals = externals
 
+configureWebpack.plugins = [
+  new webpack.optimize.MinChunkSizePlugin({
+    minChunkSize: 102400
+  })
+]
+
 const cdn = {
   css: [
     'https://cdn.jsdelivr.net/npm/view-design/dist/styles/iview.css',
@@ -71,6 +78,7 @@ module.exports = {
   lintOnSave: true,
   configureWebpack,
   chainWebpack: config => {
+    config.optimization.delete('splitChunks')
     config
       .plugin('html')
       .tap(args => {
