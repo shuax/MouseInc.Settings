@@ -15,7 +15,10 @@
           <!-- <user :message-unread-count="unreadCount" :user-avator="userAvator"/> -->
           <language v-if="$config.useI18n" @on-lang-change="setLocal" :lang="local"/>
           <div>
-            <Button icon="md-undo" type="error" style="margin-right: 10px" @click="reset_warning = true">{{$t('reset')}}</Button>
+            <Button icon="md-refresh" style="margin-right: 15px;" @click="refresh">{{$t('refresh')}}</Button>
+          </div>
+          <div>
+            <Button icon="md-undo" style="margin-right: 10px" @click="reset_warning = true">{{$t('reset')}}</Button>
           </div>
           <div>
             <Button icon="md-download" type="success" style="margin-right: 15px;" :disabled="!modified" :loading="save_loading" @click="save">{{$t('save')}}</Button>
@@ -186,6 +189,9 @@ export default {
         this.reset_warning = false
       })
     },
+    refresh () {
+      location.reload()
+    },
     save () {
       this.save_loading = true
       this.$Loading.start()
@@ -312,10 +318,10 @@ export default {
 
       this.timer = setTimeout(this.heartbeat, 1000)
       version[0] = response.data.version
-      if (response.data.admin === 1) version[0] += 'A'
-      else version[0] += 'B'
+      if (response.data.admin === 1) version[0] += ' A'
+      else version[0] += ' B'
       setTitle(this.$router.currentRoute, this.$router.app)
-      if (response.data.version !== '2.10.21') {
+      if (response.data.version !== '2.11.2') {
         this.$Message.error({
           content: '当前使用的MouseInc版本较低，建议您升级',
           background: true,

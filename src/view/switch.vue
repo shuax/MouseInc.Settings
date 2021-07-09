@@ -165,6 +165,15 @@
     <Col :md="24" :lg="12" style="margin: 5px 0px">
       <Card dis-hover :padding="0">
         <CellGroup>
+          <Cell :title="$t('fastpaste')" :label="$t('fastpaste_label')">
+            <i-switch v-model="proxy.FastPaste" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Col>
+    <Col :md="24" :lg="12" style="margin: 5px 0px">
+      <Card dis-hover :padding="0">
+        <CellGroup>
           <Cell :title="$t('administrator')" :label="$t('administrator_label')">
             <i-switch v-model="proxy.Administrator" slot="extra" />
           </Cell>

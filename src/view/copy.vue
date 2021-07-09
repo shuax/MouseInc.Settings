@@ -39,7 +39,7 @@
           <span>{{modal.title}}</span>
       </p>
       <div>
-        <Form :label-width="80" @submit.native.prevent>
+        <Form :label-width="50" @submit.native.prevent>
           <FormItem :label="$t('name')">
             <Input v-model="modal.Name" style="width:200px"/>
           </FormItem>

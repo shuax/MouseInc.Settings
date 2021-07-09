@@ -12,19 +12,30 @@
         {{$t('addmode_tip')}}
       </FormItem>
       <FormItem :label="$t('drawcolor_label')">
-        <ColorPicker v-model="proxy.DrawColor" recommend size="large"/>
-      </FormItem>
-      <FormItem :label="$t('drawresult_label')">
-        <i-switch v-model="proxy.DrawResult" />
+        <ColorPicker v-model="proxy.DrawColor" recommend size="large" :disabled="proxy.RandColor"/>
+        <span style="padding: 0px 0px 0px 20px">
+          {{$t('randcolor_label')}}
+          <i-switch v-model="proxy.RandColor" />
+        </span>
       </FormItem>
       <FormItem :label="$t('drawtrace_label')">
         <i-switch v-model="proxy.DrawTrace" />
       </FormItem>
       <FormItem :label="$t('tracearrow_label')">
-        <i-switch v-model="proxy.TraceArrow" />
+        <i-switch v-model="proxy.TraceArrow" :disabled="!proxy.DrawTrace"/>
       </FormItem>
       <FormItem :label="$t('tracewidth_label')">
-        <Slider v-model="proxy.TraceWidth" :min="1" :max="10" style="width: 300px" :marks="TraceWidthMarks"></Slider>
+        <Slider v-model="proxy.TraceWidth" :min="1" :max="10" style="width: 300px" :marks="TraceWidthMarks" :disabled="!proxy.DrawTrace"></Slider>
+      </FormItem>
+      <FormItem :label="$t('drawresult_label')">
+        <i-switch v-model="proxy.DrawResult" />
+      </FormItem>
+      <FormItem :label="$t('fontsize_label')">
+        <Slider v-model="proxy.FontSize" :step="2" :min="8" :max="72" style="width: 300px" :marks="FontSizeMarks" :disabled="!proxy.DrawResult"></Slider>
+      </FormItem>
+      <FormItem :label="$t('offset_label')">
+        <InputNumber v-model="proxy.Offset" style="width: 300px" :disabled="!proxy.DrawResult"></InputNumber>
+        {{$t('offset_tip')}}
       </FormItem>
     <Collapse @on-change="handleCollpasedChange">
         <Panel>
@@ -66,6 +77,9 @@ export default {
   name: 'cfg',
   data () {
     return {
+      FontSizeMarks: {
+        26: '默认'
+      },
       TraceWidthMarks: {
         3: '默认'
       },
@@ -94,21 +108,32 @@ export default {
       'cfg'
     ]),
     proxy () {
-      return this.cfg.MouseGesture ? this.cfg.MouseGesture : {
+      var default_cfg = {
         // temporary: true,
         Open: false,
         StartDistance: 10,
         Timeout: 1000,
         RestoreEvent: false,
         AddMode: false,
+        RandColor: false,
         FailColor: '#CAD0D3',
         DrawColor: '#E47542',
         DrawResult: true,
         DrawTrace: true,
         TraceWidth: 3,
+        FontSize: 26,
+        Offset: 150,
         TraceArrow: true,
         Sensitive: 50
       }
+      if (!this.cfg.MouseGesture) return default_cfg
+      var cfg = this.cfg.MouseGesture
+      for (var k in default_cfg) {
+        if (!cfg.hasOwnProperty(k)) {
+          cfg[k] = default_cfg[k]
+        }
+      }
+      return cfg
     }
   }
 }
