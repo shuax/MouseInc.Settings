@@ -91,7 +91,7 @@
           <span>{{modal.title}}</span>
       </p>
       <div>
-        <Form :label-width="80" @submit.native.prevent>
+        <Form :label-width="50" @submit.native.prevent>
           <FormItem :label="$t('sign')">
             <SelectEdit v-model="modal.sign"></SelectEdit>
           </FormItem>

@@ -19,6 +19,7 @@ export default {
 
   reset: '重置',
   save: '保存',
+  refresh: '刷新',
 
   warning: '警告',
   reset_tips1: '此操作将会丢失所有自定义设置，请小心操作！',
@@ -40,7 +41,8 @@ export default {
   showtrayicon: '显示图标',
   capslockled: '大写锁定提示',
   capsunlock: '自动关闭大写锁定',
-  autoclip: '快速复制粘贴',
+  autoclip: '快速复制',
+  fastpaste: '快速粘贴',
   keysound: '按键音效',
   administrator: '管理员运行',
 
@@ -53,14 +55,15 @@ export default {
   wheeledge_label: '鼠标滚轮在屏幕四个边滚动、按下时触发的功能',
   clipboardmanager_label: '选中文字，按住Ctrl再快速按两次C，会弹出快捷操作菜单',
   ignorefullscreen_label: '当前程序如果是一个全屏程序，会自动暂停MouseInc功能',
-  wheelthrough_label: '不在焦点的窗口可以自由滚动，Win10系统已经自带',
+  wheelthrough_label: '不在焦点的窗口可以自由滚动，Win10以上系统已经自带',
   wheelnatural_label: '滚轮反向，和Mac OS X一致',
   showtrayicon_label: '是否在系统托盘处显示MouseInc图标',
   capslockled_label: '在屏幕右上角显示大写锁定状态',
   capsunlock_label: '在30秒后自动取消大写锁定',
-  autoclip_label: '鼠标选中或双击文字（根据光标）后自动复制，按住左键点右键粘贴，按住Ctrl可临时不复制',
+  autoclip_label: '鼠标选中或双击文字（根据光标）后自动复制',
+  fastpaste_label: '按住左键点右键粘贴，按住Ctrl可临时不复制',
   keysound_label: '在你打字时发出悦耳的声音',
-  administrator_label: '启动程序是否自动获取管理员权限',
+  administrator_label: '启动程序时自动获取管理员权限',
 
   icon_warning: '隐藏后只能通过手势打开设置界面，默认为M，是否继续？',
 
@@ -74,7 +77,8 @@ export default {
   open_label: '开启',
   addmode_label: '添加模式',
   drawcolor_label: '手势颜色',
-  drawresult_label: '显示操作',
+  randcolor_label: '随机颜色',
+  drawresult_label: '显示提示',
   drawtrace_label: '显示轨迹',
   tracearrow_label: '轨迹箭头',
   tracewidth_label: '轨迹宽度',
@@ -88,6 +92,7 @@ export default {
 
   addmode_tip: '开启后画出未识别的手势将会打开添加界面（调高灵敏度更容易触发），添加后请刷新设置页面。',
   startdistance_tip: '按下鼠标右键以后移动超过这个距离才会触发手势',
+  offset_tip: '相对于屏幕底部高度（像素）',
   timeout_tip: '鼠标超过这个时间未移动，会中断手势',
   restoreevent_tip: '手势失效时是否还原鼠标按下事件',
   startdistance_unit: '（像素）',
@@ -146,10 +151,10 @@ export default {
   modify_menu: '修改菜单项动作',
   add_menu: '添加菜单项动作',
 
-  hotkey_tips1: '直接使用快捷键触发动作',
-  keys: '快捷键',
-  modify_keys: '修改快捷键动作',
-  add_keys: '添加快捷键动作',
+  hotkey_tips1: '直接使用热键触发动作',
+  keys: '热键',
+  modify_keys: '修改热键动作',
+  add_keys: '添加热键动作',
 
   ignoresingle_label: '忽略单字符',
   backgroundcolor_label: '背景颜色',
@@ -158,7 +163,8 @@ export default {
   x_label: 'X偏移',
   y_label: 'Y偏移',
   space_label: '间距',
-  fontsize_label: '字体大小',
+  fontsize_label: '文字大小',
+  offset_label: '文字位置',
   fade_label: '消失时间',
   x_tips: '窗口相对屏幕左边偏移，如果是负数则相对右边',
   y_tips: '窗口相对屏幕顶部偏移，如果是负数则相对底部',
@@ -177,7 +183,7 @@ export default {
   key3: '红轴',
   key4: 'G轴',
 
-  LanguageSelect: '请选择语言',
+  LanguageSelect: '请选择程序显示语言',
   auto: '自动',
   'en-US': '英语',
   'zh-CN': '中文简体',

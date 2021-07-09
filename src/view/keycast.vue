@@ -36,7 +36,7 @@
         <InputNumber v-model="proxy.Space" style="width: 300px"></InputNumber>
       </FormItem>
       <FormItem :label="$t('fontsize_label')">
-        <Slider v-model="proxy.FontSize" :step="4" :min="8" :max="72" style="width: 300px" :marks="FontSizeMarks"></Slider>
+        <Slider v-model="proxy.FontSize" :step="2" :min="8" :max="72" style="width: 300px" :marks="FontSizeMarks"></Slider>
       </FormItem>
       <FormItem :label="$t('fade_label')">
         <Slider v-model="proxy.Fade" :min="1" :max="10" style="width: 300px" :marks="FadeMarks"></Slider>
