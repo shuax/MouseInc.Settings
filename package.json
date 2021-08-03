@@ -13,7 +13,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "clipboard": "^2.0.8",
-    "codemirror": "^5.62.0",
+    "codemirror": "^5.62.2",
     "js-beautify": "^1.14.0",
     "view-design": "^4.6.1",
     "vue": "^2.6.14",
@@ -28,7 +28,7 @@
     "@vue/cli-plugin-unit-mocha": "^3.12.1",
     "@vue/cli-service": "^3.12.1",
     "@vue/eslint-config-standard": "^3.0.5",
-    "@vue/test-utils": "^1.2.1",
+    "@vue/test-utils": "^1.2.2",
     "chai": "^4.3.4",
     "eslint-plugin-cypress": "^2.11.3",
     "less": "^2.7.3",
