@@ -60,8 +60,8 @@ export default {
   showtrayicon_label: '是否在系统托盘处显示MouseInc图标',
   capslockled_label: '在屏幕右上角显示大写锁定状态',
   capsunlock_label: '在30秒后自动取消大写锁定',
-  autoclip_label: '鼠标选中或双击文字（根据光标）后自动复制',
-  fastpaste_label: '按住左键点右键粘贴，按住Ctrl可临时不复制',
+  autoclip_label: '鼠标选中或双击文字（根据光标）后自动复制，按住Ctrl可临时不复制',
+  fastpaste_label: '按住左键点右键粘贴',
   keysound_label: '在你打字时发出悦耳的声音',
   administrator_label: '启动程序时自动获取管理员权限',
 
