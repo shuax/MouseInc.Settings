@@ -321,9 +321,9 @@ export default {
       if (response.data.admin === 1) version[0] += ' A'
       else version[0] += ' B'
       setTitle(this.$router.currentRoute, this.$router.app)
-      if (response.data.version !== '2.11.5') {
+      if (response.data.version !== '2.11.6') {
         this.$Message.error({
-          content: '当前使用的MouseInc版本较低，建议您升级',
+          content: '您使用的MouseInc非最新版本，建议更新',
           background: true,
           duration: 86400
         })
