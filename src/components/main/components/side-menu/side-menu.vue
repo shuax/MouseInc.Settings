@@ -48,7 +48,7 @@ export default {
     },
     theme: {
       type: String,
-      default: 'dark'
+      default: 'light'
     },
     rootIconSize: {
       type: Number,
