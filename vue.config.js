@@ -20,22 +20,22 @@ const BASE_URL = process.env.NODE_ENV === 'production'
 
 let configureWebpack = {}
 
-const externals = {
-  'vue': 'Vue',
-  'vue-router': 'VueRouter',
-  'vuex': 'Vuex',
-  'vue-i18n': 'VueI18n',
-  'axios': 'axios',
-  'js-beautify': 'beautifier',
-  'view-design': 'iview',
-  'codemirror': 'codemirror',
-  'vue-codemirror': 'VueCodemirror'
-}
+// const externals = {
+//   'vue': 'Vue',
+//   'vue-router': 'VueRouter',
+//   'vuex': 'Vuex',
+//   'vue-i18n': 'VueI18n',
+//   'axios': 'axios',
+//   'js-beautify': 'beautifier',
+//   'view-design': 'iview',
+//   'codemirror': 'codemirror',
+//   'vue-codemirror': 'VueCodemirror'
+// }
 
-if (process.env.NODE_ENV === 'production') {
-  configureWebpack.externals = externals
-}
-configureWebpack.externals = externals
+// if (process.env.NODE_ENV === 'production') {
+//   configureWebpack.externals = externals
+// }
+// configureWebpack.externals = externals
 
 configureWebpack.plugins = [
   new webpack.optimize.MinChunkSizePlugin({
@@ -43,25 +43,25 @@ configureWebpack.plugins = [
   })
 ]
 
-const cdn = {
-  css: [
-    'https://cdn.jsdelivr.net/npm/view-design/dist/styles/iview.css',
-    'https://cdn.jsdelivr.net/npm/codemirror/lib/codemirror.css'
-  ],
-  js: [
-    'https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js',
-    'https://cdn.jsdelivr.net/npm/vue-router/dist/vue-router.min.js',
-    'https://cdn.jsdelivr.net/npm/vuex/dist/vuex.min.js',
-    'https://cdn.jsdelivr.net/npm/vue-i18n/dist/vue-i18n.min.js',
-    'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js',
-    'https://cdn.jsdelivr.net/npm/js-beautify/js/lib/beautifier.min.js',
-    'https://cdn.jsdelivr.net/npm/view-design/dist/iview.min.js',
-    'https://cdn.jsdelivr.net/npm/codemirror/lib/codemirror.js',
-    'https://cdn.jsdelivr.net/npm/codemirror/mode/javascript/javascript.js',
-    'https://cdn.jsdelivr.net/npm/codemirror/addon/selection/active-line.js',
-    'https://cdn.jsdelivr.net/npm/vue-codemirror/dist/vue-codemirror.min.js'
-  ]
-}
+// const cdn = {
+//   css: [
+//     'https://cdn.jsdelivr.net/npm/view-design/dist/styles/iview.css',
+//     'https://cdn.jsdelivr.net/npm/codemirror/lib/codemirror.css'
+//   ],
+//   js: [
+//     'https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js',
+//     'https://cdn.jsdelivr.net/npm/vue-router/dist/vue-router.min.js',
+//     'https://cdn.jsdelivr.net/npm/vuex/dist/vuex.min.js',
+//     'https://cdn.jsdelivr.net/npm/vue-i18n/dist/vue-i18n.min.js',
+//     'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js',
+//     'https://cdn.jsdelivr.net/npm/js-beautify/js/lib/beautifier.min.js',
+//     'https://cdn.jsdelivr.net/npm/view-design/dist/iview.min.js',
+//     'https://cdn.jsdelivr.net/npm/codemirror/lib/codemirror.js',
+//     'https://cdn.jsdelivr.net/npm/codemirror/mode/javascript/javascript.js',
+//     'https://cdn.jsdelivr.net/npm/codemirror/addon/selection/active-line.js',
+//     'https://cdn.jsdelivr.net/npm/vue-codemirror/dist/vue-codemirror.min.js'
+//   ]
+// }
 
 module.exports = {
   // Project deployment base
@@ -79,15 +79,15 @@ module.exports = {
   configureWebpack,
   chainWebpack: config => {
     config.optimization.delete('splitChunks')
-    config
-      .plugin('html')
-      .tap(args => {
-        if (process.env.NODE_ENV === 'production') {
-          args[0].cdn = cdn
-        }
-        args[0].cdn = cdn
-        return args
-      })
+    // config
+    //   .plugin('html')
+    //   .tap(args => {
+    //     if (process.env.NODE_ENV === 'production') {
+    //       args[0].cdn = cdn
+    //     }
+    //     args[0].cdn = cdn
+    //     return args
+    //   })
     config.resolve.alias
       .set('@', resolve('src')) // key,value自行定义，比如.set('@@', resolve('src/components'))
       .set('_c', resolve('src/components'))

@@ -10,6 +10,7 @@ import config from '@/config'
 // import importDirective from '@/directive'
 // import { directive as clickOutside } from 'v-click-outside-x'
 // import installPlugin from '@/plugin'
+import './index.less'
 import './scrollbar.css'
 // require('babel-polyfill')
 // import '@/assets/icons/iconfont.css'
@@ -25,12 +26,12 @@ import clipboard from 'clipboard'
 Vue.prototype.Clipboard = clipboard
 
 import VueCodemirror from 'vue-codemirror'
-// import 'codemirror/lib/codemirror.css'
+import 'codemirror/lib/codemirror.css'
 
-// import 'codemirror/mode/javascript/javascript.js'
+import 'codemirror/mode/javascript/javascript.js'
 // theme css
 // active-line.js
-// import 'codemirror/addon/selection/active-line.js'
+import 'codemirror/addon/selection/active-line.js'
 // styleSelectedText
 // import 'codemirror/addon/selection/mark-selection.js'
 // import 'codemirror/keymap/sublime.js'
