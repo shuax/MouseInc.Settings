@@ -1,7 +1,7 @@
 <template>
   <div>
     <p style="padding-bottom: 10px;">{{$t('hotkey_tips1')}}</p>
-    <Table border size="small" :columns="hotkey_col" :data="cfg.Hotkeys">
+    <Table border size="small" :columns="hotkey_col" :data="cfg.Hotkeys" :draggable="true" @on-drag-drop="ondrag">
 
       <template slot-scope="{ row, index }" slot="valid">
         <Checkbox :value="row.Valid" @on-change="oncheck(index, $event)"></Checkbox>
@@ -224,6 +224,10 @@ export default {
     },
     remove (index) {
       this.cfg.Hotkeys.splice(index, 1)
+    },
+    ondrag (index1, index2) {
+      const row = this.cfg.Hotkeys.splice(index1, 1)[0]
+      this.cfg.Hotkeys.splice(index2, 0, row)
     }
   }
 }

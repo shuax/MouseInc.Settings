@@ -15,10 +15,10 @@
           <!-- <user :message-unread-count="unreadCount" :user-avator="userAvator"/> -->
           <language v-if="$config.useI18n" @on-lang-change="setLocal" :lang="local"/>
           <div>
-            <Button icon="md-refresh" style="margin-right: 15px;" @click="refresh">{{$t('refresh')}}</Button>
+            <Button icon="md-undo" style="margin-right: 10px" @click="reset_warning = true">{{$t('reset')}}</Button>
           </div>
           <div>
-            <Button icon="md-undo" style="margin-right: 10px" @click="reset_warning = true">{{$t('reset')}}</Button>
+            <Button icon="md-refresh" style="margin-right: 15px;" @click="refresh">{{$t('refresh')}}</Button>
           </div>
           <div>
             <Button icon="md-download" type="success" style="margin-right: 15px;" :disabled="!modified" :loading="save_loading" @click="save">{{$t('save')}}</Button>
@@ -70,13 +70,14 @@ import { mapMutations, mapGetters } from 'vuex'
 // import routers from '@/router/routers'
 // import minLogo from '@/assets/images/logo-min.jpg'
 // import maxLogo from '@/assets/images/logo.jpg'
-import { LoadSettings, SaveSettings, ResetSettings, Ping } from '@/api/data'
+// import { LoadSettings, SaveSettings, ResetSettings, Ping } from '@/api/data'
 // import { js as beautify_js } from 'js-beautify'
 // import jsBeautify from 'js-beautify/js/lib/beautify'
 import beautify from 'js-beautify'
 // import JsonEdit from '@/view/components/json.vue'
 import config from '@/config'
-import { setTitle } from '@/libs/util'
+import { setTitle, getParams } from '@/libs/util'
+
 import './main.less'
 const { version } = config
 export default {
@@ -176,18 +177,20 @@ export default {
     },
     reset () {
       this.reset_loading = true
+      this.$Loading.start()
 
-      ResetSettings().then(response => {
-        this.init = false
-        this.modified = false
-        this.setSettings(response.data)
-        this.$Message.success(this.$t('reset_ok'))
-      }).catch(error => {
-        this.$Message.error(error.message)
-      }).then(() => {
-        this.reset_loading = false
-        this.reset_warning = false
-      })
+      this.websocket.send(JSON.stringify({ 'type': 'reset_settings' }))
+      // ResetSettings().then(response => {
+      //   this.init = false
+      //   this.modified = false
+      //   this.setSettings(response.data)
+      //   this.$Message.success(this.$t('reset_ok'))
+      // }).catch(error => {
+      //   this.$Message.error(error.message)
+      // }).then(() => {
+      //   this.reset_loading = false
+      //   this.reset_warning = false
+      // })
     },
     refresh () {
       location.reload()
@@ -207,37 +210,39 @@ export default {
         indent_with_tabs: true,
         eol: '\r\n'
       })
-      SaveSettings(cfg).then(response => {
-        this.init = false
-        this.modified = false
-        this.setSettings(response.data)
-        this.$Message.success(this.$t('save_ok'))
-        this.$Loading.finish()
-      }).catch(error => {
-        this.$Message.error(error.message)
-        this.$Loading.error()
-      }).then(() => {
-        this.save_loading = false
-      })
-    },
-    heartbeat () {
-      // console.log('heartbeat')
-      Ping().then(response => {
-        this.timer = setTimeout(this.heartbeat, 1000)
-      }).catch(() => {
-        // clearInterval(this.timer)
-        // this.loading = 'Network connection is down'
-        // this.$Message.error({content:'Network connection is down', duration: 999999})
 
-        this.$Spin.show({
-          render: (h) => {
-            return h('div', '设置连接通道错误，可能是MouseInc主程序已经退出')
-          }
-        })
-      }).then(() => {
-
-      })
+      this.websocket.send(JSON.stringify({ 'type': 'save_settings', 'config': cfg }))
+      // SaveSettings(cfg).then(response => {
+      //   this.init = false
+      //   this.modified = false
+      //   this.setSettings(response.data)
+      //   this.$Message.success(this.$t('save_ok'))
+      //   this.$Loading.finish()
+      // }).catch(error => {
+      //   this.$Message.error(error.message)
+      //   this.$Loading.error()
+      // }).then(() => {
+      //   this.save_loading = false
+      // })
     }
+    // heartbeat () {
+    //   // console.log('heartbeat')
+    //   Ping().then(response => {
+    //     this.timer = setTimeout(this.heartbeat, 1000)
+    //   }).catch(() => {
+    //     // clearInterval(this.timer)
+    //     // this.loading = 'Network connection is down'
+    //     // this.$Message.error({content:'Network connection is down', duration: 999999})
+
+    //     this.$Spin.show({
+    //       render: (h) => {
+    //         return h('div', '设置连接通道错误，可能是MouseInc主程序已经退出')
+    //       }
+    //     })
+    //   }).then(() => {
+
+    //   })
+    // }
     // handleCloseTag (res, type, route) {
     //   if (type !== 'others') {
     //     if (type === 'all') {
@@ -310,30 +315,91 @@ export default {
         ])
       }
     })
-    LoadSettings().then(response => {
-      this.$Spin.hide()
-      this.init = false
-      this.modified = false
-      this.setSettings(response.data)
 
-      this.timer = setTimeout(this.heartbeat, 1000)
-      version[0] = response.data.version
-      if (response.data.admin === 1) version[0] += ' A'
-      else version[0] += ' B'
-      setTitle(this.$router.currentRoute, this.$router.app)
-      // if (response.data.version !== '2.11.8') {
-      //   this.$Message.error({
-      //     content: '您使用的MouseInc非最新版本，建议更新',
-      //     background: true,
-      //     duration: 86400
-      //   })
-      // }
-    }).catch(error => {
-      // this.$Spin.hide();
-      // console.log(error)
-      this.loading = error.message
-      // this.$Message.error(error.message)
-    })
+    let port = getParams(location.search || '?')['port']
+    port = port || 80
+    this.websocket = new WebSocket('ws://127.0.0.1:' + port + '/ws')
+    this.websocket.onopen = (evt) => {
+      this.websocket.send(JSON.stringify({ 'type': 'load_settings' }))
+    }
+    this.websocket.onclose = (evt) => {
+      this.$Spin.show({
+        render: (h) => {
+          return h('div', '设置连接通道错误，可能是MouseInc主程序已经退出')
+        }
+      })
+    }
+    this.websocket.onmessage = (evt) => {
+      var message = JSON.parse(evt.data)
+      if (message['type'] === 'load_settings') {
+        this.$Spin.hide()
+
+        this.init = false
+        this.modified = false
+        this.setSettings(message['data'])
+
+        version[0] = message['data'].version
+        if (message['data'].admin === 1) version[0] += ' A'
+        else version[0] += ' B'
+        setTitle(this.$router.currentRoute, this.$router.app)
+        if (message['data'].version !== '2.13.0') {
+          this.$Message.error({
+            content: '您使用的MouseInc非最新版本，建议更新',
+            background: true,
+            duration: 86400
+          })
+        }
+      } else if (message['type'] === 'save_settings') {
+        this.$Message.success(this.$t('save_ok'))
+        this.$Loading.finish()
+        this.save_loading = false
+
+        this.init = false
+        this.modified = false
+        this.setSettings(message['data'])
+      } else if (message['type'] === 'reset_settings') {
+        this.$Message.success(this.$t('reset_ok'))
+        this.$Loading.finish()
+        this.reset_loading = false
+        this.reset_warning = false
+
+        this.init = false
+        this.modified = false
+        this.setSettings(message['data'])
+      }
+    }
+    this.websocket.onerror = (evt) => {
+      this.$Spin.show({
+        render: (h) => {
+          return h('div', '设置连接通道错误，可能是MouseInc主程序已经退出')
+        }
+      })
+      // console.log('onError(evt)')
+    }
+    // LoadSettings().then(response => {
+    //   this.$Spin.hide()
+    //   this.init = false
+    //   this.modified = false
+    //   this.setSettings(response.data)
+
+    //   this.timer = setTimeout(this.heartbeat, 1000)
+    //   version[0] = response.data.version
+    //   if (response.data.admin === 1) version[0] += ' A'
+    //   else version[0] += ' B'
+    //   setTitle(this.$router.currentRoute, this.$router.app)
+    //   // if (response.data.version !== '2.11.8') {
+    //   //   this.$Message.error({
+    //   //     content: '您使用的MouseInc非最新版本，建议更新',
+    //   //     background: true,
+    //   //     duration: 86400
+    //   //   })
+    //   // }
+    // }).catch(error => {
+    //   // this.$Spin.hide();
+    //   // console.log(error)
+    //   this.loading = error.message
+    //   // this.$Message.error(error.message)
+    // })
     // 如果当前打开页面不在标签栏中，跳到homeName页
     // if (!this.tagNavList.find(item => item.name === this.$route.name)) {
     //   this.$router.push({
