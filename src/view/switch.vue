@@ -192,6 +192,11 @@
             <Option v-for="item in KeySoundList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
       </FormItem>
+      <FormItem :label="$t('ocrapi')">
+        <Select v-model="proxy.OcrService">
+            <Option v-for="item in OcrApiList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+      </FormItem>
     </Form>
             </p>
         </Panel>
@@ -277,6 +282,20 @@ export default {
         label: this.$t('key4')
       }]
     },
+    OcrApiList () {
+      return [
+        {
+          value: 0,
+          label: this.$t('自有')
+        }, {
+          value: 1,
+          label: this.$t('有道')
+        },
+        {
+          value: 2,
+          label: this.$t('飞桨')
+        }]
+    },
     proxy () {
       var ret = this.cfg.MouseGesture ? this.cfg : {
         // temporary: true,
@@ -291,7 +310,8 @@ export default {
         WheelThrough: false,
         WheelNatural: false,
         HotCorner: { Open: false },
-        ShowTrayIcon: true
+        ShowTrayIcon: true,
+        OcrService: 0
       }
       return ret
     }

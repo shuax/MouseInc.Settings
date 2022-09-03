@@ -236,7 +236,7 @@ export default {
 
     //     this.$Spin.show({
     //       render: (h) => {
-    //         return h('div', '设置连接通道错误，可能是MouseInc主程序已经退出')
+    //         return h('div', '设置通道连接错误，可能是MouseInc主程序已经退出')
     //       }
     //     })
     //   }).then(() => {
@@ -325,7 +325,7 @@ export default {
     this.websocket.onclose = (evt) => {
       this.$Spin.show({
         render: (h) => {
-          return h('div', '设置连接通道错误，可能是MouseInc主程序已经退出')
+          return h('div', '设置通道连接错误，可能是MouseInc主程序已经退出')
         }
       })
     }
@@ -342,13 +342,13 @@ export default {
         if (message['data'].admin === 1) version[0] += ' A'
         else version[0] += ' B'
         setTitle(this.$router.currentRoute, this.$router.app)
-        if (message['data'].version !== '2.13.0') {
-          this.$Message.error({
-            content: '您使用的MouseInc非最新版本，建议更新',
-            background: true,
-            duration: 86400
-          })
-        }
+        // if (message['data'].version !== '2.13.0') {
+        //   this.$Message.error({
+        //     content: '您使用的MouseInc非最新版本，建议更新',
+        //     background: true,
+        //     duration: 86400
+        //   })
+        // }
       } else if (message['type'] === 'save_settings') {
         this.$Message.success(this.$t('save_ok'))
         this.$Loading.finish()
@@ -369,9 +369,10 @@ export default {
       }
     }
     this.websocket.onerror = (evt) => {
+      this.loading = '设置通道连接失败，可能是MouseInc主程序未更新'
       this.$Spin.show({
         render: (h) => {
-          return h('div', '设置连接通道错误，可能是MouseInc主程序已经退出')
+          return h('div', '设置通道连接错误，可能是MouseInc主程序已经退出')
         }
       })
       // console.log('onError(evt)')

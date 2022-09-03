@@ -12,6 +12,9 @@ export default {
   mutations: {
     setSettings (state, settings) {
       // 版本兼容
+      if (settings.cfg.OcrService === undefined) {
+        settings.cfg.OcrService = 0
+      }
       if (!settings.cfg.HotCorner) {
         settings.cfg.HotCorner = {
           'BottomLeft': {
