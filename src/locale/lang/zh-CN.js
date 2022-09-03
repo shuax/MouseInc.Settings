@@ -44,6 +44,7 @@ export default {
   autoclip: '快速复制',
   fastpaste: '快速粘贴',
   keysound: '按键音效',
+  ocrapi: 'OCR接口',
   administrator: '管理员运行',
 
   mousegesture_label: '按住鼠标右键持续移动画出形状，放开右键即可触发对应动作',
