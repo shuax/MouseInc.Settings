@@ -148,6 +148,12 @@ MouseInc内置了丰富动作，这是实际功能的列表。
 ["Internal", "ShowTips", "Title", "%clipboard%"]
 ```
 
+### tempstr
+发送Ctrl+C复制当前文字到tempstr，并恢复剪贴板。
+```js
+["Internal", "tempstr"]
+```
+
 
 ## SendKeys
 非常方便的发送按键，通过这样使用
@@ -211,7 +217,7 @@ MouseInc内置了丰富动作，这是实际功能的列表。
 就是SendKeys自带的那个功能
 
 ## SendClick
-非常方便的发送鼠标点击，参数分别为`left`,`right`,`middle`
+非常方便的发送鼠标点击，参数分别为`left`,`right`,`middle`,'x1','x2'
 左键单击
 ```js
 ["SendClick", "left"]
@@ -251,6 +257,7 @@ MouseInc内置了丰富动作，这是实际功能的列表。
 
 * `%appdir%` MouscInc所在目录，例如`D:\software\MouscInc\`
 * `%clipboard%` 剪贴板文字内容
+* `%tempstr%` 类似剪贴板文字内容，但并不修改剪贴板
 * `%filepath%` 激活窗口进程路径，例如`C:\Program Files (x86)\Tencent\TIM\Bin\TIM.exe`
 * `%filename%` 激活窗口进程名称，例如`TIM.exe`
 * `%pid%` 激活窗口进程id，例如`8094`
@@ -545,6 +552,12 @@ sha256，成功后会自动复制到剪贴板中
 关闭显示器
 ```js
 ["Explorer", "turnoffmonitor"]
+```
+
+### ToggleDesktopIcons
+切换桌面图标显示
+```js
+["Explorer", "ToggleDesktopIcons"]
 ```
 
 ## SetBrightness
