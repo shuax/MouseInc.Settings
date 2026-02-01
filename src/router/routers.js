@@ -54,7 +54,7 @@ export default [
     redirect: '/switch',
     component: Main,
     meta: {
-      icon: 'md-home',
+      icon: 'HomeFilled',
       title: 'index'
       // hideInMenu: true,
       // notCache: true
@@ -67,19 +67,19 @@ export default [
           // hideInMenu: true,
           title: 'switch',
           // notCache: true,
-          icon: 'md-flash'
+          icon: 'Lightning'
         },
-        component: () => import('@/view/switch')
+        component: () => import('@/view/switch.vue')
         // component: switch2
       },
       {
         path: 'exclude',
         name: 'exclude',
         meta: {
-          icon: 'md-warning',
+          icon: 'WarningFilled',
           title: 'exclude'
         },
-        component: () => import('@/view/exclude')
+        component: () => import('@/view/exclude.vue')
         // component: exclude// () => import('@/view/exclude')
       }
     ]
@@ -88,7 +88,7 @@ export default [
     path: '/gesture',
     name: 'gesture',
     meta: {
-      icon: 'md-settings',
+      icon: 'Setting',
       title: 'gesture'
     },
     component: Main,
@@ -97,50 +97,50 @@ export default [
         path: 'settings',
         name: 'settings',
         meta: {
-          icon: 'md-color-palette',
+          icon: 'Brush',
           title: 'settings'
         },
-        component: () => import('@/view/settings')
+        component: () => import('@/view/settings.vue')
         // component: settings// () => import('@/view/settings')
       },
       {
         path: 'list',
         name: 'list',
         meta: {
-          icon: 'ios-keypad',
+          icon: 'Grid',
           title: 'list'
         },
-        component: () => import('@/view/list')
+        component: () => import('@/view/list.vue')
         // component: list// () => import('@/view/list')
       },
       {
         path: 'global',
         name: 'global',
         meta: {
-          icon: 'md-cube',
+          icon: 'Box',
           title: 'global'
         },
-        component: () => import('@/view/match')
+        component: () => import('@/view/match.vue')
         // component: match// () => import('@/view/match')
       },
       {
         path: 'custom',
         name: 'custom',
         meta: {
-          icon: 'md-appstore',
+          icon: 'EditPen',
           title: 'custom'
         },
-        component: () => import('@/view/custom_match')
+        component: () => import('@/view/custom_match.vue')
         // component: custom_match// () => import('@/view/custom_match')
       },
       {
         path: 'demo',
         name: 'demo',
         meta: {
-          icon: 'md-bulb',
+          icon: 'Opportunity',
           title: 'demo'
         },
-        component: () => import('@/view/demo')
+        component: () => import('@/view/demo.vue')
         // component: custom_match// () => import('@/view/custom_match')
       }
     ]
@@ -149,7 +149,7 @@ export default [
     path: '/other',
     name: 'other',
     meta: {
-      icon: 'md-options',
+      icon: 'Operation',
       title: 'other'
     },
     component: Main,
@@ -158,67 +158,67 @@ export default [
         path: 'edge',
         name: 'edge',
         meta: {
-          icon: 'md-desktop',
+          icon: 'Monitor',
           title: 'edge'
         },
-        component: () => import('@/view/edge')
+        component: () => import('@/view/edge.vue')
         // component: edge// () => import('@/view/edge')
       },
       {
         path: 'corner',
         name: 'corner',
         meta: {
-          icon: 'md-expand',
+          icon: 'FullScreen',
           title: 'corner'
         },
-        component: () => import('@/view/corner')
+        component: () => import('@/view/corner.vue')
         // component: edge// () => import('@/view/edge')
       },
       {
         path: 'copy',
         name: 'copy',
         meta: {
-          icon: 'md-link',
+          icon: 'Link',
           title: 'copy'
         },
-        component: () => import('@/view/copy')
+        component: () => import('@/view/copy.vue')
         // component: copy// () => import('@/view/copy')
       },
       {
         path: 'hotkey',
         name: 'hotkey',
         meta: {
-          icon: 'md-key',
+          icon: 'Key',
           title: 'hotkey'
         },
-        component: () => import('@/view/hotkey')
+        component: () => import('@/view/hotkey.vue')
         // component: hotkey// () => import('@/view/hotkey')
       },
       {
         path: 'keycast',
         name: 'keycast',
         meta: {
-          icon: 'md-eye',
+          icon: 'View',
           title: 'keycast'
         },
-        component: () => import('@/view/keycast')
+        component: () => import('@/view/keycast.vue')
         // component: keycast// () => import('@/view/keycast')
       },
       {
         path: 'i18n',
         name: 'i18n',
         meta: {
-          icon: 'md-mic',
+          icon: 'Microphone',
           title: 'i18n'
         },
-        component: () => import('@/view/i18n')
+        component: () => import('@/view/i18n.vue')
         // component: i18n// () => import('@/view/i18n')
       // },
       }
     ]
   },
   {
-    path: '*',
+    path: '/:pathMatch(.*)*',
     name: 'error_404',
     meta: {
       hideInMenu: true

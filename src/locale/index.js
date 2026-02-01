@@ -1,37 +1,28 @@
-import Vue from 'vue'
-import VueI18n from 'vue-i18n'
+// 注意：Vue 3 项目中 i18n 配置已迁移到 main.js
+// 此文件保留用于兼容，但实际配置在 main.js 中使用 createI18n
+// view-design 已被移除，语言包仅使用自定义的
+
 import { localRead } from '@/libs/util'
 import customZhCn from './lang/zh-CN'
 import customZhTw from './lang/zh-TW'
 import customEnUs from './lang/en-US'
-import zhCnLocale from 'view-design/src/locale/lang/zh-CN'
-import enUsLocale from 'view-design/src/locale/lang/en-US'
-import zhTwLocale from 'view-design/src/locale/lang/zh-TW'
-
-Vue.use(VueI18n)
 
 // 自动根据浏览器系统语言设置语言
 const navLang = navigator.language
 const localLang = (navLang === 'zh-CN' || navLang === 'en-US' || navLang === 'zh-TW') ? navLang : false
-let lang = localRead('local') || localLang || 'zh-CN'
+const lang = localRead('local') || localLang || 'zh-CN'
 
-Vue.config.lang = lang
-
-// vue-i18n 6.x+写法
-Vue.locale = () => {}
+// 仅使用自定义语言包
 const messages = {
-  'zh-CN': Object.assign(zhCnLocale, customZhCn),
-  'zh-TW': Object.assign(zhTwLocale, customZhTw),
-  'en-US': Object.assign(enUsLocale, customEnUs)
+  'zh-CN': customZhCn,
+  'zh-TW': customZhTw,
+  'en-US': customEnUs
 }
-const i18n = new VueI18n({
+
+// 导出配置供其他模块使用
+export const i18nConfig = {
   locale: lang,
   messages
-})
+}
 
-export default i18n
-
-// vue-i18n 5.x写法
-// Vue.locale('zh-CN', Object.assign(zhCnLocale, customZhCn))
-// Vue.locale('en-US', Object.assign(zhTwLocale, customZhTw))
-// Vue.locale('zh-TW', Object.assign(enUsLocale, customEnUs))
+export default i18nConfig

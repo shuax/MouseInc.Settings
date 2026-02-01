@@ -1,114 +1,172 @@
 <template>
   <div class="side-menu-wrapper">
     <slot></slot>
-    <Menu ref="menu" v-show="!collapsed" :active-name="activeName" :open-names="openedNames" :accordion="accordion" :theme="theme" width="auto" @on-select="handleSelect">
-      <template v-for="item in menuList">
+    <el-menu
+      ref="menuRef"
+      :default-active="activeName"
+      :default-openeds="openedNames"
+      :collapse="collapsed"
+      :collapse-transition="true"
+      :unique-opened="accordion"
+      :background-color="theme === 'dark' ? '#191a23' : '#fff'"
+      :text-color="textColor"
+      :active-text-color="theme === 'dark' ? '#2d8cf0' : '#2d8cf0'"
+      style="width: 100%; border-right: none"
+      @select="handleSelect"
+    >
+      <template v-for="item in menuList" :key="`menu-${item.name}`">
         <template v-if="item.children && item.children.length === 1">
-          <side-menu-item v-if="showChildren(item)" :key="`menu-${item.name}`" :parent-item="item"></side-menu-item>
-          <menu-item v-else :name="getNameOrHref(item, true)" :key="`menu-${item.children[0].name}`"><Icon :type="item.children[0].icon || ''"/><span>{{ showTitle(item.children[0]) }}</span></menu-item>
+          <side-menu-item
+            v-if="showChildren(item)"
+            :parent-item="item"
+            :collapsed="collapsed"
+            @on-select="handleSelect"
+          />
+          <el-menu-item v-else :index="getNameOrHref(item, true)">
+            <el-icon v-if="item.children[0].icon" :size="iconSize">
+              <component :is="getIcon(item.children[0].icon)" />
+            </el-icon>
+            <template #title>
+              <span>{{ showTitle(item.children[0]) }}</span>
+            </template>
+          </el-menu-item>
         </template>
         <template v-else>
-          <side-menu-item v-if="showChildren(item)" :key="`menu-${item.name}`" :parent-item="item"></side-menu-item>
-          <menu-item v-else :name="getNameOrHref(item)" :key="`menu-${item.name}`"><Icon :type="item.icon || ''"/><span>{{ showTitle(item) }}</span></menu-item>
+          <side-menu-item
+            v-if="showChildren(item)"
+            :parent-item="item"
+            :collapsed="collapsed"
+            @on-select="handleSelect"
+          />
+          <el-menu-item v-else :index="getNameOrHref(item)">
+            <el-icon v-if="item.icon" :size="iconSize">
+              <component :is="getIcon(item.icon)" />
+            </el-icon>
+            <template #title>
+              <span>{{ showTitle(item) }}</span>
+            </template>
+          </el-menu-item>
         </template>
       </template>
-    </Menu>
-    <div class="menu-collapsed" v-show="collapsed" :list="menuList">
-      <template v-for="item in menuList">
-        <collapsed-menu v-if="item.children && item.children.length > 1" @on-click="handleSelect" hide-title :root-icon-size="rootIconSize" :icon-size="iconSize" :theme="theme" :parent-item="item" :key="`drop-menu-${item.name}`"></collapsed-menu>
-        <Tooltip transfer v-else :content="showTitle(item.children && item.children[0] ? item.children[0] : item)" placement="right" :key="`drop-menu-${item.name}`">
-          <a @click="handleSelect(getNameOrHref(item, true))" class="drop-menu-a" :style="{textAlign: 'center'}"><Icon :size="rootIconSize" :color="textColor" :type="item.icon || (item.children && item.children[0].icon)"/></a>
-        </Tooltip>
-      </template>
-    </div>
+    </el-menu>
   </div>
 </template>
-<script>
-import SideMenuItem from './side-menu-item.vue'
-import CollapsedMenu from './collapsed-menu.vue'
-import { getUnion } from '@/libs/tools'
-import mixin from './mixin'
 
-export default {
-  name: 'SideMenu',
-  mixins: [ mixin ],
-  components: {
-    SideMenuItem,
-    CollapsedMenu
+<script setup>
+import { ref, computed, watch, nextTick } from 'vue'
+import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { getUnion } from '@/libs/tools'
+import { showTitle, hasChild } from '@/libs/util'
+import config from '@/config'
+import SideMenuItem from './side-menu-item.vue'
+import { getIconByName } from './icons'
+import './side-menu.less'
+
+const props = defineProps({
+  menuList: {
+    type: Array,
+    default: () => []
   },
-  props: {
-    menuList: {
-      type: Array,
-      default () {
-        return []
-      }
-    },
-    collapsed: {
-      type: Boolean
-    },
-    theme: {
-      type: String,
-      default: 'light'
-    },
-    rootIconSize: {
-      type: Number,
-      default: 20
-    },
-    iconSize: {
-      type: Number,
-      default: 16
-    },
-    accordion: Boolean,
-    activeName: {
-      type: String,
-      default: ''
-    },
-    openNames: {
-      type: Array,
-      default: () => []
-    }
+  collapsed: {
+    type: Boolean,
+    default: false
   },
-  data () {
-    return {
-      openedNames: []
-    }
+  theme: {
+    type: String,
+    default: 'light'
   },
-  methods: {
-    handleSelect (name) {
-      this.$emit('on-select', name)
-    },
-    getOpenedNamesByActiveName (name) {
-      return this.$route.matched.map(item => item.name).filter(item => item !== name)
-    },
-    updateOpenName (name) {
-      if (name === this.$config.homeName) this.openedNames = []
-      else this.openedNames = this.getOpenedNamesByActiveName(name)
-    }
+  rootIconSize: {
+    type: Number,
+    default: 20
   },
-  computed: {
-    textColor () {
-      return this.theme === 'dark' ? '#fff' : '#495060'
-    }
+  iconSize: {
+    type: Number,
+    default: 16
   },
-  watch: {
-    activeName (name) {
-      if (this.accordion) this.openedNames = this.getOpenedNamesByActiveName(name)
-      else this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
-    },
-    openNames (newNames) {
-      this.openedNames = newNames
-    },
-    openedNames () {
-      this.$nextTick(() => {
-        this.$refs.menu.updateOpened()
-      })
-    }
+  accordion: {
+    type: Boolean,
+    default: false
   },
-  mounted () {
-    this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
+  activeName: {
+    type: String,
+    default: ''
+  },
+  openNames: {
+    type: Array,
+    default: () => []
+  }
+})
+
+const emit = defineEmits(['on-select'])
+
+const route = useRoute()
+const { t } = useI18n()
+const menuRef = ref(null)
+const openedNames = ref([])
+
+const textColor = computed(() => {
+  return props.theme === 'dark' ? '#b4b8bc' : '#515a6e'
+})
+
+const showChildren = (item) => {
+  return item.children && (item.children.length > 1 || (item.meta && item.meta.showAlways))
+}
+
+const getNameOrHref = (item, children0) => {
+  return item.href ? `isTurnByHref_${item.href}` : (children0 ? item.children[0].name : item.name)
+}
+
+const getIcon = (iconName) => {
+  return getIconByName(iconName)
+}
+
+const handleSelect = (name) => {
+  emit('on-select', name)
+}
+
+const getOpenedNamesByActiveName = (name) => {
+  return route.matched.map(item => item.name).filter(item => item !== name)
+}
+
+const updateOpenName = (name) => {
+  if (name === config.homeName) {
+    openedNames.value = []
+  } else {
+    openedNames.value = getOpenedNamesByActiveName(name)
   }
 }
+
+// 暴露方法给父组件
+defineExpose({
+  updateOpenName
+})
+
+watch(
+  () => props.activeName,
+  (name) => {
+    if (props.accordion) {
+      openedNames.value = getOpenedNamesByActiveName(name)
+    } else {
+      openedNames.value = getUnion(openedNames.value, getOpenedNamesByActiveName(name))
+    }
+  },
+  { immediate: true }
+)
+
+watch(
+  () => props.openNames,
+  (newNames) => {
+    openedNames.value = newNames
+  }
+)
+
+watch(
+  openedNames,
+  () => {
+    nextTick(() => {
+      // Element Plus el-menu 会自动处理展开状态
+    })
+  }
+)
 </script>
-<style lang="less">
-@import './side-menu.less';
-</style>

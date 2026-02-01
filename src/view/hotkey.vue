@@ -1,65 +1,203 @@
 <template>
-  <div>
-    <p style="padding-bottom: 10px;">{{$t('hotkey_tips1')}}</p>
-    <Table border size="small" :columns="hotkey_col" :data="cfg.Hotkeys" :draggable="true" @on-drag-drop="ondrag">
-
-      <template slot-scope="{ row, index }" slot="valid">
-        <Checkbox :value="row.Valid" @on-change="oncheck(index, $event)"></Checkbox>
-      </template>
-
-      <template slot-scope="{ row, index }" slot="operate">
-        <a @click="modify(index)">{{$t('modify')}}</a>
-<!--         <Divider type="vertical" />
-        <a @click="clone(index)">{{$t('clone')}}</a> -->
-        <Divider type="vertical" />
-        <Poptip
-            confirm
-            :title="$t('match_warning')"
-            :transfer="true"
-            @on-ok="remove(index)">
-            <a>{{$t('delete')}}</a>
-        </Poptip>
-      </template>
-    </Table>
-
-    <div style="padding-top: 10px">
-        <Button type="primary" @click="create">{{$t('create')}}</Button>
+  <div class="hotkey-page fade-in">
+    <!-- Page Header -->
+    <div class="page-header">
+       <div class="header-content">
+        <h2>{{ $t('hotkeys_title') }}</h2>
+        <p>{{ $t('hotkeys_desc') }}</p>
+      </div>
     </div>
 
-    <Modal v-model="modal.editing">
-      <p slot="header" style="text-align:center">
-          <span>{{modal.title}}</span>
-      </p>
-      <div>
-        <Form :label-width="50" @submit.native.prevent>
-          <FormItem :label="$t('name')">
-            <Input v-model="modal.Name" style="width:200px"/>
-          </FormItem>
-          <FormItem :label="$t('keys')">
-            <Input v-model="modal.Keys" style="width:200px"/>
-          </FormItem>
-          <FormItem :label="$t('actions')">
-            <JsonEdit :value="modal.Actions" :editing="modal.editing" @on-input="modal.NewActions=$event"></JsonEdit>
-          </FormItem>
-        </Form>
+    <!-- Info Alert -->
+    <el-alert
+      :title="$t('hotkey_tips1')"
+      type="info"
+      :closable="false"
+      show-icon
+      class="modern-alert"
+    />
+
+    <!-- Data Table Card -->
+    <div class="table-card">
+      <div class="table-header">
+        <div class="table-stats">
+          <el-tag type="info" effect="dark" size="small">
+            {{ $t('total') }}: {{ cfg.Hotkeys?.length || 0 }}
+          </el-tag>
+          <el-tag type="success" effect="dark" size="small">
+            {{ $t('active') }}: {{ activeCount }}
+          </el-tag>
+        </div>
+        <el-button type="primary" :icon="Plus" @click="create" class="create-btn">
+          {{ $t('create') }}
+        </el-button>
       </div>
-      <div slot="footer">
-          <Button :type="modal.btn" long @click="on_modify">{{$t('ok')}}</Button>
+
+      <div class="table-wrapper">
+        <el-table
+          :data="cfg.Hotkeys"
+          stripe
+          class="modern-table"
+          v-loading="!cfg.Hotkeys"
+        >
+          <el-table-column :label="$t('valid')" width="70" align="center" fixed="left">
+            <template #default="{ row, $index }">
+              <el-switch
+                v-model="row.Valid"
+                size="small"
+                @change="oncheck($index, $event)"
+              />
+            </template>
+          </el-table-column>
+
+          <el-table-column :label="$t('name')" prop="Name" width="160">
+            <template #default="{ row }">
+              <div class="name-cell">
+                <el-tag size="small" effect="dark" type="primary">
+                  {{ row.Name }}
+                </el-tag>
+              </div>
+            </template>
+          </el-table-column>
+
+          <el-table-column :label="$t('keys')" prop="Keys" width="140">
+            <template #default="{ row }">
+              <div class="keys-cell">
+                <el-tag size="small" effect="dark" type="warning">
+                  {{ row.Keys }}
+                </el-tag>
+              </div>
+            </template>
+          </el-table-column>
+
+          <el-table-column :label="$t('actions')" prop="Actions" min-width="300">
+            <template #default="{ row }">
+              <div class="actions-preview">
+                <span class="actions-text" :title="formatActions(row.Actions)">
+                  {{ formatActions(row.Actions) }}
+                </span>
+              </div>
+            </template>
+          </el-table-column>
+
+          <el-table-column :label="$t('operate')" align="center" fixed="right" width="120">
+            <template #default="{ $index }">
+              <div class="operate-cell">
+                <el-button
+                  type="primary"
+                  link
+                  size="small"
+                  :icon="Edit"
+                  @click="modify($index)"
+                >
+                  {{ $t('modify') }}
+                </el-button>
+                <el-divider direction="vertical" />
+                <el-popconfirm
+                  :title="$t('match_warning')"
+                  confirm-button-text="确定"
+                  cancel-button-text="取消"
+                  @confirm="remove($index)"
+                >
+                  <template #reference>
+                    <el-button type="danger" link size="small" :icon="Delete">
+                      {{ $t('delete') }}
+                    </el-button>
+                  </template>
+                </el-popconfirm>
+              </div>
+            </template>
+          </el-table-column>
+
+          <template #empty>
+            <div class="empty-state">
+              <p>{{ $t('no_hotkeys') }}</p>
+              <el-button type="primary" :icon="Plus" @click="create">
+                {{ $t('create_first') }}
+              </el-button>
+            </div>
+          </template>
+        </el-table>
       </div>
-    </Modal>
+    </div>
+
+    <!-- Edit Dialog -->
+    <el-dialog
+      v-model="modal.editing"
+      :title="modal.title"
+      width="650px"
+      align-center
+      destroy-on-close
+      class="modern-dialog"
+      :close-on-click-modal="false"
+    >
+      <div class="dialog-body">
+        <el-form label-position="top" @submit.prevent>
+          <div class="form-row">
+            <el-form-item :label="$t('name')" class="form-item-half">
+              <el-input
+                v-model="modal.Name"
+                :placeholder="$t('enter_name')"
+                size="large"
+              />
+            </el-form-item>
+
+            <el-form-item :label="$t('keys')" class="form-item-half">
+              <el-input
+                v-model="modal.Keys"
+                :placeholder="$t('enter_keys')"
+                size="large"
+              />
+            </el-form-item>
+          </div>
+
+          <el-form-item :label="$t('actions')">
+            <div class="json-editor-wrapper">
+              <JsonEdit
+                :value="modal.Actions"
+                :editing="modal.editing"
+                @on-input="modal.NewActions = $event"
+              />
+            </div>
+          </el-form-item>
+        </el-form>
+      </div>
+
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button size="large" @click="modal.editing = false">
+            {{ $t('cancel') }}
+          </el-button>
+          <el-button
+            :type="modal.btn"
+            size="large"
+            @click="on_modify"
+            class="save-btn"
+          >
+            {{ $t('ok') }}
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import JsonEdit from './components/json.vue'
-// import TextEdit from './text_edit.vue'
 import { mapGetters } from 'vuex'
+import { Plus, Edit, Delete } from '@element-plus/icons-vue'
+
 export default {
   name: 'hotkey',
   components: {
     JsonEdit
-    // SelectEdit,
-    // GestureEdit
+  },
+  setup () {
+    return {
+      Plus,
+      Edit,
+      Delete
+    }
   },
   data () {
     return {
@@ -67,114 +205,30 @@ export default {
         editing: false,
         title: '',
         Keys: '',
-        Actions: []
-      },
-      hotkey_col: [
-        {
-          title: this.$t('valid'),
-          slot: 'valid',
-          align: 'center',
-          width: 65
-          // render: (h, params) => {
-          //   var row = this.cfg.Hotkeys[params.index]
-          //   return h('Checkbox', {
-          //     props: { value: row.Valid },
-          //     on: { 'on-change': (value) => { row.Valid = value } }
-          //   })
-          // }
-        },
-        {
-          title: this.$t('name'),
-          key: 'Name',
-          width: 140
-        },
-        {
-          title: this.$t('keys'),
-          key: 'Keys',
-          width: 120
-          // renderHeader: (h, params) => {
-          //   return h('div', [
-          //     h('em', '快捷键'),
-          //     h('Icon', {
-          //       props: {
-          //         type: 'md-create'
-          //       }
-          //     })
-          //   ])
-          // },
-          // render: (h, params) => {
-          //   var row = this.cfg.Hotkeys[params.index]
-          //   return h(TextEdit, {
-          //     props: { value: row.Keys },
-          //     on: { input: (value) => { row.Keys = value } }
-          //   })
-          // }
-        },
-        {
-          title: this.$t('actions'),
-          key: 'Actions',
-          ellipsis: true
-          // renderHeader: (h, params) => {
-          //   return h('div', [
-          //     h('em', '动作'),
-          //     h('Icon', {
-          //       props: {
-          //         type: 'md-create'
-          //       }
-          //     })
-          //   ])
-          // },
-          // render: (h, params) => {
-          //   var row = this.cfg.Hotkeys[params.index]
-          //   return h(JsonEdit, {
-          //     props: { value: row.Actions },
-          //     on: { input: (value) => { row.Actions = value } }
-          //   })
-          // }
-        },
-        {
-          title: this.$t('operate'),
-          slot: 'operate',
-          align: 'center',
-          fixed: 'right',
-          width: 110
-        }
-        // {
-        //   title: '克隆 / 删除',
-        //   key: '',
-        //   fixed: 'right',
-        //   width: 100,
-        //   render: (h, params) => {
-        //     var row = this.cfg.Hotkeys[params.index]
-        //     return h('div', [
-        //       h('Button', {
-        //         props: {
-        //           type: 'text',
-        //           shape: 'circle',
-        //           icon: 'md-copy'
-        //         },
-        //         on: { click: () => { this.cfg.Hotkeys.push(JSON.parse(JSON.stringify(row))) } }
-        //       }),
-        //       h('Button', {
-        //         props: {
-        //           type: 'text',
-        //           shape: 'circle',
-        //           icon: 'md-trash'
-        //         },
-        //         on: { click: () => { this.cfg.Hotkeys.splice(params.index, 1) } }
-        //       })
-        //     ])
-        //   }
-        // }
-      ]
+        Name: '',
+        Actions: [],
+        NewActions: [],
+        btn: 'primary'
+      }
     }
   },
   computed: {
-    ...mapGetters([
-      'cfg'
-    ])
+    ...mapGetters(['cfg']),
+    activeCount () {
+      if (!this.cfg.Hotkeys) return 0
+      return this.cfg.Hotkeys.filter(h => h.Valid).length
+    }
   },
   methods: {
+    formatActions (actions) {
+      if (!actions || !Array.isArray(actions)) return ''
+      return actions.map(a => {
+        if (typeof a === 'string') return a
+        if (a.cmd) return `cmd: ${a.cmd}`
+        if (a.key) return `key: ${a.key}`
+        return JSON.stringify(a)
+      }).join(' → ')
+    },
     oncheck (index, value) {
       var row = this.cfg.Hotkeys[index]
       row.Valid = value
@@ -193,7 +247,6 @@ export default {
     create () {
       this.modal.editing = true
       this.modal.index = undefined
-      // var row = this.cfg.Hotkeys[index]
       this.modal.title = this.$t('add_keys')
       this.modal.btn = 'success'
       this.modal.Keys = ''
@@ -206,13 +259,11 @@ export default {
       this.modal.editing = false
       var index = this.modal.index
       if (index !== undefined) {
-        // 修改
         var row = this.cfg.Hotkeys[index]
         row.Keys = this.modal.Keys
         row.Name = this.modal.Name
         row.Actions = this.modal.NewActions
       } else {
-        // 克隆
         var new_row = {
           Valid: true,
           Keys: this.modal.Keys,
@@ -224,11 +275,235 @@ export default {
     },
     remove (index) {
       this.cfg.Hotkeys.splice(index, 1)
-    },
-    ondrag (index1, index2) {
-      const row = this.cfg.Hotkeys.splice(index1, 1)[0]
-      this.cfg.Hotkeys.splice(index2, 0, row)
     }
   }
 }
 </script>
+
+<style lang="less" scoped>
+.hotkey-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// Page Header
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  .header-content {
+    h2 {
+      margin: 0 0 4px;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+  }
+}
+
+// Alert
+.modern-alert {
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(88, 166, 255, 0.2);
+  background: rgba(88, 166, 255, 0.08);
+
+  :deep(.el-alert__content) {
+    color: var(--text-primary);
+  }
+}
+
+// Table Card
+.table-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+
+  .table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+
+    .table-stats {
+      display: flex;
+      gap: 8px;
+    }
+
+    .create-btn {
+      background: var(--primary-gradient);
+      border: none;
+      font-weight: 500;
+
+      &:hover {
+        box-shadow: 0 4px 14px rgba(102, 126, 234, 0.4);
+        transform: translateY(-1px);
+      }
+    }
+  }
+}
+
+.table-wrapper {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+// Table Styles
+.modern-table {
+  background: transparent;
+
+  :deep(.el-table__header) {
+    th {
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 0;
+    }
+  }
+
+  :deep(.el-table__row) {
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: var(--bg-hover);
+    }
+
+    td {
+      border-bottom: 1px solid var(--border-light);
+      padding: 14px 0;
+    }
+  }
+
+  // Cell Styles
+  .name-cell {
+    .el-tag {
+      font-weight: 500;
+    }
+  }
+
+  .keys-cell {
+    .el-tag {
+      font-family: monospace;
+      font-weight: 500;
+    }
+  }
+
+  .actions-preview {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .actions-text {
+      font-size: 13px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .operate-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+
+    .el-divider {
+      background: var(--border-color);
+    }
+  }
+}
+
+// Empty State
+.empty-state {
+  padding: 60px 20px;
+  text-align: center;
+
+  p {
+    color: var(--text-secondary);
+    margin: 0 0 20px;
+    font-size: 14px;
+  }
+}
+
+// Dialog Styles
+:deep(.modern-dialog) {
+  .el-dialog {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+
+    &__header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-color);
+      margin-right: 0;
+
+      .el-dialog__title {
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+    }
+
+    &__body {
+      padding: 24px;
+    }
+
+    &__footer {
+      padding: 16px 24px 24px;
+      border-top: 1px solid var(--border-color);
+    }
+  }
+}
+
+.dialog-body {
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .form-item-half {
+    margin-bottom: 20px;
+
+    :deep(.el-form-item__label) {
+      color: var(--text-secondary);
+      font-weight: 500;
+      padding-bottom: 8px;
+    }
+  }
+
+  .json-editor-wrapper {
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  .save-btn {
+    min-width: 100px;
+  }
+}
+</style>

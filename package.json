@@ -1,58 +1,59 @@
 {
-  "name": "iview-admin",
-  "version": "2.0.0",
+  "name": "mouseinc-settings",
+  "version": "3.0.0",
   "author": "Lison<lison16new@163.com>",
   "private": false,
+  "type": "module",
   "scripts": {
-    "dev": "vue-cli-service serve --open",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit",
-    "test:e2e": "vue-cli-service test:e2e"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "lint:check": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-path .gitignore",
+    "test:unit": "vitest",
+    "test:e2e": "cypress open",
+    "test:e2e:ci": "cypress run"
   },
   "dependencies": {
-    "axios": "^0.21.4",
-    "clipboard": "^2.0.8",
-    "codemirror": "^5.65.0",
-    "js-beautify": "^1.14.0",
-    "view-design": "^4.7.0",
-    "vue": "^2.6.14",
-    "vue-codemirror": "^4.0.6",
-    "vue-i18n": "^7.8.1",
-    "vue-router": "^3.5.3",
-    "vuex": "^3.6.2"
+    "@codemirror/lang-javascript": "^6.2.1",
+    "@codemirror/theme-one-dark": "^6.1.2",
+    "clipboard": "^2.0.11",
+    "codemirror": "^6.0.1",
+    "element-plus": "^2.5.1",
+    "js-beautify": "^1.14.11",
+    "vue": "^3.4.13",
+    "vue-codemirror": "^6.1.1",
+    "vue-i18n": "^9.9.0",
+    "vue-router": "^4.2.5",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.12.1",
-    "@vue/cli-plugin-eslint": "^3.12.1",
-    "@vue/cli-plugin-unit-mocha": "^3.12.1",
-    "@vue/cli-service": "^3.12.1",
-    "@vue/eslint-config-standard": "^3.0.5",
-    "@vue/test-utils": "^1.3.0",
-    "chai": "^4.3.4",
-    "eslint-plugin-cypress": "^2.12.1",
-    "less": "^2.7.3",
-    "less-loader": "^4.1.0",
-    "lint-staged": "^6.1.1",
-    "mockjs": "^1.1.0",
-    "vue-template-compiler": "^2.6.14"
+    "@rushstack/eslint-patch": "^1.7.0",
+    "@vitejs/plugin-vue": "^5.0.3",
+    "@vue/test-utils": "^2.4.4",
+    "cypress": "^13.6.3",
+    "eslint": "^8.56.0",
+    "eslint-plugin-cypress": "^2.15.1",
+    "eslint-plugin-vue": "^9.20.1",
+    "jsdom": "^23.2.0",
+    "less": "^4.5.1",
+    "lint-staged": "^15.2.0",
+    "sass": "^1.70.0",
+    "terser": "^5.46.0",
+    "unplugin-auto-import": "^21.0.0",
+    "unplugin-vue-components": "^31.0.0",
+    "vite": "^5.0.11",
+    "vitest": "^1.2.1"
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "not ie <= 8"
+    "not dead",
+    "not ie 11"
   ],
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
   "lint-staged": {
-    "*.js": [
-      "vue-cli-service lint",
-      "git add"
-    ],
-    "*.vue": [
-      "vue-cli-service lint",
-      "git add"
+    "*.{js,jsx,vue,ts,tsx}": [
+      "eslint --fix"
     ]
   }
 }

@@ -7,7 +7,9 @@ export default {
   settings: 'Gesture Settings',
   list: 'Gesture List',
   global: 'Global Match',
+  global_gestures: 'Global Gestures',
   custom: 'Custom Match',
+  custom_match: 'Custom Match',
   demo: 'Demo',
   other: 'Other Settings',
   edge: 'Edge Scrolling',
@@ -17,6 +19,13 @@ export default {
   i18n: 'Multi-language',
   corner: 'Hot Corner',
 
+  version: 'Version',
+  switch_desc: 'Quickly enable or disable features',
+  quick_switch: 'Quick Switch',
+  more_setting: 'More Settings',
+  no_data: 'No Data',
+  items: 'items',
+  placeholder_exclude: 'Enter window title or program name to exclude',
   reset: 'Reset',
   save: 'Save',
 
@@ -51,6 +60,8 @@ export default {
   wheelaltcontrol_label: 'When you hold Alt, scroll the wheel to adjust the volume, press the wheel to disable the sound',
   volumecontrolsound_label: 'Play sound when volume is adjusted',
   wheeledge_label: 'The function of the mouse wheel scrolling on the four sides of the screen and triggered when pressed',
+  wheeledge_desc: 'Configure wheel operations at screen edges',
+  click_zone_to_edit: 'Click zone to edit',
   clipboardmanager_label: 'Select the text and press Ctrl+C twice quickly, the shortcut menu will pop up',
   ignorefullscreen_label: 'If the current program is a full-screen program, it will automatically pause the MouseInc function',
   wheelthrough_label: 'The window that is out of focus can be freely scrolled, Win10 system already comes with',
@@ -75,8 +86,13 @@ export default {
   addmode_label: 'Add mode',
   drawcolor_label: 'gesture color',
   drawresult_label: 'display operation',
+  drawresult_desc: 'Show action name when gesture ends',
   drawtrace_label: 'display track',
+  drawtrace_desc: 'Display track line during gesture drawing',
   tracearrow_label: 'track arrow',
+  tracearrow_desc: 'Show direction arrow at the end of track',
+  visual_settings: 'Visual Settings',
+  style_settings: 'Style Settings',
   tracewidth_label: 'track width',
   failcolor_label: 'failed color',
   startdistance_label: 'trigger distance',
@@ -84,6 +100,7 @@ export default {
   restoreevent_label: 'restore event',
   sensitive_label: 'recognition sensitivity',
 
+  basic_settings: 'Basic Settings',
   more_setting: 'More settings',
 
   addmode_tip: 'Drawing an unrecognized gesture after opening will open the add interface. After adding, remember to press F5 to refresh the settings page. ',
@@ -93,6 +110,9 @@ export default {
   startdistance_unit: '(pixel)',
   timeout_unit: '(milliseconds)',
 
+  gesture_list: 'Gesture List',
+  gesture_list_desc: 'View and manage all defined gestures',
+  gesture_pattern: 'Gesture Pattern',
   list_tips1: 'List the shape and name of all gestures here, open',
   list_tips2: 'Add mode',
   list_tips3: 'You can add unrecognized gestures later. After adding, remember to press F5 to refresh the settings page. ',
@@ -122,6 +142,10 @@ export default {
   ignore_global: '忽略通用手势',
 
   ok: 'OK',
+  cancel: 'Cancel',
+  confirm_delete: 'Confirm Delete',
+  delete_gesture_confirm: 'Are you sure you want to delete gesture {pattern}?',
+  enter_name: 'Enter name',
 
   edge_tips1: 'The function that the mouse wheel scrolls on the four sides of the screen and is triggered when pressed. ',
   upactions: 'Up action',
@@ -140,6 +164,13 @@ export default {
   BottomRight: 'BottomRight',
 
   corner_tips1: 'The function is triggered when the mouse moves to the four corners of the screen.',
+  corner_desc: 'Configure actions triggered at screen corners',
+  hotkeys_title: 'Hotkeys',
+  hotkeys_desc: 'Configure global hotkeys to trigger actions',
+  total: 'Total',
+  active: 'Active',
+  disabled: 'Disabled',
+  no_actions: 'No Actions',
   corner_tips2: 'Modify the trigger angle action',
 
   copy_tips1: 'Select the text and press Ctrl+C twice quickly, the shortcut menu will pop up. The blank name represents the dividing line, and the menu order can be adjusted by dragging and dropping. ',
@@ -152,6 +183,7 @@ export default {
   add_keys: 'Add shortcuts',
 
   ignoresingle_label: 'Ignore single character',
+  ignoresingle_desc: 'Ignore display of single character keystrokes',
   backgroundcolor_label: 'background color',
   textshadowcolor_label: 'shadow color',
   textcolor_label: 'text color',
@@ -162,6 +194,8 @@ export default {
   fade_label: 'disappear time',
   x_tips: 'The window is offset from the left side of the screen, and if it is negative, it is relative to the right side',
   y_tips: 'The window is offset from the top of the screen, if it is negative, it is relative to the bottom',
+  position: 'Position',
+  space_tips: 'Adjust spacing between keystrokes',
 
   copy_btn: 'copy',
   demo_tips: 'You can copy the action code you want. Note that some paths need to be modified according to the machine.',
@@ -177,6 +211,8 @@ export default {
   key3: 'Red Axis',
   key4: 'G Axis',
 
+  language_settings_desc: 'Select the interface display language',
+  current_language: 'Current Language',
   LanguageSelect: 'Please select a language',
   auto: 'automatic',
   'en-US': 'English',

@@ -2,6 +2,8 @@
 // cookie保存的天数
 import config from '@/config'
 import { forEach, objEqual } from '@/libs/tools'
+import { getCurrentInstance } from 'vue'
+import { i18n } from '@/main'
 const { title, version, useI18n } = config
 
 // export const TOKEN_KEY = 'token'
@@ -93,9 +95,25 @@ export const showTitle = (item, vm) => {
   let { title, __titleIsFunction__ } = item.meta
   if (!title) return
   if (useI18n) {
-    if (title.includes('{{') && title.includes('}}') && useI18n) title = title.replace(/({{[\s\S]+?}})/, (m, str) => str.replace(/{{([\s\S]*)}}/, (m, _) => vm.$t(_.trim())))
-    else if (__titleIsFunction__) title = item.meta.title
-    else title = vm.$t(item.name)
+    // 在 Vue 3 中使用 i18n 实例
+    let t
+    if (vm && vm.$t) {
+      t = vm.$t
+    } else if (i18n) {
+      t = i18n.global.t
+    } else {
+      const instance = getCurrentInstance()
+      if (instance && instance.appContext.config.globalProperties.$t) {
+        t = instance.appContext.config.globalProperties.$t
+      }
+    }
+    if (t) {
+      if (title.includes('{{') && title.includes('}}')) title = title.replace(/({{[\s\S]+?}})/, (m, str) => str.replace(/{{([\s\S]*)}}/, (m, _) => t(_.trim())))
+      else if (__titleIsFunction__) title = item.meta.title
+      else title = t(item.name)
+    } else {
+      title = (item.meta && item.meta.title) || item.name
+    }
   } else title = (item.meta && item.meta.title) || item.name
   return title
 }
@@ -392,7 +410,11 @@ export const setTitle = (routeItem, vm) => {
   const handledRoute = getRouteTitleHandled(routeItem)
   const pageTitle = showTitle(handledRoute, vm)
   var resTitle
-  if (version[0]) { resTitle = pageTitle ? `${pageTitle} - ${title} ${version[0]}` : title } else { resTitle = pageTitle ? `${pageTitle} - ${title} ${version[0]}` : title }
+  if (version[0]) {
+    resTitle = pageTitle ? `${pageTitle} - ${title} ${version[0]}` : `${title} ${version[0]}`
+  } else {
+    resTitle = pageTitle ? `${pageTitle} - ${title}` : title
+  }
 
   window.document.title = resTitle
 }

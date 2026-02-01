@@ -1,46 +1,51 @@
 <template>
   <div class="custom-bread-crumb">
-    <Breadcrumb :style="{fontSize: `${fontSize}px`}">
-      <BreadcrumbItem v-for="item in list" :to="item.to" :key="`bread-crumb-${item.name}`">
-        <Icon style="margin-right: 4px;" :type="item.meta.icon || ''"/>
-        {{ showTitle(item) }}
-      </BreadcrumbItem>
-    </Breadcrumb>
+    <el-breadcrumb :style="{ fontSize: `${fontSize}px` }">
+      <el-breadcrumb-item
+        v-for="item in list"
+        :key="`bread-crumb-${item.name}`"
+        :to="item.to"
+      >
+        <el-icon v-if="item.meta && item.meta.icon" style="margin-right: 4px; vertical-align: middle">
+          <component :is="getIconComponent(item.meta.icon)" />
+        </el-icon>
+        <span style="vertical-align: middle">{{ showTitle(item) }}</span>
+      </el-breadcrumb-item>
+    </el-breadcrumb>
   </div>
 </template>
-<script>
-import { showTitle } from '@/libs/util'
-// import CommonIcon from '_c/common-icon'
+
+<script setup>
+import { useI18n } from 'vue-i18n'
+import { showTitle as utilShowTitle } from '@/libs/util'
 import './custom-bread-crumb.less'
-export default {
-  name: 'customBreadCrumb',
-  components: {
-    // CommonIcon
+
+const props = defineProps({
+  list: {
+    type: Array,
+    default: () => []
   },
-  props: {
-    list: {
-      type: Array,
-      default: () => []
-    },
-    fontSize: {
-      type: Number,
-      default: 14
-    }
-    // showIcon: {
-    //   type: Boolean,
-    //   default: false
-    // }
-  },
-  methods: {
-    showTitle (item) {
-      return showTitle(item, this)
-    }
-    // isCustomIcon (iconName) {
-    //   return iconName.indexOf('_') === 0
-    // },
-    // getCustomIconName (iconName) {
-    //   return iconName.slice(1)
-    // }
+  fontSize: {
+    type: Number,
+    default: 14
   }
+})
+
+const { t } = useI18n()
+
+const getIconComponent = (iconName) => {
+  // 直接使用传入的图标名，默认为 HomeFilled
+  return iconName || 'HomeFilled'
+}
+
+const showTitle = (item) => {
+  return utilShowTitle(item, { $t: t })
 }
 </script>
+
+<style scoped>
+:deep(.el-breadcrumb__item) {
+  display: inline-flex;
+  align-items: center;
+}
+</style>

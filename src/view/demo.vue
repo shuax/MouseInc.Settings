@@ -1,31 +1,58 @@
 <template>
-  <div>
-    <p style="padding-bottom: 10px;">{{$t('demo_tips')}}</p>
-    <Row :gutter="10">
-      <Col :sm="24" :md="12" :lg="12" :xl="8" :xxl="6" v-for="(info, i) in action_list" :key="`info-${i}`" style="padding-bottom: 10px;">
-        <Card shadow>
-            <p slot="title">
-                {{info[0]}}
-            </p>
-            <a href="#" slot="extra" @click.prevent="copy" class="copyCode" data-clipboard-action="copy" :data-clipboard-text="stringify(info[1])">
-                {{$t('copy_btn')}}
-            </a>
-            <div  style="overflow: hidden;text-overflow: ellipsis;white-space:nowrap;color:#a11;">
-                <code>
-                    {{JSON.stringify(info[1])}}
-                </code>
-            </div>
-            <!-- <codemirror :value="JSON.stringify(info[1])" :options="option"> -->
-            <!-- </codemirror> -->
-        </Card>
-      </Col>
-    </Row>
+  <div class="demo-page fade-in">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="header-content">
+        <h2>{{ $t('demo') }}</h2>
+        <p>{{ $t('demo_tips') }}</p>
+      </div>
+    </div>
+
+    <!-- Info Alert -->
+    <el-alert :title="$t('demo_tips')" type="info" :closable="false" class="modern-alert" show-icon />
+
+    <!-- Action Cards Grid -->
+    <div class="actions-grid">
+      <div
+        v-for="(info, i) in action_list"
+        :key="`info-${i}`"
+        class="action-card"
+      >
+        <div class="card-header">
+          <div class="card-title-wrapper">
+            <span class="card-title">{{ info[0] }}</span>
+          </div>
+          <el-button
+            type="primary"
+            :icon="CopyDocument"
+            circle
+            size="small"
+            class="copy-btn"
+            @click="copy(info[1])"
+          />
+        </div>
+        <div class="code-block">
+          <el-scrollbar>
+            <code class="code-content">{{ JSON.stringify(info[1]) }}</code>
+          </el-scrollbar>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import beautify from 'js-beautify'
+import { ElMessage } from 'element-plus'
+import { CopyDocument } from '@element-plus/icons-vue'
+
 export default {
+  name: 'demo',
+  setup () {
+    return {
+      CopyDocument
+    }
+  },
   methods: {
     stringify (data) {
       return beautify.js(JSON.stringify(data), {
@@ -34,19 +61,14 @@ export default {
         eol: '\r\n'
       })
     },
-    copy () {}
-  },
-  mounted () {
-    this.clipboard = new this.Clipboard('.copyCode')
-    this.clipboard.on('success', () => {
-      this.$Message.success(this.$t('copy_ok'))
-    })
-    this.clipboard.on('error', () => {
-      this.$Message.error(this.$t('copy_error'))
-    })
-  },
-  destroyed () {
-    this.clipboard.destroy()
+    copy (data) {
+      const text = this.stringify(data)
+      navigator.clipboard.writeText(text).then(() => {
+        ElMessage.success(this.$t('copy_ok'))
+      }).catch(() => {
+        ElMessage.error(this.$t('copy_error'))
+      })
+    }
   },
   data () {
     return {
@@ -94,3 +116,131 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.demo-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// Page Header
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  .header-content {
+    h2 {
+      margin: 0 0 4px;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+  }
+}
+
+// Modern Alert
+.modern-alert {
+  margin-bottom: 24px;
+  border-radius: 12px;
+  border: 1px solid rgba(88, 166, 255, 0.2);
+  background: rgba(88, 166, 255, 0.08);
+
+  :deep(.el-alert__content) {
+    color: var(--text-primary);
+  }
+}
+
+// Actions Grid
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+// Action Card
+.action-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+
+    .copy-btn {
+      opacity: 1;
+    }
+  }
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.card-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.copy-btn {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  background: var(--primary-gradient);
+  border: none;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  }
+}
+
+.code-block {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.code-content {
+  color: var(--accent-orange);
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .actions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .copy-btn {
+    opacity: 1;
+  }
+}
+</style>

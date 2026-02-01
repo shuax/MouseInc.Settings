@@ -1,27 +1,37 @@
 <template>
-  <a @click="handleChange" type="text" :class="['sider-trigger-a', collapsed ? 'collapsed' : '']"><Icon :type="icon" :size="size" /></a>
+  <a
+    @click="handleChange"
+    type="text"
+    :class="['sider-trigger-a', collapsed ? 'collapsed' : '']"
+  >
+    <el-icon :size="size">
+      <Fold v-if="!collapsed" />
+      <Expand v-else />
+    </el-icon>
+  </a>
 </template>
-<script>
-export default {
-  name: 'siderTrigger',
-  props: {
-    collapsed: Boolean,
-    icon: {
-      type: String,
-      default: 'navicon-round'
-    },
-    size: {
-      type: Number,
-      default: 26
-    }
+
+<script setup>
+import { Fold, Expand } from '@element-plus/icons-vue'
+
+const props = defineProps({
+  collapsed: {
+    type: Boolean,
+    default: false
   },
-  methods: {
-    handleChange () {
-      this.$emit('on-change', !this.collapsed)
-    }
+  size: {
+    type: Number,
+    default: 26
   }
+})
+
+const emit = defineEmits(['on-change'])
+
+const handleChange = () => {
+  emit('on-change', !props.collapsed)
 }
 </script>
+
 <style lang="less">
 @import './sider-trigger.less';
 </style>

@@ -31,7 +31,7 @@ export default {
       else this.second--
     }, 1000)
   },
-  beforeDestroy () {
+  beforeUnmount () {
     clearInterval(this.timer)
   }
 }

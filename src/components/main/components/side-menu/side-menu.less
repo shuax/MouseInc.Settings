@@ -1,48 +1,314 @@
-.side-menu-wrapper{
-
-  .ivu-menu-vertical{
-    &.ivu-menu-dark, &.ivu-menu-light{
-      .ivu-menu-item-active:not(.ivu-menu-submenu){
-        // color: #fff;
-      }
-    }
-  }
+.side-menu-wrapper {
   user-select: none;
-  .menu-collapsed{
-    padding-top: 10px;
-
-    .ivu-dropdown{
-      width: 100%;
-      .ivu-dropdown-rel a{
-        width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 16px 12px;
+  background: transparent;
+  
+  // Element Plus 菜单样式覆盖 - 自适应主题
+  .el-menu {
+    border-right: none;
+    background: transparent;
+    
+    // 菜单项样式
+    .el-menu-item {
+      display: flex;
+      align-items: center;
+      height: 44px;
+      margin: 4px 0;
+      padding: 0 12px;
+      border-radius: 10px;
+      color: var(--text-secondary);
+      transition: all 0.25s ease;
+      
+      .el-icon {
+        margin-right: 12px;
+        font-size: 18px;
+        transition: all 0.25s ease;
+      }
+      
+      span {
+        font-size: 14px;
+        font-weight: 500;
+      }
+      
+      &:hover {
+        background: var(--bg-hover);
+        color: var(--text-primary);
+        
+        .el-icon {
+          color: var(--accent-blue);
+          transform: scale(1.1);
+        }
+      }
+      
+      &.is-active {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.08) 100%);
+        color: var(--text-primary);
+        border: 1px solid rgba(102, 126, 234, 0.25);
+        
+        .el-icon {
+          color: var(--primary-color);
+        }
+        
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 3px;
+          height: 20px;
+          background: var(--primary-gradient);
+          border-radius: 0 3px 3px 0;
+        }
       }
     }
-    .ivu-tooltip{
-      width: 100%;
-      .ivu-tooltip-rel{
-        width: 100%;
-      }
-      .ivu-tooltip-popper .ivu-tooltip-content{
-        .ivu-tooltip-arrow{
-          border-right-color: #fff;
+    
+    // 子菜单样式
+    .el-sub-menu {
+      margin: 4px 0;
+      
+      &__title {
+        display: flex;
+        align-items: center;
+        height: 44px;
+        padding: 0 12px;
+        border-radius: 10px;
+        color: var(--text-secondary);
+        transition: all 0.25s ease;
+        
+        .el-icon {
+          margin-right: 12px;
+          font-size: 18px;
+          transition: all 0.25s ease;
         }
-        .ivu-tooltip-inner{
-          background: #fff;
-          color: #495060;
+        
+        span {
+          font-size: 14px;
+          font-weight: 500;
+        }
+        
+        &:hover {
+          background: var(--bg-hover);
+          color: var(--text-primary);
+          
+          .el-icon {
+            color: var(--accent-blue);
+          }
+        }
+      }
+      
+      &.is-active {
+        .el-sub-menu__title {
+          color: var(--text-primary);
+          
+          .el-icon {
+            color: var(--primary-color);
+          }
+        }
+      }
+      
+      // 展开的子菜单
+      .el-menu {
+        background: transparent;
+        padding-left: 8px;
+        
+        .el-menu-item {
+          height: 40px;
+          font-size: 13px;
+          
+          span {
+            font-size: 13px;
+          }
         }
       }
     }
-
-
+    
+    // 折叠状态
+    &.el-menu--collapse {
+      .el-menu-item, .el-sub-menu__title {
+        padding: 0;
+        justify-content: center;
+        
+        .el-icon {
+          margin-right: 0;
+        }
+      }
+    }
   }
-  a.drop-menu-a{
+  
+  // Logo/品牌区域
+  .brand-area {
+    padding: 0 12px 20px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--border-light);
+    
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--primary-gradient);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        
+        .el-icon {
+          color: white;
+          font-size: 22px;
+        }
+      }
+      
+      .brand-text {
+        h3 {
+          margin: 0;
+          font-size: 18px;
+          font-weight: 700;
+          background: var(--primary-gradient);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+        
+        p {
+          margin: 0;
+          font-size: 11px;
+          color: var(--text-muted);
+        }
+      }
+    }
+  }
+  
+  // 菜单折叠区域
+  .menu-collapsed {
+    padding-top: 10px;
+    
+    .el-dropdown {
+      width: 100%;
+      display: block;
+    }
+    
+    .el-tooltip {
+      width: 100%;
+      display: block;
+    }
+  }
+  
+  // 下拉菜单链接
+  a.drop-menu-a {
     display: inline-block;
-    padding: 6px 15px;
+    padding: 10px 16px;
     width: 100%;
     text-align: center;
-    color: #495060;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+    
+    .el-icon {
+      display: block;
+      margin: 0 auto;
+      font-size: 20px;
+    }
   }
 }
-.menu-title{
+
+.menu-title {
   padding-left: 6px;
+}
+
+// 折叠菜单下拉样式
+.collased-menu-dropdown {
+  width: 100%;
+  margin: 0;
+  line-height: normal;
+  padding: 8px 16px;
+  clear: both;
+  font-size: 13px !important;
+  white-space: nowrap;
+  list-style: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  
+  &:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+  
+  & * {
+    color: inherit;
+  }
+}
+
+// 自定义 Element Plus dropdown 样式
+:deep(.el-dropdown-menu) {
+  max-height: 400px;
+  overflow-y: auto;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: var(--shadow-lg);
+  
+  .el-dropdown-menu__item {
+    color: var(--text-secondary);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    
+    &:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+    
+    &.is-active {
+      background: rgba(102, 126, 234, 0.12);
+      color: var(--primary-color);
+    }
+  }
+}
+
+// 侧边栏底部信息
+.sidebar-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 20px;
+  border-top: 1px solid var(--border-light);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  
+  .version-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-muted);
+    
+    .version-tag {
+      background: var(--bg-tertiary);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--primary-color);
+      border: 1px solid var(--border-color);
+    }
+  }
 }

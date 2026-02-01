@@ -1,1 +1,6 @@
+dist
+node_modules
+*.local
+.DS_Store
+*.log
 docs

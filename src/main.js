@@ -1,74 +1,50 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './App'
+import { createApp } from 'vue'
+import { createI18n } from 'vue-i18n'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import ClipboardJS from 'clipboard'
+
+import App from './App.vue'
 import router from './router'
 import store from './store'
-import ViewUI from 'view-design'
-import i18n from '@/locale'
-import config from '@/config'
-// import importDirective from '@/directive'
-// import { directive as clickOutside } from 'v-click-outside-x'
-// import installPlugin from '@/plugin'
 import './index.less'
 import './scrollbar.css'
-// require('babel-polyfill')
-// import '@/assets/icons/iconfont.css'
-// import TreeTable from 'tree-table-vue'
-// import VOrgTree from 'v-org-tree'
-// import 'v-org-tree/dist/v-org-tree.css'
-// 实际打包时应该不引入mock
-/* eslint-disable */
-// if (process.env.NODE_ENV !== 'production') require('@/mock')
 
-import clipboard from 'clipboard'
-
-Vue.prototype.Clipboard = clipboard
+import zhCN from './locale/lang/zh-CN'
+import zhTW from './locale/lang/zh-TW'
+import enUS from './locale/lang/en-US'
 
 import VueCodemirror from 'vue-codemirror'
-import 'codemirror/lib/codemirror.css'
+import { javascript } from '@codemirror/lang-javascript'
+import { oneDark } from '@codemirror/theme-one-dark'
 
-import 'codemirror/mode/javascript/javascript.js'
-// theme css
-// active-line.js
-import 'codemirror/addon/selection/active-line.js'
-// styleSelectedText
-// import 'codemirror/addon/selection/mark-selection.js'
-// import 'codemirror/keymap/sublime.js'
-Vue.use(VueCodemirror, /* {
-  options: { theme: 'base16-dark', ... },
-  events: ['scroll', ...]
-} */)
-
-Vue.use(ViewUI, {
-  i18n: (key, value) => i18n.t(key, value)
+export const i18n = createI18n({
+  legacy: false,
+  locale: 'zh-CN',
+  fallbackLocale: 'zh-CN',
+  messages: {
+    'zh-CN': zhCN,
+    'zh-TW': zhTW,
+    'en-US': enUS
+  }
 })
-// Vue.use(TreeTable)
-// Vue.use(VOrgTree)
-/**
- * @description 注册admin内置插件
- */
-// installPlugin(Vue)
-/**
- * @description 生产环境关掉提示
- */
-Vue.config.productionTip = false
-/**
- * @description 全局注册应用配置
- */
-Vue.prototype.$config = config
 
-/**
- * 注册指令
- */
-// importDirective(Vue)
-// Vue.directive('clickOutside', clickOutside)
+const app = createApp(App)
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  i18n,
-  store,
-  render: h => h(App)
+// 注册所有图标组件
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
+
+app.use(store)
+app.use(router)
+app.use(i18n)
+
+app.use(VueCodemirror, {
+  placeholder: '',
+  extensions: [javascript(), oneDark]
 })
+
+app.config.globalProperties.$t = i18n.global.t
+app.config.globalProperties.Clipboard = ClipboardJS
+
+app.mount('#app')

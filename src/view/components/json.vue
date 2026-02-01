@@ -1,49 +1,54 @@
 <template>
   <div>
     <!-- {{value}} -->
-    <Tabs v-model="tab" size="small">
-    <TabPane label="UI">
-        <Collapse simple accordion v-model='collapse_index'>
-            <Panel v-for="(item,index) in this.clone_value" :key="index">
-                {{item[0]}}
-                <p slot="content">
-                <List item-layout="vertical" size="small" :split='false'>
+    <el-tabs v-model="tab" type="card" size="small">
+    <el-tab-pane label="UI">
+        <el-collapse :accordion="true" v-model='collapse_index'>
+            <el-collapse-item v-for="(item,index) in this.clone_value" :key="index" :title="item[0]">
+                <div class="list-container">
                     <template v-for="(args,args_index) in item" >
-                        <ListItem v-if="args_index != 0" :key="args_index">
-                            <Input v-model="item[args_index]">
-                                <Button slot="append" type="primary" icon="md-close" @click="remove(item, args_index)"></Button>
-                            </Input>
-                        </ListItem>
+                        <div v-if="args_index != 0" :key="args_index" class="list-item">
+                            <el-input v-model="item[args_index]">
+                                <template v-slot:append>
+<el-button type="primary" @click="remove(item, args_index)">
+                                    <el-icon><Close /></el-icon>
+                                </el-button>
+</template>
+                            </el-input>
+                        </div>
                     </template>
-                    <ListItem>
-                        <Input v-model="args">
-                            <Button slot="append" type="primary" icon="md-add" @click="add_args(item)"></Button>
-                        </Input>
-                    </ListItem>
-                </List>
-                </p>
-            </Panel>
-        </Collapse>
-        <Row style="padding-top: 10px;">
-            <Col span="18">
-                <Cascader :data="actions" v-model="select_actions" :transfer='true' change-on-select filterable></Cascader>
-            </Col>
-            <Col span="6">
-                <Button @click="add_action" style='width:90px;float:right'>{{$t('add')}}</Button>
-            </Col>
-        </Row>
-        </TabPane>
-    <TabPane label="Raw">
+                    <div class="list-item">
+                        <el-input v-model="args">
+                            <template v-slot:append>
+<el-button type="primary" @click="add_args(item)">
+                                    <el-icon><Plus /></el-icon>
+                                </el-button>
+</template>
+                        </el-input>
+                    </div>
+                </div>
+            </el-collapse-item>
+        </el-collapse>
+        <el-row style="padding-top: 10px;">
+            <el-col :span="18">
+                <el-cascader :options="actions" v-model="select_actions" :props="{ checkStrictly: true }" filterable></el-cascader>
+            </el-col>
+            <el-col :span="6">
+                <el-button @click="add_action" style='width:90px;float:right'>{{$t('add')}}</el-button>
+            </el-col>
+        </el-row>
+        </el-tab-pane>
+    <el-tab-pane label="Raw">
         <codemirror
         :value="content"
         @input="input"
         :options="option">
         </codemirror>
         <div v-if="error_msg" style="padding-top: 10px;">
-          <Alert type="error" show-icon>{{error_msg}}</Alert>
+          <el-alert :title="error_msg" type="error" :closable="false" show-icon></el-alert>
         </div>
-    </TabPane>
-    </Tabs>
+    </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
@@ -691,5 +696,14 @@ export default {
    background-position: right;
    background-repeat: no-repeat;
    opacity: .8;
+}
+.list-container {
+  padding: 8px 0;
+}
+.list-item {
+  margin-bottom: 8px;
+}
+.list-item:last-child {
+  margin-bottom: 0;
 }
 </style>

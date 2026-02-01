@@ -1,16 +1,19 @@
 <template>
   <div class="header-bar">
-    <sider-trigger :collapsed="collapsed" icon="md-menu" @on-change="handleCollpasedChange"></sider-trigger>
-    <custom-bread-crumb show-icon style="margin-left: 20px;" :list="breadCrumbList"></custom-bread-crumb>
+    <sider-trigger :collapsed="collapsed" @on-change="handleCollpasedChange" />
+    <custom-bread-crumb show-icon style="margin-left: 20px" :list="breadCrumbList" />
     <div class="custom-content-con">
       <slot></slot>
     </div>
   </div>
 </template>
+
 <script>
+import { mapGetters } from 'vuex'
 import siderTrigger from './sider-trigger'
 import customBreadCrumb from './custom-bread-crumb'
 import './header-bar.less'
+
 export default {
   name: 'HeaderBar',
   components: {
@@ -18,12 +21,13 @@ export default {
     customBreadCrumb
   },
   props: {
-    collapsed: Boolean
+    collapsed: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
-    breadCrumbList () {
-      return this.$store.state.app.breadCrumbList
-    }
+    ...mapGetters(['breadCrumbList'])
   },
   methods: {
     handleCollpasedChange (state) {
