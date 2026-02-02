@@ -1,0 +1,1353 @@
+// 通用页面组件样式
+// 这些样式在各个设置页面中共享
+
+// ============================================
+// 页面头部
+// ============================================
+.page-header {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 20px;
+  overflow: hidden;
+
+  &.active {
+    border-color: var(--primary-color);
+  }
+
+  &.compact {
+    margin-bottom: 20px;
+
+    .header-content {
+      h2 {
+        margin: 0 0 6px;
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      p {
+        margin: 0;
+        font-size: 13px;
+        color: var(--text-secondary);
+      }
+    }
+  }
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.header-info {
+  flex: 1;
+
+  h2 {
+    margin: 0 0 4px;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+}
+
+.header-glow {
+  position: absolute;
+  top: 50%;
+  left: 24px;
+  transform: translateY(-50%);
+  width: 80px;
+  height: 80px;
+  background: var(--primary-color);
+  filter: blur(50px);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+// ============================================
+// 现代提示框 - demo.vue 原始风格（好看）
+// ============================================
+.modern-alert {
+  margin-bottom: 24px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(88, 166, 255, 0.2);
+  background: rgba(88, 166, 255, 0.08);
+  padding: 14px 18px;
+
+  :deep(.el-alert__icon) {
+    color: var(--accent-blue);
+    font-size: 18px;
+    margin-right: 12px;
+  }
+
+  :deep(.el-alert__content) {
+    display: flex;
+    align-items: center;
+  }
+
+  :deep(.el-alert__title) {
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  &.el-alert--success {
+    border-color: rgba(82, 196, 26, 0.2);
+    background: rgba(82, 196, 26, 0.08);
+    
+    :deep(.el-alert__icon) {
+      color: var(--accent-green);
+    }
+  }
+
+  &.el-alert--warning {
+    border-color: rgba(250, 173, 20, 0.2);
+    background: rgba(250, 173, 20, 0.08);
+    
+    :deep(.el-alert__icon) {
+      color: var(--accent-orange);
+    }
+  }
+
+  &.el-alert--error {
+    border-color: rgba(255, 77, 79, 0.2);
+    background: rgba(255, 77, 79, 0.08);
+    
+    :deep(.el-alert__icon) {
+      color: var(--accent-red);
+    }
+  }
+}
+
+// ============================================
+// 表格卡片
+// ============================================
+.table-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  overflow: hidden;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+// ============================================
+// 现代表格
+// ============================================
+.modern-table {
+  background: transparent;
+
+  :deep(.el-table__header) {
+    th {
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 0;
+    }
+  }
+
+  :deep(.el-table__row) {
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: var(--bg-hover);
+    }
+
+    td {
+      border-bottom: 1px solid var(--border-light);
+      padding: 14px 0;
+    }
+  }
+}
+
+.name-text {
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.actions-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// ============================================
+// 对话框样式
+// ============================================
+:deep(.modern-dialog) {
+  .el-dialog {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+
+    &__header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-color);
+      margin-right: 0;
+
+      .el-dialog__title {
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+    }
+
+    &__body {
+      padding: 24px;
+    }
+
+    &__footer {
+      padding: 16px 24px 24px;
+      border-top: 1px solid var(--border-color);
+    }
+  }
+}
+
+.dialog-body {
+  :deep(.el-form-item__label) {
+    color: var(--text-secondary);
+    font-weight: 500;
+    padding-bottom: 8px;
+  }
+
+  .json-editor-wrapper {
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  .save-btn {
+    min-width: 100px;
+  }
+}
+
+// ============================================
+// 设置卡片（settings 页面）
+// ============================================
+.settings-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  transition: opacity 0.3s ease;
+}
+
+.settings-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: var(--border-light);
+  }
+
+  &.advanced {
+    padding: 0;
+    overflow: hidden;
+
+    :deep(.el-collapse) {
+      border: none;
+
+      .el-collapse-item {
+        &__header {
+          background: transparent;
+          border: none;
+          padding: 20px 24px;
+          height: auto;
+          font-size: inherit;
+          color: inherit;
+
+          &:hover {
+            background: var(--bg-hover);
+          }
+        }
+
+        &__wrap {
+          background: transparent;
+          border: none;
+        }
+
+        &__content {
+          padding: 0 24px 24px;
+        }
+      }
+    }
+  }
+}
+
+.section-header {
+  margin-bottom: 20px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.collapse-title {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+// ============================================
+// 设置卡片（switch 页面）
+// ============================================
+.section-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 16px;
+
+  &.compact {
+    padding: 16px 20px;
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-light);
+  }
+}
+
+.collapse-title-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+// ============================================
+// 开关网格
+// ============================================
+.switch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+}
+
+.switch-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--border-light);
+    background: var(--bg-hover);
+  }
+
+  &.disabled {
+    opacity: 0.5;
+  }
+}
+
+.switch-info {
+  flex: 1;
+  min-width: 0;
+  margin-right: 12px;
+}
+
+.switch-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+}
+
+.switch-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.switch-control {
+  flex-shrink: 0;
+}
+
+// ============================================
+// 选择网格
+// ============================================
+.select-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.select-item {
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+  }
+
+  :deep(.el-select) {
+    width: 100%;
+
+    .el-input__wrapper {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      box-shadow: none;
+
+      &.is-focus {
+        border-color: var(--primary-color);
+      }
+    }
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+// ============================================
+// 设置项卡片（settings 页面）
+// ============================================
+.settings-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.setting-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  transition: all 0.25s ease;
+
+  &:hover {
+    border-color: var(--border-light);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .card-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .card-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+  }
+
+  .card-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+// ============================================
+// 样式网格（颜色选择器等）
+// ============================================
+.style-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.style-card {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  transition: all 0.25s ease;
+
+  &:hover {
+    border-color: var(--border-light);
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+}
+
+.color-picker-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .color-value {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    font-family: monospace;
+  }
+}
+
+// ============================================
+// 滑块网格和样式
+// ============================================
+.slider-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.slider-item {
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+}
+
+.slider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  .el-slider {
+    flex: 1;
+  }
+
+  .slider-value {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--primary-color);
+    font-family: monospace;
+    min-width: 50px;
+    text-align: right;
+  }
+}
+
+:deep(.el-slider__marks-text) {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+// ============================================
+// 页面容器
+// ============================================
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// ============================================
+// 表格头部
+// ============================================
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  .table-stats {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+.create-btn {
+  background: var(--primary-gradient);
+  border: none;
+  font-weight: 500;
+
+  &:hover {
+    box-shadow: 0 4px 14px rgba(102, 126, 234, 0.4);
+    transform: translateY(-1px);
+  }
+}
+
+// ============================================
+// 表格底部
+// ============================================
+.table-footer {
+  display: flex;
+  justify-content: flex-start;
+}
+
+// ============================================
+// 空状态
+// ============================================
+.empty-state {
+  padding: 60px 20px;
+  text-align: center;
+
+  p {
+    color: var(--text-secondary);
+    margin: 0 0 20px;
+    font-size: 14px;
+  }
+}
+
+// ============================================
+// 操作单元格
+// ============================================
+.operate-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  .el-divider {
+    background: var(--border-color);
+  }
+}
+
+// ============================================
+// 动作预览
+// ============================================
+.actions-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .actions-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+// ============================================
+// 对话框表单
+// ============================================
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-item-half {
+  margin-bottom: 20px;
+}
+
+// ============================================
+// 高级网格和卡片
+// ============================================
+.advanced-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.advanced-card {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  transition: all 0.25s ease;
+
+  &:hover {
+    border-color: var(--border-light);
+  }
+
+  &.toggle-card {
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .toggle-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+  }
+}
+
+.card-header-sm {
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.input-with-unit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.input-hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+// ============================================
+// 高级内容
+// ============================================
+.advanced-content {
+  padding-top: 8px;
+
+  .divider {
+    height: 1px;
+    background: var(--border-color);
+    margin: 20px 0;
+  }
+}
+
+// ============================================
+// 动作区块
+// ============================================
+.actions-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.action-section {
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+}
+
+// ============================================
+// 对话框危险头部
+// ============================================
+.dialog-header-danger {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--accent-red);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.delete-text {
+  font-size: 14px;
+  color: var(--text-primary);
+  margin: 0;
+  text-align: center;
+
+  strong {
+    color: var(--accent-orange);
+    font-family: 'Courier New', monospace;
+  }
+}
+
+// ============================================
+// 标签页卡片
+// ============================================
+.tabs-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.custom-tabs {
+  :deep(.el-tabs__header) {
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 0;
+
+    .el-tabs__nav-wrap {
+      padding: 0 16px;
+    }
+
+    .el-tabs__item {
+      color: var(--text-secondary);
+      font-weight: 500;
+      padding: 0 20px;
+      height: 48px;
+      line-height: 48px;
+
+      &.is-active {
+        color: var(--primary-color);
+      }
+
+      &:hover {
+        color: var(--text-primary);
+      }
+    }
+
+    .el-tabs__active-bar {
+      background: var(--primary-gradient);
+      height: 3px;
+    }
+  }
+
+  :deep(.el-tabs__content) {
+    padding: 20px;
+  }
+}
+
+.tab-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+// ============================================
+// 内容卡片
+// ============================================
+.content-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.card-header-custom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-color);
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+}
+
+// ============================================
+// 添加区域
+// ============================================
+.add-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: var(--bg-tertiary);
+  border-top: 1px solid var(--border-color);
+}
+
+.add-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 0 12px;
+  transition: all 0.25s ease;
+
+  &:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+  }
+
+  .add-input {
+    flex: 1;
+
+    :deep(.el-input__wrapper) {
+      background: transparent;
+      box-shadow: none;
+      padding: 8px 0;
+      border: none !important;
+    }
+  }
+}
+
+.add-btn {
+  background: var(--primary-gradient);
+  border: none;
+  font-weight: 500;
+
+  &:hover {
+    box-shadow: 0 4px 14px rgba(102, 126, 234, 0.4);
+    transform: translateY(-1px);
+  }
+}
+
+// ============================================
+// 匹配设置卡片
+// ============================================
+.match-settings-card {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.match-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.match-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  transition: all 0.25s ease;
+
+  &:hover {
+    border-color: var(--border-light);
+    transform: translateX(4px);
+  }
+
+  .match-tag {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text-primary);
+    font-family: 'Courier New', monospace;
+  }
+
+  .delete-btn {
+    background: rgba(248, 81, 73, 0.1);
+    border: 1px solid rgba(248, 81, 73, 0.3);
+    color: var(--accent-red);
+
+    &:hover {
+      background: var(--accent-red);
+      border-color: var(--accent-red);
+      color: white;
+    }
+  }
+}
+
+.match-add {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 10px;
+}
+
+// ============================================
+// 手势网格和卡片
+// ============================================
+.gesture-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.gesture-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  transition: all 0.3s ease;
+  cursor: default;
+
+  &:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(102, 126, 234, 0.2);
+    transform: translateY(-4px);
+  }
+
+  &.is-dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+}
+
+.card-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.gesture-preview {
+  width: 80px;
+  height: 80px;
+  background: var(--bg-tertiary);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+
+  .gesture-image {
+    width: 56px;
+    height: 56px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  }
+}
+
+.card-actions {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+
+  &.visible {
+    opacity: 1;
+  }
+
+  .el-button {
+    background: rgba(248, 81, 73, 0.1);
+    border: 1px solid rgba(248, 81, 73, 0.3);
+    color: var(--accent-red);
+
+    &:hover {
+      background: var(--accent-red);
+      color: white;
+      border-color: var(--accent-red);
+    }
+  }
+}
+
+// ============================================
+// 选择器卡片
+// ============================================
+.selector-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.selector-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.selector-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+// ============================================
+// 翻译卡片
+// ============================================
+.translations-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.lang-tabs {
+  :deep(.el-tabs__header) {
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 0;
+
+    .el-tabs__nav-wrap {
+      padding: 0 16px;
+    }
+
+    .el-tabs__item {
+      color: var(--text-secondary);
+      font-weight: 500;
+      padding: 0 20px;
+      height: 48px;
+      line-height: 48px;
+
+      &.is-active {
+        color: var(--primary-color);
+      }
+
+      &:hover {
+        color: var(--text-primary);
+      }
+    }
+
+    .el-tabs__active-bar {
+      background: var(--primary-gradient);
+      height: 3px;
+    }
+  }
+
+  :deep(.el-tabs__content) {
+    padding: 0;
+  }
+}
+
+// ============================================
+// 动作网格和卡片
+// ============================================
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.action-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+
+    .copy-btn {
+      opacity: 1;
+    }
+  }
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.card-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.copy-btn {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  background: var(--primary-gradient);
+  border: none;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  }
+}
+
+.code-block {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.code-content {
+  color: var(--accent-orange);
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+// ============================================
+// 警告提示样式增强
+// ============================================
+.alerts-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+// 旧的 warning 类兼容（用于 exclude.vue）
+.modern-alert.warning {
+  background: rgba(250, 173, 20, 0.1);
+  
+  :deep(.el-alert__icon) {
+    color: var(--accent-orange);
+  }
+}
+
+// alert-content 样式（用于 list.vue 等）
+.alert-content {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+
+  span {
+    color: inherit;
+  }
+
+  .el-link {
+    font-weight: 500;
+    font-size: inherit;
+  }
+}
+
+// ============================================
+// 表格包装器（带边框）
+// ============================================
+.table-wrapper-bordered {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  margin-bottom: 16px;
+}
+
+// ============================================
+// 响应式布局
+// ============================================
+@media (max-width: 768px) {
+  .switch-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .select-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header-content {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .header-info {
+    order: 3;
+    width: 100%;
+  }
+
+  .gesture-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+
+  .gesture-card {
+    padding: 16px;
+  }
+
+  .gesture-preview {
+    width: 60px;
+    height: 60px;
+
+    .gesture-image {
+      width: 44px;
+      height: 44px;
+    }
+  }
+
+  .actions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .copy-btn {
+    opacity: 1;
+  }
+
+  .selector-content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lang-select {
+    width: 100%;
+  }
+
+  .add-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .add-btn {
+    width: 100%;
+  }
+
+  .match-add {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tab-actions {
+    flex-wrap: wrap;
+  }
+
+  .settings-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .style-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .style-card {
+    &.slider-card,
+    &.input-card {
+      grid-column: span 1;
+    }
+  }
+
+  .advanced-grid {
+    grid-template-columns: 1fr;
+  }
+}

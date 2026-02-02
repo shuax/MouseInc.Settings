@@ -68,74 +68,64 @@
       </div>
 
       <!-- Advanced Settings -->
-      <div class="settings-section advanced">
+      <div class="section-card compact">
         <el-collapse @change="handleCollpasedChange">
           <el-collapse-item>
             <template #title>
-              <div class="collapse-title">
-                <span>{{ $t('more_setting') }}</span>
-              </div>
+              <span class="collapse-title-text">{{ $t('more_setting') }}</span>
             </template>
 
-            <div class="advanced-grid">
-              <div class="advanced-card input-card">
-                <div class="card-header-sm">
-                  <span>{{ $t('position') }}</span>
+            <div class="advanced-content">
+              <div class="select-grid">
+                <div class="select-item">
+                  <label>{{ $t('position') }} - X</label>
+                  <el-input-number v-model="proxy.X" :min="0" :max="100" class="full-width" />
+                  <p class="input-hint">{{ $t('x_tips') }}</p>
                 </div>
-                <div class="position-inputs">
-                  <div class="input-group">
-                    <label>X</label>
-                    <el-input-number v-model="proxy.X" :min="0" :max="100" />
-                    <span class="input-hint">{{ $t('x_tips') }}</span>
+
+                <div class="select-item">
+                  <label>{{ $t('position') }} - Y</label>
+                  <el-input-number v-model="proxy.Y" :min="0" :max="100" class="full-width" />
+                  <p class="input-hint">{{ $t('y_tips') }}</p>
+                </div>
+
+                <div class="select-item">
+                  <label>{{ $t('space_label') }}</label>
+                  <el-input-number v-model="proxy.Space" :min="0" :max="50" class="full-width" />
+                  <p class="input-hint">{{ $t('space_tips') }}</p>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="slider-grid">
+                <div class="slider-item">
+                  <label>{{ $t('fontsize_label') }}</label>
+                  <div class="slider-wrapper">
+                    <el-slider
+                      v-model="proxy.FontSize"
+                      :step="2"
+                      :min="8"
+                      :max="72"
+                      :marks="FontSizeMarks"
+                      show-stops
+                    />
+                    <span class="slider-value">{{ proxy.FontSize }}px</span>
                   </div>
-                  <div class="input-group">
-                    <label>Y</label>
-                    <el-input-number v-model="proxy.Y" :min="0" :max="100" />
-                    <span class="input-hint">{{ $t('y_tips') }}</span>
+                </div>
+
+                <div class="slider-item">
+                  <label>{{ $t('fade_label') }}</label>
+                  <div class="slider-wrapper">
+                    <el-slider
+                      v-model="proxy.Fade"
+                      :min="1"
+                      :max="10"
+                      :marks="FadeMarks"
+                      show-stops
+                    />
+                    <span class="slider-value">{{ proxy.Fade }}s</span>
                   </div>
-                </div>
-              </div>
-
-              <div class="advanced-card input-card">
-                <div class="card-header-sm">
-                  <span>{{ $t('space_label') }}</span>
-                </div>
-                <div class="input-group">
-                  <el-input-number v-model="proxy.Space" :min="0" :max="50" />
-                  <span class="input-hint">{{ $t('space_tips') }}</span>
-                </div>
-              </div>
-
-              <div class="advanced-card slider-card">
-                <div class="card-header-sm">
-                  <span>{{ $t('fontsize_label') }}</span>
-                </div>
-                <div class="slider-wrapper">
-                  <el-slider
-                    v-model="proxy.FontSize"
-                    :step="2"
-                    :min="8"
-                    :max="72"
-                    :marks="FontSizeMarks"
-                    show-stops
-                  />
-                  <span class="slider-value">{{ proxy.FontSize }}px</span>
-                </div>
-              </div>
-
-              <div class="advanced-card slider-card">
-                <div class="card-header-sm">
-                  <span>{{ $t('fade_label') }}</span>
-                </div>
-                <div class="slider-wrapper">
-                  <el-slider
-                    v-model="proxy.Fade"
-                    :min="1"
-                    :max="10"
-                    :marks="FadeMarks"
-                    show-stops
-                  />
-                  <span class="slider-value">{{ proxy.Fade }}s</span>
                 </div>
               </div>
             </div>
@@ -146,54 +136,61 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
+<script setup lang="ts">
+import { computed, reactive } from 'vue'
+import { useStore } from 'vuex'
+import type { Config } from '@/types/index.ts'
 
-export default {
-  name: 'keycast',
-  data () {
-    return {
-      FontSizeMarks: {
-        24: '默认'
-      },
-      FadeMarks: {
-        5: '默认'
+const store = useStore()
+const cfg = computed<Config>(() => store.getters.cfg)
+
+interface KeycastConfig {
+  Open: boolean
+  IgnoreSingle: boolean
+  Fade: number
+  FontSize: number
+  Space: number
+  Y: number
+  X: number
+  TextColor: string
+  TextShadowColor: string
+  BackgroundColor: string
+}
+
+const FontSizeMarks = reactive<Record<number, string>>({
+  24: store.getters.lang === 'zh-CN' ? '默认' : 'Default'
+})
+
+const FadeMarks = reactive<Record<number, string>>({
+  5: store.getters.lang === 'zh-CN' ? '默认' : 'Default'
+})
+
+const proxy = computed<KeycastConfig>(() => {
+  return cfg.value.Keycast ? cfg.value.Keycast as KeycastConfig : {
+    IgnoreSingle: false,
+    Open: false,
+    Fade: 5,
+    FontSize: 24,
+    Space: 10,
+    Y: 84,
+    X: 40,
+    TextColor: '#FFFFFF',
+    TextShadowColor: '#141414',
+    BackgroundColor: '#353535'
+  }
+})
+
+function handleCollpasedChange (state: string[]): void {
+  if (state.length) {
+    setTimeout(() => {
+      const content = document.querySelector('.content-area')
+      if (content) {
+        content.scrollTo({
+          top: content.scrollHeight + 50,
+          behavior: 'smooth'
+        })
       }
-    }
-  },
-  methods: {
-    handleCollpasedChange (state) {
-      if (state.length) {
-        setTimeout(() => {
-          var content = document.querySelector('.content-area')
-          if (content) {
-            content.scrollTo({
-              top: content.scrollHeight + 50,
-              behavior: 'smooth'
-            })
-          }
-        }, 350)
-      }
-    }
-  },
-  computed: {
-    ...mapGetters([
-      'cfg'
-    ]),
-    proxy () {
-      return this.cfg.Keycast ? this.cfg.Keycast : {
-        IgnoreSingle: false,
-        Open: false,
-        Fade: 5,
-        FontSize: 24,
-        Space: 10,
-        Y: 84,
-        X: 40,
-        TextColor: '#FFFFFF',
-        TextShadowColor: '#141414',
-        BackgroundColor: '#353535'
-      }
-    }
+    }, 350)
   }
 }
 </script>
@@ -204,329 +201,25 @@ export default {
   margin: 0 auto;
 }
 
-// Page Header
-.page-header {
-  position: relative;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  margin-bottom: 20px;
-  overflow: hidden;
-
-  &.active {
-    border-color: var(--primary-color);
-  }
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  position: relative;
-  z-index: 1;
-}
-
-.header-info {
-  flex: 1;
-
-  h2 {
-    margin: 0 0 4px;
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  p {
-    margin: 0;
-    font-size: 13px;
-    color: var(--text-secondary);
-  }
-}
-
-.header-glow {
-  position: absolute;
-  top: 50%;
-  left: 24px;
-  transform: translateY(-50%);
-  width: 80px;
-  height: 80px;
-  background: var(--primary-color);
-  filter: blur(50px);
-  opacity: 0.3;
-  pointer-events: none;
-}
-
-// Settings Grid
-.settings-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  transition: opacity 0.3s ease;
-
-  &.disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-}
-
-// Settings Section
-.settings-section {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  transition: all 0.3s ease;
-
-  &:hover {
-    border-color: var(--border-light);
-  }
-
-  &.advanced {
-    padding: 0;
-    overflow: hidden;
-
-    :deep(.el-collapse) {
-      border: none;
-
-      .el-collapse-item {
-        &__header {
-          background: transparent;
-          border: none;
-          padding: 20px 24px;
-          height: auto;
-          font-size: inherit;
-          color: inherit;
-
-          &:hover {
-            background: var(--bg-hover);
-          }
-        }
-
-        &__wrap {
-          background: transparent;
-          border: none;
-        }
-
-        &__content {
-          padding: 0 24px 24px;
-        }
-      }
-    }
-  }
-}
-
-.section-header {
-  margin-bottom: 20px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.collapse-title {
-  display: flex;
-  align-items: center;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-// Settings Cards
-.settings-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
-}
-
-.setting-card {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px;
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  transition: all 0.25s ease;
-
-  &:hover {
-    border-color: var(--border-light);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-  }
-
-  .card-content {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .card-title {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-primary);
-    margin-bottom: 2px;
-  }
-
-  .card-desc {
-    font-size: 12px;
-    color: var(--text-muted);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-
-// Style Grid
-.style-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-.style-card {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 16px;
-  transition: all 0.25s ease;
-
-  &:hover {
-    border-color: var(--border-light);
-  }
-
-  label {
-    display: block;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    margin-bottom: 12px;
-  }
-}
-
-.color-picker-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-
-  .color-value {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-primary);
-    font-family: monospace;
-  }
-}
-
-// Advanced Grid
-.advanced-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
-}
-
-.advanced-card {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 16px;
-  transition: all 0.25s ease;
-
-  &:hover {
-    border-color: var(--border-light);
-  }
-
-  &.slider-card {
-    grid-column: span 2;
-
-    @media (max-width: 768px) {
-      grid-column: span 1;
-    }
-  }
-}
-
-.card-header-sm {
-  margin-bottom: 12px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.position-inputs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-
-  label {
-    font-size: 12px;
-    color: var(--text-muted);
-    font-weight: 500;
-  }
-
+// 特有的紧凑选择项样式
+.select-item {
   .input-hint {
+    margin: 6px 0 0;
     font-size: 12px;
     color: var(--text-muted);
-    margin: 0;
-  }
-}
-
-.slider-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-
-  .el-slider {
-    flex: 1;
+    line-height: 1.4;
   }
 
-  .slider-value {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--primary-color);
-    font-family: monospace;
-    min-width: 50px;
-    text-align: right;
-  }
-}
-
-:deep(.el-slider__marks-text) {
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-// Responsive
-@media (max-width: 768px) {
-  .settings-cards {
-    grid-template-columns: 1fr;
-  }
-
-  .style-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .advanced-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .advanced-card.slider-card {
-    grid-column: span 1;
-  }
-
-  .position-inputs {
-    grid-template-columns: 1fr;
-  }
-
-  .header-content {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .header-info {
-    order: 3;
+  :deep(.el-input-number) {
     width: 100%;
+  }
+}
+
+// 响应式
+@media (max-width: 768px) {
+  .select-grid,
+  .slider-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>

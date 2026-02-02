@@ -15,14 +15,15 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { showTitle as utilShowTitle } from '@/libs/util'
+import type { MenuItem } from '@/types'
 import './custom-bread-crumb.less'
 
 const props = defineProps({
   list: {
-    type: Array,
+    type: Array as () => MenuItem[],
     default: () => []
   },
   fontSize: {
@@ -33,12 +34,12 @@ const props = defineProps({
 
 const { t } = useI18n()
 
-const getIconComponent = (iconName) => {
+const getIconComponent = (iconName: string) => {
   // 直接使用传入的图标名，默认为 HomeFilled
   return iconName || 'HomeFilled'
 }
 
-const showTitle = (item) => {
+const showTitle = (item: MenuItem) => {
   return utilShowTitle(item, { $t: t })
 }
 </script>

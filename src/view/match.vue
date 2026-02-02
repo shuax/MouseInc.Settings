@@ -1,15 +1,9 @@
 <template>
   <div class="match-page fade-in">
-    <!-- Page Header -->
-    <div class="page-header">
-      <div class="header-content">
-        <h2>{{ $t('global_gestures') }}</h2>
-        <p>{{ $t('match_tips') }}</p>
-      </div>
+    <!-- Alerts Section -->
+    <div class="alerts-section">
+      <el-alert :title="$t('match_tips')" type="info" :closable="false" class="modern-alert" show-icon />
     </div>
-
-    <!-- Info Alert -->
-    <el-alert :title="$t('match_tips')" type="info" :closable="false" class="modern-alert" show-icon />
 
     <!-- Data Table Card -->
     <div class="table-card">
@@ -158,311 +152,121 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { computed, reactive } from 'vue'
+import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
+import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 import JsonEdit from './components/json.vue'
 import SelectEdit from './components/select.vue'
 import GestureEdit from './components/gesture.vue'
-import { mapGetters } from 'vuex'
-import { Plus, Edit, Delete } from '@element-plus/icons-vue'
+import type { Config } from '@/types/index.ts'
 
-export default {
-  name: 'match',
-  components: {
-    JsonEdit,
-    SelectEdit,
-    GestureEdit
-  },
-  setup () {
-    return {
-      Plus,
-      Edit,
-      Delete
-    }
-  },
-  data () {
-    return {
-      modal: {
-        editing: false,
-        title: '',
-        sign: '',
-        name: '',
-        actions: [],
-        new_actions: [],
-        btn: 'primary'
-      }
-    }
-  },
-  methods: {
-    formatActions (actions) {
-      if (!actions || !Array.isArray(actions)) return ''
-      return actions.map(a => {
-        if (typeof a === 'string') return a
-        if (a.cmd) return `cmd: ${a.cmd}`
-        if (a.key) return `key: ${a.key}`
-        return JSON.stringify(a)
-      }).join(' → ')
-    },
-    oncheck (index, value) {
-      var row = this.cfg.MatchGlobal[index]
-      row.Valid = value
-    },
-    modify (index) {
-      this.modal.editing = true
-      this.modal.index = index
-      var row = this.cfg.MatchGlobal[index]
-      this.modal.title = this.$t('modify_gesture')
-      this.modal.btn = 'primary'
-      this.modal.sign = row.Sign
-      this.modal.name = row.Name
-      this.modal.actions = row.Actions
-      this.modal.new_actions = row.Actions
-    },
-    create () {
-      this.modal.editing = true
-      this.modal.index = undefined
-      this.modal.title = this.$t('add_gesture')
-      this.modal.btn = 'success'
-      this.modal.sign = ''
-      this.modal.name = ''
-      var actions = []
-      this.modal.actions = actions
-      this.modal.new_actions = actions
-    },
-    on_modify () {
-      this.modal.editing = false
-      var index = this.modal.index
-      if (index !== undefined) {
-        var row = this.cfg.MatchGlobal[index]
-        row.Sign = this.modal.sign
-        row.Name = this.modal.name
-        row.Actions = this.modal.new_actions
-      } else {
-        var new_row = {
-          Valid: true,
-          Sign: this.modal.sign,
-          Name: this.modal.name,
-          Actions: this.modal.new_actions
-        }
-        this.cfg.MatchGlobal.push(new_row)
-      }
-    },
-    remove (index) {
-      this.cfg.MatchGlobal.splice(index, 1)
-    }
-  },
-  computed: {
-    ...mapGetters([
-      'cfg'
-    ])
+interface MatchRow {
+  Valid: boolean
+  Sign: string
+  Name: string
+  Actions: any[]
+}
+
+interface ModalState {
+  editing: boolean
+  title: string
+  index?: number
+  sign: string
+  name: string
+  actions: any[]
+  new_actions: any[]
+  btn: 'primary' | 'success'
+}
+
+const store = useStore()
+const { t } = useI18n()
+const cfg = computed<Config>(() => store.getters.cfg)
+
+const modal = reactive<ModalState>({
+  editing: false,
+  title: '',
+  sign: '',
+  name: '',
+  actions: [],
+  new_actions: [],
+  btn: 'primary'
+})
+
+function formatActions (actions: any[] | undefined): string {
+  if (!actions || !Array.isArray(actions)) return ''
+  return actions.map(a => {
+    if (typeof a === 'string') return a
+    if (a.cmd) return `cmd: ${a.cmd}`
+    if (a.key) return `key: ${a.key}`
+    return JSON.stringify(a)
+  }).join(' → ')
+}
+
+function oncheck (index: number, value: boolean) {
+  const row = cfg.value.MatchGlobal?.[index]
+  if (row) {
+    row.Valid = value
   }
+}
+
+function modify (index: number) {
+  const row = cfg.value.MatchGlobal?.[index]
+  if (!row) return
+  modal.editing = true
+  modal.index = index
+  modal.title = t('modify_gesture')
+  modal.btn = 'primary'
+  modal.sign = row.Sign
+  modal.name = row.Name
+  modal.actions = row.Actions
+  modal.new_actions = row.Actions
+}
+
+function create () {
+  modal.editing = true
+  modal.index = undefined
+  modal.title = t('add_gesture')
+  modal.btn = 'success'
+  modal.sign = ''
+  modal.name = ''
+  modal.actions = []
+  modal.new_actions = []
+}
+
+function on_modify () {
+  modal.editing = false
+  const index = modal.index
+  if (index !== undefined) {
+    const row = cfg.value.MatchGlobal?.[index]
+    if (row) {
+      row.Sign = modal.sign
+      row.Name = modal.name
+      row.Actions = modal.new_actions
+    }
+  } else {
+    const newRow: MatchRow = {
+      Valid: true,
+      Sign: modal.sign,
+      Name: modal.name,
+      Actions: modal.new_actions
+    }
+    cfg.value.MatchGlobal?.push(newRow)
+  }
+}
+
+function remove (index: number) {
+  cfg.value.MatchGlobal?.splice(index, 1)
 }
 </script>
 
 <style lang="less" scoped>
 .match-page {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-// Page Header
-.page-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-
-  .header-content {
-    h2 {
-      margin: 0 0 4px;
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    p {
-      margin: 0;
-      font-size: 13px;
-      color: var(--text-secondary);
-    }
-  }
-}
-
-// Alert
-.modern-alert {
-  margin-bottom: 20px;
-  border-radius: 10px;
-  border: 1px solid rgba(88, 166, 255, 0.2);
-  background: rgba(88, 166, 255, 0.08);
-
-  :deep(.el-alert__content) {
-    color: var(--text-primary);
-  }
-}
-
-// Table Card
-.table-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 20px;
+  &:extend(.page-container);
 }
 
 .table-wrapper {
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-  margin-bottom: 16px;
-}
-
-// Table Styles
-.modern-table {
-  background: transparent;
-
-  :deep(.el-table__header) {
-    th {
-      background: var(--bg-tertiary);
-      color: var(--text-secondary);
-      font-weight: 600;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      border-bottom: 1px solid var(--border-color);
-      padding: 12px 0;
-    }
-  }
-
-  :deep(.el-table__row) {
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: var(--bg-hover);
-    }
-
-    td {
-      border-bottom: 1px solid var(--border-light);
-      padding: 14px 0;
-    }
-  }
-
-  .actions-preview {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    .actions-text {
-      font-size: 13px;
-      color: var(--text-secondary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-
-  .operate-cell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-
-    .el-divider {
-      background: var(--border-color);
-    }
-  }
-}
-
-// Table Footer
-.table-footer {
-  display: flex;
-  justify-content: flex-start;
-
-  .create-btn {
-    background: var(--primary-gradient);
-    border: none;
-    font-weight: 500;
-
-    &:hover {
-      box-shadow: 0 4px 14px rgba(102, 126, 234, 0.4);
-      transform: translateY(-1px);
-    }
-  }
-}
-
-// Empty State
-.empty-state {
-  padding: 60px 20px;
-  text-align: center;
-
-  p {
-    color: var(--text-secondary);
-    margin: 0 0 20px;
-    font-size: 14px;
-  }
-}
-
-// Dialog Styles
-:deep(.modern-dialog) {
-  .el-dialog {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-
-    &__header {
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border-color);
-      margin-right: 0;
-
-      .el-dialog__title {
-        color: var(--text-primary);
-        font-weight: 600;
-      }
-    }
-
-    &__body {
-      padding: 24px;
-    }
-
-    &__footer {
-      padding: 16px 24px 24px;
-      border-top: 1px solid var(--border-color);
-    }
-  }
-}
-
-.dialog-body {
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-
-    @media (max-width: 600px) {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .form-item-half {
-    margin-bottom: 20px;
-
-    :deep(.el-form-item__label) {
-      color: var(--text-secondary);
-      font-weight: 500;
-      padding-bottom: 8px;
-    }
-  }
-
-  .json-editor-wrapper {
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-}
-
-.dialog-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-
-  .save-btn {
-    min-width: 100px;
-  }
+  &:extend(.table-wrapper-bordered);
 }
 </style>

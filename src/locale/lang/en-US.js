@@ -25,7 +25,7 @@ export default {
   more_setting: 'More Settings',
   no_data: 'No Data',
   items: 'items',
-  placeholder_exclude: 'Enter window title or program name to exclude',
+  placeholder_exclude: 'Enter program name to exclude (e.g.: notepad.exe)',
   reset: 'Reset',
   save: 'Save',
 
@@ -76,9 +76,9 @@ export default {
   icon_warning: 'After hiding, you can only open the setting interface through gestures. The default is M. Do you want to continue?',
 
   exclude_tips1: 'In the default configuration, draw gesture Z can add programs to the list',
-  exclude_tips2: 'Programs in the list do not enable features such as mouse gestures, ignoring case. ',
+  exclude_tips2: 'Programs in the list do not enable features such as mouse gestures, ignoring case. Please enter the program filename directly (e.g.: notepad.exe)',
   exclude_tips3: 'Current exclusion list:',
-  exclude_warning: 'Please enter the correct program name',
+  exclude_warning: 'Please enter the correct program filename (e.g.: notepad.exe)',
 
   add: 'Add',
 

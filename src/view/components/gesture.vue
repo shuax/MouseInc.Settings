@@ -7,20 +7,19 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
-export default {
-  name: 'gesture',
-  props: {
-    value: String
-  },
-  computed: {
-    ...mapGetters([
-      'gestures'
-    ]),
-    src () {
-      return this.gestures[this.value] ? this.gestures[this.value] : this.gestures['placeholder']
-    }
-  }
-}
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
+const props = defineProps<{
+  value: string
+}>()
+
+const store = useStore()
+
+const gestures = computed(() => store.getters.gestures)
+
+const src = computed(() => {
+  return gestures.value[props.value] ? gestures.value[props.value] : gestures.value['placeholder']
+})
 </script>

@@ -1,12 +1,16 @@
 import { createApp } from 'vue'
+import type { App as VueApp } from 'vue'
 import { createI18n } from 'vue-i18n'
+import type { I18n } from 'vue-i18n'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import ClipboardJS from 'clipboard'
 
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import { localRead } from './libs/util'
 import './index.less'
+import './styles/common.less'
 import './scrollbar.css'
 
 import zhCN from './locale/lang/zh-CN'
@@ -17,9 +21,12 @@ import VueCodemirror from 'vue-codemirror'
 import { javascript } from '@codemirror/lang-javascript'
 import { oneDark } from '@codemirror/theme-one-dark'
 
-export const i18n = createI18n({
+// 从 localStorage 读取用户设置的语言，如果没有则使用默认值
+const savedLocale = localRead('local') || 'zh-CN'
+
+export const i18n: I18n = createI18n({
   legacy: false,
-  locale: 'zh-CN',
+  locale: savedLocale,
   fallbackLocale: 'zh-CN',
   messages: {
     'zh-CN': zhCN,
@@ -28,7 +35,7 @@ export const i18n = createI18n({
   }
 })
 
-const app = createApp(App)
+const app: VueApp = createApp(App)
 
 // 注册所有图标组件
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {

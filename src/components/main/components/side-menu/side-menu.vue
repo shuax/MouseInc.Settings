@@ -52,20 +52,21 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { getUnion } from '@/libs/tools'
-import { showTitle, hasChild } from '@/libs/util'
+import { showTitle } from '@/libs/util'
 import config from '@/config'
 import SideMenuItem from './side-menu-item.vue'
 import { getIconByName } from './icons'
+import type { MenuItem, RouteMeta } from '@/types'
 import './side-menu.less'
 
 const props = defineProps({
   menuList: {
-    type: Array,
+    type: Array as () => MenuItem[],
     default: () => []
   },
   collapsed: {
@@ -93,7 +94,7 @@ const props = defineProps({
     default: ''
   },
   openNames: {
-    type: Array,
+    type: Array as () => string[],
     default: () => []
   }
 })
@@ -102,34 +103,34 @@ const emit = defineEmits(['on-select'])
 
 const route = useRoute()
 const { t } = useI18n()
-const menuRef = ref(null)
-const openedNames = ref([])
+const menuRef = ref<HTMLElement | null>(null)
+const openedNames = ref<string[]>([])
 
 const textColor = computed(() => {
   return props.theme === 'dark' ? '#b4b8bc' : '#515a6e'
 })
 
-const showChildren = (item) => {
-  return item.children && (item.children.length > 1 || (item.meta && item.meta.showAlways))
+const showChildren = (item: MenuItem): boolean => {
+  return !!(item.children && (item.children.length > 1 || (item.meta && (item.meta as RouteMeta).showAlways)))
 }
 
-const getNameOrHref = (item, children0) => {
-  return item.href ? `isTurnByHref_${item.href}` : (children0 ? item.children[0].name : item.name)
+const getNameOrHref = (item: MenuItem, children0?: boolean): string => {
+  return item.href ? `isTurnByHref_${item.href}` : (children0 && item.children ? item.children[0].name : item.name)
 }
 
-const getIcon = (iconName) => {
+const getIcon = (iconName: string) => {
   return getIconByName(iconName)
 }
 
-const handleSelect = (name) => {
+const handleSelect = (name: string) => {
   emit('on-select', name)
 }
 
-const getOpenedNamesByActiveName = (name) => {
-  return route.matched.map(item => item.name).filter(item => item !== name)
+const getOpenedNamesByActiveName = (name: string): string[] => {
+  return route.matched.map(item => item.name as string).filter(item => item !== name)
 }
 
-const updateOpenName = (name) => {
+const updateOpenName = (name: string) => {
   if (name === config.homeName) {
     openedNames.value = []
   } else {
@@ -144,7 +145,7 @@ defineExpose({
 
 watch(
   () => props.activeName,
-  (name) => {
+  (name: string) => {
     if (props.accordion) {
       openedNames.value = getOpenedNamesByActiveName(name)
     } else {
@@ -156,7 +157,7 @@ watch(
 
 watch(
   () => props.openNames,
-  (newNames) => {
+  (newNames: string[]) => {
     openedNames.value = newNames
   }
 )

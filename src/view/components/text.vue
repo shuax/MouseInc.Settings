@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div @click="OpenEdit" style="cursor: pointer;">{{value}} <el-icon><Edit /></el-icon></div>
+    <div @click="openEdit" style="cursor: pointer;">{{value}} <el-icon><Edit /></el-icon></div>
     <el-dialog v-model="dialogVisible" title="编辑文字" width="400px">
       <el-input v-model="content" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" />
       <template #footer>
@@ -12,40 +12,37 @@
     </el-dialog>
   </div>
 </template>
-<script>
+<script setup lang="ts">
+import { ref, watch } from 'vue'
 import { Edit } from '@element-plus/icons-vue'
-export default {
-  name: 'text_edit',
-  components: {
-    Edit
-  },
-  data () {
-    return {
-      content: this.value,
-      dialogVisible: false
-    }
-  },
-  props: {
-    value: String
-  },
-  watch: {
-    value (newVal) {
-      this.content = newVal
-    }
-  },
-  methods: {
-    OpenEdit () {
-      this.content = this.value
-      this.dialogVisible = true
-    },
-    onOk () {
-      this.$emit('on-input', this.content)
-      this.dialogVisible = false
-    },
-    onCancel () {
-      this.content = this.value
-      this.dialogVisible = false
-    }
-  }
+
+const props = defineProps<{
+  value: string
+}>()
+
+const emit = defineEmits<{
+  (e: 'on-input', value: string): void
+}>()
+
+const content = ref(props.value)
+const dialogVisible = ref(false)
+
+watch(() => props.value, (newVal) => {
+  content.value = newVal
+})
+
+const openEdit = () => {
+  content.value = props.value
+  dialogVisible.value = true
+}
+
+const onOk = () => {
+  emit('on-input', content.value)
+  dialogVisible.value = false
+}
+
+const onCancel = () => {
+  content.value = props.value
+  dialogVisible.value = false
 }
 </script>

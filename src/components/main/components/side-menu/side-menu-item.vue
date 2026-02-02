@@ -43,16 +43,17 @@
   </el-sub-menu>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { showTitle } from '@/libs/util'
 import { getIconByName } from './icons'
+import type { MenuItem, RouteMeta } from '@/types'
 
 const props = defineProps({
   parentItem: {
-    type: Object,
-    default: () => ({})
+    type: Object as () => MenuItem,
+    default: () => ({} as MenuItem)
   },
   collapsed: {
     type: Boolean,
@@ -72,23 +73,23 @@ const children = computed(() => {
   return props.parentItem.children || []
 })
 
-const showChildren = (item) => {
-  return item.children && (item.children.length > 1 || (item.meta && item.meta.showAlways))
+const showChildren = (item: MenuItem): boolean => {
+  return !!(item.children && (item.children.length > 1 || (item.meta && (item.meta as RouteMeta).showAlways)))
 }
 
-const getNameOrHref = (item, children0) => {
-  return item.href ? `isTurnByHref_${item.href}` : (children0 ? item.children[0].name : item.name)
+const getNameOrHref = (item: MenuItem, children0?: boolean): string => {
+  return item.href ? `isTurnByHref_${item.href}` : (children0 && item.children ? item.children[0].name : item.name)
 }
 
-const getIcon = (iconName) => {
+const getIcon = (iconName: string) => {
   return getIconByName(iconName)
 }
 
-const handleSelect = (name) => {
+const handleSelect = (name: string) => {
   emit('on-select', name)
 }
 
-const getTitle = (item) => {
+const getTitle = (item: MenuItem) => {
   return showTitle(item, { $t: t })
 }
 </script>

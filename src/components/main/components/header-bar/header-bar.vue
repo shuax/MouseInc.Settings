@@ -8,31 +8,28 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 import siderTrigger from './sider-trigger'
 import customBreadCrumb from './custom-bread-crumb'
+import type { MenuItem } from '@/types'
 import './header-bar.less'
 
-export default {
-  name: 'HeaderBar',
-  components: {
-    siderTrigger,
-    customBreadCrumb
-  },
-  props: {
-    collapsed: {
-      type: Boolean,
-      default: false
-    }
-  },
-  computed: {
-    ...mapGetters(['breadCrumbList'])
-  },
-  methods: {
-    handleCollpasedChange (state) {
-      this.$emit('on-coll-change', state)
-    }
+const props = defineProps({
+  collapsed: {
+    type: Boolean,
+    default: false
   }
+})
+
+const emit = defineEmits(['on-coll-change'])
+
+const store = useStore()
+
+const breadCrumbList = computed<MenuItem[]>(() => store.getters.breadCrumbList)
+
+const handleCollpasedChange = (state: boolean) => {
+  emit('on-coll-change', state)
 }
 </script>

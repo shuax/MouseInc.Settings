@@ -11,7 +11,7 @@
   </a>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Fold, Expand } from '@element-plus/icons-vue'
 
 const props = defineProps({

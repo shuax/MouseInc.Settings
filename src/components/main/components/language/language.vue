@@ -21,7 +21,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ChatLineRound, ArrowDown } from '@element-plus/icons-vue'
@@ -37,13 +37,13 @@ const emit = defineEmits(['on-lang-change'])
 
 const { locale: i18nLocale } = useI18n()
 
-const langList = {
+const langList: Record<string, string> = {
   'zh-CN': '语言',
   'zh-TW': '語言',
   'en-US': 'Lang'
 }
 
-const localList = {
+const localList: Record<string, string> = {
   'zh-CN': '中文简体',
   'zh-TW': '中文繁体',
   'en-US': 'English'
@@ -55,12 +55,12 @@ const title = computed(() => {
 
 watch(
   () => props.lang,
-  (newLang) => {
+  (newLang: string) => {
     i18nLocale.value = newLang
   }
 )
 
-const selectLang = (name) => {
+const selectLang = (name: string) => {
   emit('on-lang-change', name)
 }
 </script>

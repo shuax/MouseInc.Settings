@@ -40,17 +40,18 @@
   </el-dropdown>
 </template>
 
-<script setup>
-import { ref } from 'vue'
+<script setup lang="ts">
+import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ArrowRight } from '@element-plus/icons-vue'
 import { showTitle } from '@/libs/util'
 import { getIconByName } from './icons'
+import type { MenuItem, RouteMeta } from '@/types'
 
 const props = defineProps({
   parentItem: {
-    type: Object,
-    default: () => ({})
+    type: Object as () => MenuItem,
+    default: () => ({} as MenuItem)
   },
   theme: {
     type: String,
@@ -83,28 +84,26 @@ const textColor = computed(() => {
   return props.theme === 'dark' ? '#b4b8bc' : '#515a6e'
 })
 
-const showChildren = (item) => {
-  return item.children && (item.children.length > 1 || (item.meta && item.meta.showAlways))
+const showChildren = (item: MenuItem): boolean => {
+  return !!(item.children && (item.children.length > 1 || (item.meta && (item.meta as RouteMeta).showAlways)))
 }
 
-const getIcon = (iconName) => {
+const getIcon = (iconName: string) => {
   return getIconByName(iconName)
 }
 
-const handleClick = (name) => {
+const handleClick = (name: string) => {
   emit('on-click', name)
 }
 
-const handleMouseenter = (event, children) => {
+const handleMouseenter = (event: MouseEvent, children: MenuItem[]) => {
   const { clientY } = event
   const height = children.length * 38
   const isOverflow = clientY + height < window.innerHeight
   placement.value = isOverflow ? 'right-start' : 'right-end'
 }
 
-const getTitle = (item) => {
+const getTitle = (item: MenuItem) => {
   return showTitle(item, { $t: t })
 }
-
-import { computed } from 'vue'
 </script>

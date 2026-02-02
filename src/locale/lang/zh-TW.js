@@ -26,7 +26,7 @@ export default {
   more_setting: '更多設定',
   no_data: '暫無數據',
   items: '項',
-  placeholder_exclude: '輸入要排除的窗口標題或程序名',
+  placeholder_exclude: '輸入要排除的程式名（如：notepad.exe）',
   reset: '重設',
   save: '儲存',
 
@@ -77,9 +77,9 @@ export default {
   icon_warning: '隐藏后只能通过手势打开设置界面，默认为M，是否继续？',
 
   exclude_tips1: '預設設定下，畫手勢Z可以新增程式至清單中',
-  exclude_tips2: '在清單中的程式不會啟用滑鼠手勢等功能，忽略大小寫。',
+  exclude_tips2: '在清單中的程式不會啟用滑鼠手勢等功能，忽略大小寫。請直接輸入程式檔名（如：notepad.exe）',
   exclude_tips3: '目前排除程式清單：',
-  exclude_warning: '請輸入正確的程式名稱',
+  exclude_warning: '請輸入正確的程式檔名（如：notepad.exe）',
 
   add: '新增',
 

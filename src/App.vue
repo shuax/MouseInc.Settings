@@ -4,7 +4,8 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+// App 根组件
 </script>
 
 <style lang="less">

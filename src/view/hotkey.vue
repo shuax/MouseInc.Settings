@@ -1,21 +1,15 @@
 <template>
   <div class="hotkey-page fade-in">
-    <!-- Page Header -->
-    <div class="page-header">
-       <div class="header-content">
-        <h2>{{ $t('hotkeys_title') }}</h2>
-        <p>{{ $t('hotkeys_desc') }}</p>
-      </div>
+    <!-- Alerts Section -->
+    <div class="alerts-section">
+      <el-alert
+        :title="$t('hotkey_tips1')"
+        type="info"
+        :closable="false"
+        show-icon
+        class="modern-alert"
+      />
     </div>
-
-    <!-- Info Alert -->
-    <el-alert
-      :title="$t('hotkey_tips1')"
-      type="info"
-      :closable="false"
-      show-icon
-      class="modern-alert"
-    />
 
     <!-- Data Table Card -->
     <div class="table-card">
@@ -182,212 +176,132 @@
   </div>
 </template>
 
-<script>
-import JsonEdit from './components/json.vue'
-import { mapGetters } from 'vuex'
+<script setup lang="ts">
+import { computed, reactive } from 'vue'
+import { useStore } from 'vuex'
 import { Plus, Edit, Delete } from '@element-plus/icons-vue'
+import type { Config } from '@/types/index.ts'
+import JsonEdit from './components/json.vue'
 
-export default {
-  name: 'hotkey',
-  components: {
-    JsonEdit
-  },
-  setup () {
-    return {
-      Plus,
-      Edit,
-      Delete
-    }
-  },
-  data () {
-    return {
-      modal: {
-        editing: false,
-        title: '',
-        Keys: '',
-        Name: '',
-        Actions: [],
-        NewActions: [],
-        btn: 'primary'
-      }
-    }
-  },
-  computed: {
-    ...mapGetters(['cfg']),
-    activeCount () {
-      if (!this.cfg.Hotkeys) return 0
-      return this.cfg.Hotkeys.filter(h => h.Valid).length
-    }
-  },
-  methods: {
-    formatActions (actions) {
-      if (!actions || !Array.isArray(actions)) return ''
-      return actions.map(a => {
-        if (typeof a === 'string') return a
-        if (a.cmd) return `cmd: ${a.cmd}`
-        if (a.key) return `key: ${a.key}`
-        return JSON.stringify(a)
-      }).join(' → ')
-    },
-    oncheck (index, value) {
-      var row = this.cfg.Hotkeys[index]
-      row.Valid = value
-    },
-    modify (index) {
-      this.modal.editing = true
-      this.modal.index = index
-      var row = this.cfg.Hotkeys[index]
-      this.modal.title = this.$t('modify_keys')
-      this.modal.btn = 'primary'
-      this.modal.Keys = row.Keys
-      this.modal.Name = row.Name
-      this.modal.Actions = row.Actions
-      this.modal.NewActions = row.Actions
-    },
-    create () {
-      this.modal.editing = true
-      this.modal.index = undefined
-      this.modal.title = this.$t('add_keys')
-      this.modal.btn = 'success'
-      this.modal.Keys = ''
-      this.modal.Name = ''
-      var actions = []
-      this.modal.Actions = actions
-      this.modal.NewActions = actions
-    },
-    on_modify () {
-      this.modal.editing = false
-      var index = this.modal.index
-      if (index !== undefined) {
-        var row = this.cfg.Hotkeys[index]
-        row.Keys = this.modal.Keys
-        row.Name = this.modal.Name
-        row.Actions = this.modal.NewActions
-      } else {
-        var new_row = {
-          Valid: true,
-          Keys: this.modal.Keys,
-          Name: this.modal.Name,
-          Actions: this.modal.NewActions
-        }
-        this.cfg.Hotkeys.push(new_row)
-      }
-    },
-    remove (index) {
-      this.cfg.Hotkeys.splice(index, 1)
-    }
+const store = useStore()
+const cfg = computed<Config>(() => store.getters.cfg)
+
+interface HotkeyItem {
+  Valid: boolean
+  Keys: string
+  Name: string
+  Actions: any[]
+}
+
+interface ModalState {
+  editing: boolean
+  title: string
+  Keys: string
+  Name: string
+  Actions: any[]
+  NewActions: any[]
+  btn: string
+  index?: number
+}
+
+const modal = reactive<ModalState>({
+  editing: false,
+  title: '',
+  Keys: '',
+  Name: '',
+  Actions: [],
+  NewActions: [],
+  btn: 'primary'
+})
+
+const activeCount = computed<number>(() => {
+  if (!cfg.value.Hotkeys) return 0
+  return cfg.value.Hotkeys.filter((h: HotkeyItem) => h.Valid).length
+})
+
+function formatActions (actions: any[]): string {
+  if (!actions || !Array.isArray(actions)) return ''
+  return actions.map(a => {
+    if (typeof a === 'string') return a
+    if (a.cmd) return `cmd: ${a.cmd}`
+    if (a.key) return `key: ${a.key}`
+    return JSON.stringify(a)
+  }).join(' → ')
+}
+
+function oncheck (index: number, value: boolean): void {
+  const row = cfg.value.Hotkeys?.[index]
+  if (row) {
+    row.Valid = value
   }
+}
+
+function modify (index: number): void {
+  modal.editing = true
+  modal.index = index
+  const row = cfg.value.Hotkeys?.[index]
+  if (row) {
+    modal.title = store.getters.lang === 'zh-CN' ? '修改热键' : 'Modify Hotkey'
+    modal.btn = 'primary'
+    modal.Keys = row.Keys
+    modal.Name = row.Name
+    modal.Actions = row.Actions
+    modal.NewActions = row.Actions
+  }
+}
+
+function create (): void {
+  modal.editing = true
+  modal.index = undefined
+  modal.title = store.getters.lang === 'zh-CN' ? '添加热键' : 'Add Hotkey'
+  modal.btn = 'success'
+  modal.Keys = ''
+  modal.Name = ''
+  const actions: any[] = []
+  modal.Actions = actions
+  modal.NewActions = actions
+}
+
+function on_modify (): void {
+  modal.editing = false
+  const index = modal.index
+  if (index !== undefined && cfg.value.Hotkeys) {
+    const row = cfg.value.Hotkeys[index]
+    if (row) {
+      row.Keys = modal.Keys
+      row.Name = modal.Name
+      row.Actions = modal.NewActions
+    }
+  } else if (index === undefined) {
+    const new_row: HotkeyItem = {
+      Valid: true,
+      Keys: modal.Keys,
+      Name: modal.Name,
+      Actions: modal.NewActions
+    }
+    if (!cfg.value.Hotkeys) {
+      cfg.value.Hotkeys = []
+    }
+    cfg.value.Hotkeys.push(new_row)
+  }
+}
+
+function remove (index: number): void {
+  cfg.value.Hotkeys?.splice(index, 1)
 }
 </script>
 
 <style lang="less" scoped>
 .hotkey-page {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-// Page Header
-.page-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-
-  .header-content {
-    h2 {
-      margin: 0 0 4px;
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    p {
-      margin: 0;
-      font-size: 13px;
-      color: var(--text-secondary);
-    }
-  }
-}
-
-// Alert
-.modern-alert {
-  margin-bottom: 20px;
-  border-radius: 10px;
-  border: 1px solid rgba(88, 166, 255, 0.2);
-  background: rgba(88, 166, 255, 0.08);
-
-  :deep(.el-alert__content) {
-    color: var(--text-primary);
-  }
-}
-
-// Table Card
-.table-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 20px;
-
-  .table-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-
-    .table-stats {
-      display: flex;
-      gap: 8px;
-    }
-
-    .create-btn {
-      background: var(--primary-gradient);
-      border: none;
-      font-weight: 500;
-
-      &:hover {
-        box-shadow: 0 4px 14px rgba(102, 126, 234, 0.4);
-        transform: translateY(-1px);
-      }
-    }
-  }
+  &:extend(.page-container);
 }
 
 .table-wrapper {
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
+  &:extend(.table-wrapper-bordered all);
+  margin-bottom: 0;
 }
 
-// Table Styles
 .modern-table {
-  background: transparent;
-
-  :deep(.el-table__header) {
-    th {
-      background: var(--bg-tertiary);
-      color: var(--text-secondary);
-      font-weight: 600;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      border-bottom: 1px solid var(--border-color);
-      padding: 12px 0;
-    }
-  }
-
-  :deep(.el-table__row) {
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: var(--bg-hover);
-    }
-
-    td {
-      border-bottom: 1px solid var(--border-light);
-      padding: 14px 0;
-    }
-  }
-
   // Cell Styles
   .name-cell {
     .el-tag {
@@ -400,110 +314,6 @@ export default {
       font-family: monospace;
       font-weight: 500;
     }
-  }
-
-  .actions-preview {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    .actions-text {
-      font-size: 13px;
-      color: var(--text-secondary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-
-  .operate-cell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-
-    .el-divider {
-      background: var(--border-color);
-    }
-  }
-}
-
-// Empty State
-.empty-state {
-  padding: 60px 20px;
-  text-align: center;
-
-  p {
-    color: var(--text-secondary);
-    margin: 0 0 20px;
-    font-size: 14px;
-  }
-}
-
-// Dialog Styles
-:deep(.modern-dialog) {
-  .el-dialog {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-
-    &__header {
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border-color);
-      margin-right: 0;
-
-      .el-dialog__title {
-        color: var(--text-primary);
-        font-weight: 600;
-      }
-    }
-
-    &__body {
-      padding: 24px;
-    }
-
-    &__footer {
-      padding: 16px 24px 24px;
-      border-top: 1px solid var(--border-color);
-    }
-  }
-}
-
-.dialog-body {
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-
-    @media (max-width: 600px) {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .form-item-half {
-    margin-bottom: 20px;
-
-    :deep(.el-form-item__label) {
-      color: var(--text-secondary);
-      font-weight: 500;
-      padding-bottom: 8px;
-    }
-  }
-
-  .json-editor-wrapper {
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-}
-
-.dialog-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-
-  .save-btn {
-    min-width: 100px;
   }
 }
 </style>

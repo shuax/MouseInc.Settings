@@ -14,11 +14,13 @@
       <div class="header-glow" v-if="proxy.Open"></div>
     </div>
 
-    <!-- Info Alert -->
-    <el-alert :title="$t('copy_tips1')" type="info" :closable="false" class="modern-alert" show-icon />
+    <!-- Alerts Section -->
+    <div class="alerts-section">
+      <el-alert :title="$t('copy_tips1')" type="info" :closable="false" class="modern-alert" show-icon />
+    </div>
 
     <!-- Data Table Card -->
-    <div class="table-card" :class="{ disabled: !proxy.Open }">
+    <div class="table-card">
       <div class="table-wrapper">
         <el-table
           :data="proxy.Menu"
@@ -154,100 +156,100 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { ref, reactive, computed } from 'vue'
+import { useStore } from 'vuex'
 import JsonEdit from './components/json.vue'
-import { mapGetters } from 'vuex'
 import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 
-export default {
-  name: 'copy',
-  components: {
-    JsonEdit
-  },
-  setup () {
-    return {
-      Plus,
-      Edit,
-      Delete
-    }
-  },
-  data () {
-    return {
-      modal: {
-        editing: false,
-        title: '',
-        Name: '',
-        Actions: [],
-        NewActions: [],
-        btn: 'primary'
-      }
-    }
-  },
-  computed: {
-    ...mapGetters([
-      'cfg'
-    ]),
-    proxy () {
-      return this.cfg.ClipboardManager ? this.cfg.ClipboardManager : {
-        Open: false,
-        Menu: []
-      }
-    }
-  },
-  methods: {
-    formatActions (actions) {
-      if (!actions || !Array.isArray(actions)) return ''
-      return actions.map(a => {
-        if (typeof a === 'string') return a
-        if (a.cmd) return `cmd: ${a.cmd}`
-        if (a.key) return `key: ${a.key}`
-        return JSON.stringify(a)
-      }).join(' → ')
-    },
-    oncheck (index, value) {
-      var row = this.proxy.Menu[index]
-      row.Valid = value
-    },
-    modify (index) {
-      this.modal.editing = true
-      this.modal.index = index
-      var row = this.proxy.Menu[index]
-      this.modal.title = this.$t('modify_menu')
-      this.modal.btn = 'primary'
-      this.modal.Name = row.Name
-      this.modal.Actions = row.Actions
-      this.modal.NewActions = row.Actions
-    },
-    create () {
-      this.modal.editing = true
-      this.modal.index = undefined
-      this.modal.title = this.$t('add_menu')
-      this.modal.btn = 'success'
-      this.modal.Name = ''
-      var actions = []
-      this.modal.Actions = actions
-      this.modal.NewActions = actions
-    },
-    on_modify () {
-      this.modal.editing = false
-      var index = this.modal.index
-      if (index !== undefined) {
-        var row = this.proxy.Menu[index]
-        row.Name = this.modal.Name
-        row.Actions = this.modal.NewActions
-      } else {
-        var new_row = {
-          Valid: true,
-          Name: this.modal.Name,
-          Actions: this.modal.NewActions
-        }
-        this.proxy.Menu.push(new_row)
-      }
-    },
-    remove (index) {
-      this.proxy.Menu.splice(index, 1)
-    }
+interface MenuItem {
+  Valid: boolean
+  Name: string
+  Actions: any[]
+}
+
+interface ClipboardManager {
+  Open: boolean
+  Menu: MenuItem[]
+}
+
+const store = useStore()
+
+const modal = reactive({
+  editing: false,
+  title: '',
+  Name: '',
+  Actions: [] as any[],
+  NewActions: [] as any[],
+  btn: 'primary',
+  index: undefined as number | undefined
+})
+
+const cfg = computed(() => store.getters.cfg)
+
+const proxy = computed<ClipboardManager>(() => {
+  return cfg.value.ClipboardManager ? cfg.value.ClipboardManager : {
+    Open: false,
+    Menu: []
   }
+})
+
+const formatActions = (actions: any[]): string => {
+  if (!actions || !Array.isArray(actions)) return ''
+  return actions.map(a => {
+    if (typeof a === 'string') return a
+    if (a.cmd) return `cmd: ${a.cmd}`
+    if (a.key) return `key: ${a.key}`
+    return JSON.stringify(a)
+  }).join(' → ')
+}
+
+const oncheck = (index: number, value: boolean) => {
+  const row = proxy.value.Menu[index]
+  row.Valid = value
+}
+
+const modify = (index: number) => {
+  modal.editing = true
+  modal.index = index
+  const row = proxy.value.Menu[index]
+  modal.title = 'modify_menu'
+  modal.btn = 'primary'
+  modal.Name = row.Name
+  modal.Actions = row.Actions
+  modal.NewActions = row.Actions
+}
+
+const create = () => {
+  modal.editing = true
+  modal.index = undefined
+  modal.title = 'add_menu'
+  modal.btn = 'success'
+  modal.Name = ''
+  const actions: any[] = []
+  modal.Actions = actions
+  modal.NewActions = actions
+}
+
+const on_modify = () => {
+  modal.editing = false
+  const index = modal.index
+  if (index !== undefined) {
+    const row = proxy.value.Menu[index]
+    row.Name = modal.Name
+    row.Actions = modal.NewActions
+  } else {
+    const new_row: MenuItem = {
+      Valid: true,
+      Name: modal.Name,
+      Actions: modal.NewActions
+    }
+    proxy.value.Menu.push(new_row)
+  }
+}
+
+const remove = (index: number) => {
+  proxy.value.Menu.splice(index, 1)
 }
 </script>
 
@@ -257,233 +259,15 @@ export default {
   margin: 0 auto;
 }
 
-// Page Header
-.page-header {
-  position: relative;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  margin-bottom: 20px;
-  overflow: hidden;
-
-  &.active {
-    border-color: var(--primary-color);
-  }
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  position: relative;
-  z-index: 1;
-}
-
-.header-info {
-  flex: 1;
-
-  h2 {
-    margin: 0 0 4px;
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  p {
-    margin: 0;
-    font-size: 13px;
-    color: var(--text-secondary);
-  }
-}
-
-.header-glow {
-  position: absolute;
-  top: 50%;
-  left: 24px;
-  transform: translateY(-50%);
-  width: 80px;
-  height: 80px;
-  background: var(--primary-color);
-  filter: blur(50px);
-  opacity: 0.3;
-  pointer-events: none;
-}
-
-// Alert
-.modern-alert {
-  margin-bottom: 20px;
-  border-radius: 10px;
-  border: 1px solid rgba(88, 166, 255, 0.2);
-  background: rgba(88, 166, 255, 0.08);
-
-  :deep(.el-alert__content) {
-    color: var(--text-primary);
-  }
-}
-
-// Table Card
-.table-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 20px;
-  transition: opacity 0.3s ease;
-
-  &.disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-}
-
 .table-wrapper {
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-  margin-bottom: 16px;
+  &:extend(.table-wrapper-bordered);
 }
 
-// Table Styles
 .modern-table {
-  background: transparent;
-
-  :deep(.el-table__header) {
-    th {
-      background: var(--bg-tertiary);
-      color: var(--text-secondary);
-      font-weight: 600;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      border-bottom: 1px solid var(--border-color);
-      padding: 12px 0;
-    }
-  }
-
-  :deep(.el-table__row) {
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: var(--bg-hover);
-    }
-
-    td {
-      border-bottom: 1px solid var(--border-light);
-      padding: 14px 0;
-    }
-  }
-
   .name-cell {
     .el-tag {
       font-weight: 500;
     }
-  }
-
-  .actions-preview {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    .actions-text {
-      font-size: 13px;
-      color: var(--text-secondary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-
-  .operate-cell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-
-    .el-divider {
-      background: var(--border-color);
-    }
-  }
-}
-
-// Table Footer
-.table-footer {
-  display: flex;
-  justify-content: flex-start;
-
-  .create-btn {
-    background: var(--primary-gradient);
-    border: none;
-    font-weight: 500;
-
-    &:hover {
-      box-shadow: 0 4px 14px rgba(102, 126, 234, 0.4);
-      transform: translateY(-1px);
-    }
-  }
-}
-
-// Empty State
-.empty-state {
-  padding: 60px 20px;
-  text-align: center;
-
-  p {
-    color: var(--text-secondary);
-    margin: 0 0 20px;
-    font-size: 14px;
-  }
-}
-
-// Dialog Styles
-:deep(.modern-dialog) {
-  .el-dialog {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-
-    &__header {
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border-color);
-      margin-right: 0;
-
-      .el-dialog__title {
-        color: var(--text-primary);
-        font-weight: 600;
-      }
-    }
-
-    &__body {
-      padding: 24px;
-    }
-
-    &__footer {
-      padding: 16px 24px 24px;
-      border-top: 1px solid var(--border-color);
-    }
-  }
-}
-
-.dialog-body {
-  :deep(.el-form-item__label) {
-    color: var(--text-secondary);
-    font-weight: 500;
-    padding-bottom: 8px;
-  }
-
-  .json-editor-wrapper {
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-}
-
-.dialog-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-
-  .save-btn {
-    min-width: 100px;
   }
 }
 </style>

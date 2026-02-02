@@ -5,34 +5,34 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
+import config from '@/config'
 import './error.less'
-export default {
-  name: 'backBtnGroup',
-  data () {
-    return {
-      second: 5,
-      timer: null
-    }
-  },
-  methods: {
-    backHome () {
-      this.$router.replace({
-        name: this.$config.homeName
-      })
-    },
-    backPrev () {
-      this.$router.go(-1)
-    }
-  },
-  mounted () {
-    this.timer = setInterval(() => {
-      if (this.second === 0) this.backPrev()
-      else this.second--
-    }, 1000)
-  },
-  beforeUnmount () {
-    clearInterval(this.timer)
-  }
+
+const router = useRouter()
+const second = ref(5)
+let timer: ReturnType<typeof setInterval> | null = null
+
+const backHome = () => {
+  router.replace({
+    name: config.homeName
+  })
 }
+
+const backPrev = () => {
+  router.go(-1)
+}
+
+onMounted(() => {
+  timer = setInterval(() => {
+    if (second.value === 0) backPrev()
+    else second.value--
+  }, 1000)
+})
+
+onBeforeUnmount(() => {
+  if (timer) clearInterval(timer)
+})
 </script>

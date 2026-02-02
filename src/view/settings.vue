@@ -15,7 +15,7 @@
     </div>
 
     <!-- Main Settings Grid -->
-    <div class="settings-grid" :class="{ disabled: !proxy.Open }">
+    <div class="settings-grid">
       <!-- Visual Settings -->
       <div class="settings-section">
         <div class="section-header">
@@ -141,67 +141,67 @@
       </div>
 
       <!-- Advanced Settings -->
-      <div class="settings-section advanced">
+      <div class="section-card compact">
         <el-collapse @change="handleCollapsedChange">
           <el-collapse-item>
             <template #title>
-              <div class="collapse-title">
-                <span>{{ $t('more_setting') }}</span>
-              </div>
+              <span class="collapse-title-text">{{ $t('more_setting') }}</span>
             </template>
 
-            <div class="advanced-grid">
-              <div class="advanced-card">
-                <div class="card-header-sm">
-                  <span>{{ $t('timeout_label') }}</span>
+            <div class="advanced-content">
+              <div class="advanced-grid">
+                <div class="advanced-card">
+                  <div class="card-header-sm">
+                    <span>{{ $t('timeout_label') }}</span>
+                  </div>
+                  <div class="input-with-unit">
+                    <el-input-number
+                      v-model="proxy.Timeout"
+                      :min="500"
+                      :max="3000"
+                      :step="100"
+                    />
+                    <el-tag size="small" type="info">ms</el-tag>
+                  </div>
+                  <p class="input-hint">{{ $t('timeout_tip') }}</p>
                 </div>
-                <div class="input-with-unit">
-                  <el-input-number
-                    v-model="proxy.Timeout"
-                    :min="500"
-                    :max="3000"
-                    :step="100"
+
+                <div class="advanced-card">
+                  <div class="card-header-sm">
+                    <span>{{ $t('startdistance_label') }}</span>
+                  </div>
+                  <div class="input-with-unit">
+                    <el-input-number
+                      v-model="proxy.StartDistance"
+                      :min="1"
+                      :max="50"
+                    />
+                    <el-tag size="small" type="info">px</el-tag>
+                  </div>
+                  <p class="input-hint">{{ $t('startdistance_tip') }}</p>
+                </div>
+
+                <div class="advanced-card">
+                  <div class="card-header-sm">
+                    <span>{{ $t('sensitive_label') }}</span>
+                  </div>
+                  <el-slider
+                    v-model="proxy.Sensitive"
+                    :step="5"
+                    :max="100"
+                    :marks="SensitiveMarks"
+                    show-stops
                   />
-                  <el-tag size="small" type="info">ms</el-tag>
                 </div>
-                <p class="input-hint">{{ $t('timeout_tip') }}</p>
-              </div>
 
-              <div class="advanced-card">
-                <div class="card-header-sm">
-                  <span>{{ $t('startdistance_label') }}</span>
-                </div>
-                <div class="input-with-unit">
-                  <el-input-number
-                    v-model="proxy.StartDistance"
-                    :min="1"
-                    :max="50"
-                  />
-                  <el-tag size="small" type="info">px</el-tag>
-                </div>
-                <p class="input-hint">{{ $t('startdistance_tip') }}</p>
-              </div>
-
-              <div class="advanced-card">
-                <div class="card-header-sm">
-                  <span>{{ $t('sensitive_label') }}</span>
-                </div>
-                <el-slider
-                  v-model="proxy.Sensitive"
-                  :step="5"
-                  :max="100"
-                  :marks="SensitiveMarks"
-                  show-stops
-                />
-              </div>
-
-              <div class="advanced-card toggle-card">
-                <div class="card-header-sm">
-                  <span>{{ $t('restoreevent_label') }}</span>
-                </div>
-                <div class="toggle-row">
-                  <el-switch v-model="proxy.RestoreEvent" />
-                  <span class="toggle-hint">{{ $t('restoreevent_tip') }}</span>
+                <div class="advanced-card toggle-card">
+                  <div class="card-header-sm">
+                    <span>{{ $t('restoreevent_label') }}</span>
+                  </div>
+                  <div class="toggle-row">
+                    <el-switch v-model="proxy.RestoreEvent" />
+                    <span class="toggle-hint">{{ $t('restoreevent_tip') }}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -212,207 +212,70 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useStore } from 'vuex'
+import type { Config, MouseGestureConfig } from '@/types/index.ts'
 
-export default {
-  name: 'cfg',
-  data () {
-    return {
-      FontSizeMarks: {
-        26: '默认'
-      },
-      TraceWidthMarks: {
-        3: '默认'
-      },
-      SensitiveMarks: {
-        0: '低',
-        50: '默认',
-        100: '高'
+const store = useStore()
+const cfg = computed<Config>(() => store.getters.cfg)
+
+const FontSizeMarks = ref({ 26: '默认' })
+const TraceWidthMarks = ref({ 3: '默认' })
+const SensitiveMarks = ref({
+  0: '低',
+  50: '默认',
+  100: '高'
+})
+
+function handleCollapsedChange (state: string[]) {
+  if (state.length) {
+    setTimeout(() => {
+      const content = document.querySelector('.content-area')
+      if (content) {
+        content.scrollTo({
+          top: content.scrollHeight + 50,
+          behavior: 'smooth'
+        })
       }
-    }
-  },
-  methods: {
-    handleCollapsedChange (state) {
-      if (state.length) {
-        // 等待 el-collapse 动画完成 (300ms) + 额外延迟确保渲染完成
-        setTimeout(() => {
-          var content = document.querySelector('.content-area')
-          if (content) {
-            // 滚动到底部并添加小偏移量确保完全可见
-            content.scrollTo({
-              top: content.scrollHeight + 50,
-              behavior: 'smooth'
-            })
-          }
-        }, 350)
-      }
-    }
-  },
-  computed: {
-    ...mapGetters(['cfg']),
-    proxy () {
-      var default_cfg = {
-        Open: false,
-        StartDistance: 10,
-        Timeout: 1000,
-        RestoreEvent: false,
-        AddMode: false,
-        RandColor: false,
-        FailColor: '#CAD0D3',
-        DrawColor: '#E47542',
-        DrawResult: true,
-        DrawTrace: true,
-        TraceWidth: 3,
-        FontSize: 26,
-        Offset: 150,
-        TraceArrow: true,
-        Sensitive: 50
-      }
-      if (!this.cfg.MouseGesture) return default_cfg
-      var cfg = this.cfg.MouseGesture
-      for (var k in default_cfg) {
-        if (!Object.prototype.hasOwnProperty.call(cfg, k)) {
-          cfg[k] = default_cfg[k]
-        }
-      }
-      return cfg
-    }
+    }, 350)
   }
 }
+
+const proxy = computed<MouseGestureConfig>(() => {
+  const defaultCfg: MouseGestureConfig = {
+    Open: false,
+    StartDistance: 10,
+    Timeout: 1000,
+    RestoreEvent: false,
+    AddMode: false,
+    RandColor: false,
+    FailColor: '#CAD0D3',
+    DrawColor: '#E47542',
+    DrawResult: true,
+    DrawTrace: true,
+    TraceWidth: 3,
+    FontSize: 26,
+    Offset: 150,
+    TraceArrow: true,
+    Sensitive: 50,
+    WheelSwitch: false
+  }
+  if (!cfg.value.MouseGesture) return defaultCfg
+  const gestureCfg = cfg.value.MouseGesture
+  for (const k in defaultCfg) {
+    const key = k as keyof MouseGestureConfig
+    if (!Object.prototype.hasOwnProperty.call(gestureCfg, key)) {
+      (gestureCfg as any)[key] = defaultCfg[key]
+    }
+  }
+  return gestureCfg
+})
 </script>
 
 <style lang="less" scoped>
 .settings-page {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-// Page Header
-.page-header {
-  position: relative;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  margin-bottom: 20px;
-  overflow: hidden;
-
-  &.active {
-    border-color: var(--primary-color);
-  }
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  position: relative;
-  z-index: 1;
-}
-
-.header-info {
-  flex: 1;
-
-  h2 {
-    margin: 0 0 4px;
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  p {
-    margin: 0;
-    font-size: 13px;
-    color: var(--text-secondary);
-  }
-}
-
-.header-glow {
-  position: absolute;
-  top: 50%;
-  left: 24px;
-  transform: translateY(-50%);
-  width: 80px;
-  height: 80px;
-  background: var(--primary-color);
-  filter: blur(50px);
-  opacity: 0.3;
-  pointer-events: none;
-}
-
-// Settings Grid
-.settings-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  transition: opacity 0.3s ease;
-
-  &.disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-}
-
-// Settings Section
-.settings-section {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  transition: all 0.3s ease;
-
-  &:hover {
-    border-color: var(--border-light);
-  }
-
-  &.advanced {
-    padding: 0;
-    overflow: hidden;
-
-    :deep(.el-collapse) {
-      border: none;
-
-      .el-collapse-item {
-        &__header {
-          background: transparent;
-          border: none;
-          padding: 20px 24px;
-          height: auto;
-          font-size: inherit;
-          color: inherit;
-
-          &:hover {
-            background: var(--bg-hover);
-          }
-        }
-
-        &__wrap {
-          background: transparent;
-          border: none;
-        }
-
-        &__content {
-          padding: 0 24px 24px;
-        }
-      }
-    }
-  }
-}
-
-.section-header {
-  margin-bottom: 20px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.collapse-title {
-  display: flex;
-  align-items: center;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
+  &:extend(.page-container);
 }
 
 // Settings Cards
@@ -423,72 +286,21 @@ export default {
 }
 
 .setting-card {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px;
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  transition: all 0.25s ease;
-
-  &:hover {
-    border-color: var(--border-light);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-  }
+  &:extend(.setting-card all);
 
   &.disabled {
     opacity: 0.5;
     pointer-events: none;
   }
-
-  .card-content {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .card-title {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-primary);
-    margin-bottom: 2px;
-  }
-
-  .card-desc {
-    font-size: 12px;
-    color: var(--text-muted);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 }
 
 // Style Grid
 .style-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  &:extend(.style-grid all);
 }
 
 .style-card {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 16px;
-  transition: all 0.25s ease;
-
-  &:hover {
-    border-color: var(--border-light);
-  }
-
-  label {
-    display: block;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    margin-bottom: 12px;
-  }
+  &:extend(.style-card all);
 
   &.slider-card {
     grid-column: span 2;
@@ -507,42 +319,8 @@ export default {
   }
 }
 
-.color-picker-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-
-  .color-info {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .color-value {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-primary);
-    font-family: monospace;
-  }
-}
-
 .slider-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-
-  .el-slider {
-    flex: 1;
-  }
-
-  .slider-value {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--primary-color);
-    font-family: monospace;
-    min-width: 50px;
-    text-align: right;
-  }
+  &:extend(.slider-wrapper all);
 }
 
 .input-wrapper {
@@ -554,89 +332,6 @@ export default {
     margin: 0;
     font-size: 12px;
     color: var(--text-muted);
-  }
-}
-
-// Advanced Grid
-.advanced-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
-}
-
-.advanced-card {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 16px;
-  transition: all 0.25s ease;
-
-  &:hover {
-    border-color: var(--border-light);
-  }
-
-  &.toggle-card {
-    .toggle-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .toggle-hint {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-  }
-}
-
-.card-header-sm {
-  margin-bottom: 12px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.input-with-unit {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-
-.input-hint {
-  margin: 0;
-  font-size: 12px;
-  color: var(--text-muted);
-  line-height: 1.4;
-}
-
-// Responsive
-@media (max-width: 768px) {
-  .settings-cards {
-    grid-template-columns: 1fr;
-  }
-
-  .style-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .style-card.slider-card,
-  .style-card.input-card {
-    grid-column: span 1;
-  }
-
-  .advanced-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .header-content {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .header-info {
-    order: 3;
-    width: 100%;
   }
 }
 </style>

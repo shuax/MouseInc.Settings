@@ -26,13 +26,14 @@ export default {
   more_setting: '更多设置',
   no_data: '暂无数据',
   items: '项',
-  placeholder_exclude: '输入要排除的窗口标题或程序名',
+  placeholder_exclude: '输入要排除的程序名（如：notepad.exe）',
   reset: '重置',
   save: '保存',
   refresh: '刷新',
   connection_error: '连接错误',
   connection_error_desc: '无法连接到MouseInc主程序，请检查主程序是否已启动',
   retry: '重试',
+  connection_lost: '与MouseInc主程序的连接已断开，请检查主程序是否运行',
 
   warning: '警告',
   reset_tips1: '此操作将会丢失所有自定义设置，请小心操作！',
@@ -59,6 +60,8 @@ export default {
   keysound: '按键音效',
   ocrapi: 'OCR接口',
   administrator: '管理员运行',
+  showime: '输入法状态显示',
+  quickjump: '快速跳转',
 
   mousegesture_label: '按住鼠标右键持续移动画出形状，放开右键即可触发对应动作',
   wheelswitch_label: '按住鼠标右键时，滚动滚轮可以执行切换动作（依赖鼠标手势）',
@@ -80,13 +83,15 @@ export default {
   fastpaste_label: '按住左键点右键粘贴',
   keysound_label: '在你打字时发出悦耳的声音',
   administrator_label: '启动程序时自动获取管理员权限',
+  showime_label: '显示当前窗口输入法的中英文状态',
+  quickjump_label: '打开/保存对话框自动使用最近资源管理器目录',
 
   icon_warning: '隐藏后只能通过手势打开设置界面，默认为M，是否继续？',
 
   exclude_tips1: '默认配置下，画手势Z可以添加程序到此列表中',
-  exclude_tips2: '在此列表中的程序不会启用鼠标手势等功能，忽略大小写。',
+  exclude_tips2: '在此列表中的程序不会启用鼠标手势等功能，忽略大小写。请直接输入程序文件名（如：notepad.exe）',
   exclude_tips3: '当前排除程序列表：',
-  exclude_warning: '请输入正确的程序名',
+  exclude_warning: '请输入正确的程序文件名（如：notepad.exe）',
 
   add: '添加',
 
@@ -223,6 +228,10 @@ export default {
   key2: '茶轴',
   key3: '红轴',
   key4: 'G轴',
+
+  ocr_own: '自有',
+  ocr_youdao: '有道',
+  ocr_paddle: '飞桨',
 
   language_settings_desc: '选择界面显示的语言',
   current_language: '当前语言',

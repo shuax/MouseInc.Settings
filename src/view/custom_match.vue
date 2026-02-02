@@ -1,80 +1,82 @@
 <template>
   <div class="custom-match-page fade-in">
-    <!-- Page Header -->
-    <div class="page-header">
-      <div class="header-content">
-        <h2>{{ $t('custom_match') }}</h2>
-        <p>{{ $t('custom_tips') }}</p>
-      </div>
+    <!-- Alerts Section -->
+    <div class="alerts-section">
+      <el-alert :title="$t('custom_tips')" type="info" :closable="false" class="modern-alert" show-icon />
     </div>
-
-    <!-- Info Alert -->
-    <el-alert :title="$t('custom_tips')" type="info" :closable="false" class="modern-alert" show-icon />
 
     <!-- Tabs Card -->
     <div class="tabs-card">
       <el-tabs v-model="tab" type="border-card" class="custom-tabs">
         <el-tab-pane v-for="(item, index) in cfg.MatchCustom" :label="item.Name" :key="index" :name="String(index)">
-          <!-- Match Settings Card -->
-          <div class="match-settings-card">
-            <div class="section-header">
-              <span>{{ $t('custom_list') }}</span>
-              <el-switch v-model="item.IgnoreGlobal" size="small" class="section-toggle" />
-              <span class="toggle-label">{{ $t('ignore_global') }}</span>
-            </div>
-
-            <!-- Match List -->
-            <div class="match-list">
-              <div v-for="(match, match_index) in item.Match" :key="match" class="match-item">
-                <div class="match-tag">
-                  <span>{{ match }}</span>
-                </div>
-                <el-button
-                  type="danger"
-                  :icon="Delete"
-                  circle
-                  size="small"
-                  class="delete-btn"
-                  @click="removematch(index, match_index)"
-                />
-              </div>
-
-              <!-- Add Match -->
-              <div class="match-add">
-                <div class="add-input-wrapper">
-                  <el-input
-                    v-model="value"
-                    :placeholder="$t('add')"
-                    @keyup.enter="addmatch(index)"
-                    clearable
-                    class="add-input"
-                  />
-                </div>
-                <el-button type="primary" :icon="Plus" @click="addmatch(index)">
-                  {{ $t('add') }}
-                </el-button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Gestures Table Card - Collapsible -->
-          <el-collapse v-model="activeCollapse" class="gestures-collapse">
+          <!-- Match Settings Card - Collapsed by default -->
+          <el-collapse v-model="matchListCollapse" class="match-list-collapse">
             <el-collapse-item :name="String(index)">
               <template #title>
                 <div class="collapse-title">
-                  <span>{{ $t('gesture_list') }}</span>
+                  <span>{{ $t('custom_list') }}</span>
                   <el-tag size="small" type="info" effect="dark" class="count-tag">
-                    {{ item.List ? item.List.length : 0 }} {{ $t('items') }}
+                    {{ item.Match ? item.Match.length : 0 }} {{ $t('items') }}
                   </el-tag>
+                  <el-switch 
+                    v-model="item.IgnoreGlobal" 
+                    size="small" 
+                    class="section-toggle" 
+                    @click.stop
+                  />
+                  <span class="toggle-label" @click.stop>{{ $t('ignore_global') }}</span>
                 </div>
               </template>
-              <div class="gestures-card">
-                <div class="table-wrapper">
-                  <el-table
-                    :data="MatchTable(item.List, index)"
-                    stripe
-                    class="modern-table"
-                  >
+              
+              <!-- Match List -->
+              <div class="match-list">
+                <div v-for="(match, match_index) in item.Match" :key="match" class="match-item">
+                  <div class="match-tag">
+                    <span>{{ match }}</span>
+                  </div>
+                  <el-button
+                    type="danger"
+                    :icon="Delete"
+                    circle
+                    size="small"
+                    class="delete-btn"
+                    @click="removematch(index, match_index)"
+                  />
+                </div>
+
+                <!-- Add Match -->
+                <div class="match-add">
+                  <div class="add-input-wrapper">
+                    <el-input
+                      v-model="value"
+                      :placeholder="$t('add')"
+                      @keyup.enter="addmatch(index)"
+                      clearable
+                      class="add-input"
+                    />
+                  </div>
+                  <el-button type="primary" :icon="Plus" @click="addmatch(index)">
+                    {{ $t('add') }}
+                  </el-button>
+                </div>
+              </div>
+            </el-collapse-item>
+          </el-collapse>
+
+          <!-- Gestures Table Card -->
+          <div class="gestures-card">
+            <div class="section-header">
+              <span>{{ $t('gesture_list') }}</span>
+              <el-tag size="small" type="info" effect="dark" class="count-tag">
+                {{ item.List ? item.List.length : 0 }} {{ $t('items') }}
+              </el-tag>
+            </div>
+            <div class="table-wrapper">
+              <el-table
+                :data="MatchTable(item.List, index)"
+                stripe
+                class="modern-table"
+              >
                     <el-table-column :label="$t('valid')" width="70" align="center" fixed="left">
                       <template #default="{ row, $index }">
                         <el-switch
@@ -155,9 +157,7 @@
                   </el-button>
                 </div>
               </div>
-            </el-collapse-item>
-          </el-collapse>
-        </el-tab-pane>
+            </el-tab-pane>
 
         <!-- Tab Extra Actions -->
         <template #extra>
@@ -271,374 +271,179 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { ref, reactive, computed } from 'vue'
+import { useStore } from 'vuex'
+import { ElMessage } from 'element-plus'
 import JsonEdit from './components/json.vue'
 import SelectEdit from './components/select.vue'
 import GestureEdit from './components/gesture.vue'
-import { mapGetters } from 'vuex'
-import { ElMessage } from 'element-plus'
 import { Plus, Delete, Edit, CopyDocument } from '@element-plus/icons-vue'
 
-export default {
-  name: 'custom-match',
-  components: {
-    JsonEdit,
-    SelectEdit,
-    GestureEdit
-  },
-  setup () {
-    return {
-      Plus,
-      Delete,
-      Edit,
-      CopyDocument
+interface GestureItem {
+  Valid: boolean
+  Sign: string
+  Name: string
+  Actions: any[]
+  index?: number
+}
+
+interface CustomMatch {
+  Name: string
+  IgnoreGlobal: boolean
+  Match: string[]
+  List: GestureItem[]
+}
+
+interface Config {
+  MatchCustom: CustomMatch[]
+}
+
+const store = useStore()
+
+const tab = ref('0')
+const value = ref('')
+const activeCollapse = ref<string[]>([])
+const matchListCollapse = ref<string[]>([]) // 默认折叠程序列表
+
+const modal = reactive({
+  editing: false,
+  title: '',
+  sign: '',
+  name: '',
+  actions: [] as any[],
+  new_actions: [] as any[],
+  btn: 'primary',
+  index: 0,
+  match_index: undefined as number | undefined
+})
+
+const tabModal = reactive({
+  visible: false,
+  name: ''
+})
+
+const cfg = computed<Config>(() => store.getters.cfg)
+
+const formatActions = (actions: any[]): string => {
+  if (!actions || !Array.isArray(actions)) return ''
+  return actions.map(a => {
+    if (typeof a === 'string') return a
+    if (a.cmd) return `cmd: ${a.cmd}`
+    if (a.key) return `key: ${a.key}`
+    return JSON.stringify(a)
+  }).join(' → ')
+}
+
+const oncheck = (index: number, match_index: number, value: boolean) => {
+  const row = cfg.value.MatchCustom[index].List[match_index]
+  row.Valid = value
+}
+
+const modify = (index: number, match_index: number) => {
+  modal.editing = true
+  modal.index = index
+  modal.match_index = match_index
+  const row = cfg.value.MatchCustom[index].List[match_index]
+  modal.title = 'modify_gesture'
+  modal.btn = 'primary'
+  modal.sign = row.Sign
+  modal.name = row.Name
+  modal.actions = row.Actions
+  modal.new_actions = row.Actions
+}
+
+const create = (index: number) => {
+  modal.editing = true
+  modal.index = index
+  modal.match_index = undefined
+  modal.title = 'add_gesture'
+  modal.btn = 'success'
+  modal.sign = ''
+  modal.name = ''
+  const actions: any[] = []
+  modal.actions = actions
+  modal.new_actions = actions
+}
+
+const on_modify = () => {
+  modal.editing = false
+  const index = modal.index
+  const match_index = modal.match_index
+  if (match_index !== undefined) {
+    const row = cfg.value.MatchCustom[index].List[match_index]
+    row.Sign = modal.sign
+    row.Name = modal.name
+    row.Actions = modal.new_actions
+  } else {
+    const new_row: GestureItem = {
+      Valid: true,
+      Sign: modal.sign,
+      Name: modal.name,
+      Actions: modal.new_actions
     }
-  },
-  data () {
-    return {
-      tab: '0',
-      value: '',
-      activeCollapse: [], // 控制折叠面板状态，默认空数组表示都折叠
-      modal: {
-        editing: false,
-        title: '',
-        sign: '',
-        name: '',
-        actions: [],
-        new_actions: [],
-        btn: 'primary'
-      },
-      tabModal: {
-        visible: false,
-        name: ''
-      }
-    }
-  },
-  computed: {
-    ...mapGetters([
-      'cfg'
-    ])
-  },
-  methods: {
-    formatActions (actions) {
-      if (!actions || !Array.isArray(actions)) return ''
-      return actions.map(a => {
-        if (typeof a === 'string') return a
-        if (a.cmd) return `cmd: ${a.cmd}`
-        if (a.key) return `key: ${a.key}`
-        return JSON.stringify(a)
-      }).join(' → ')
-    },
-    oncheck (index, match_index, value) {
-      var row = this.cfg.MatchCustom[index].List[match_index]
-      row.Valid = value
-    },
-    modify (index, match_index) {
-      this.modal.editing = true
-      this.modal.index = index
-      this.modal.match_index = match_index
-      var row = this.cfg.MatchCustom[index].List[match_index]
-      this.modal.title = this.$t('modify_gesture')
-      this.modal.btn = 'primary'
-      this.modal.sign = row.Sign
-      this.modal.name = row.Name
-      this.modal.actions = row.Actions
-      this.modal.new_actions = row.Actions
-    },
-    create (index) {
-      this.modal.editing = true
-      this.modal.index = index
-      this.modal.match_index = undefined
-      this.modal.title = this.$t('add_gesture')
-      this.modal.btn = 'success'
-      this.modal.sign = ''
-      this.modal.name = ''
-      var actions = []
-      this.modal.actions = actions
-      this.modal.new_actions = actions
-    },
-    on_modify () {
-      this.modal.editing = false
-      var index = this.modal.index
-      var match_index = this.modal.match_index
-      if (match_index !== undefined) {
-        var row = this.cfg.MatchCustom[index].List[match_index]
-        row.Sign = this.modal.sign
-        row.Name = this.modal.name
-        row.Actions = this.modal.new_actions
-      } else {
-        var new_row = {
-          Valid: true,
-          Sign: this.modal.sign,
-          Name: this.modal.name,
-          Actions: this.modal.new_actions
-        }
-        this.cfg.MatchCustom[index].List.push(new_row)
-      }
-    },
-    remove (index, match_index) {
-      this.cfg.MatchCustom[index].List.splice(match_index, 1)
-    },
-    removematch (index, match_index) {
-      this.cfg.MatchCustom[index].Match.splice(match_index, 1)
-    },
-    addmatch (index) {
-      if (this.value.indexOf('.') === -1) {
-        ElMessage.error(this.$t('exclude_warning'))
-        return
-      }
-      this.cfg.MatchCustom[index].Match.push(this.value)
-      this.value = ''
-    },
-    modtab () {
-      this.tabModal.name = this.cfg.MatchCustom[parseInt(this.tab)].Name
-      this.tabModal.visible = true
-    },
-    onTabModalOk () {
-      this.cfg.MatchCustom[parseInt(this.tab)].Name = this.tabModal.name
-      this.tabModal.visible = false
-    },
-    addtab () {
-      this.cfg.MatchCustom.push(JSON.parse(JSON.stringify(this.cfg.MatchCustom[parseInt(this.tab)])))
-      this.tab = String(this.cfg.MatchCustom.length - 1)
-    },
-    removetab () {
-      this.cfg.MatchCustom.splice(parseInt(this.tab), 1)
-      this.tab = String(Math.min(parseInt(this.tab), this.cfg.MatchCustom.length - 1))
-    },
-    MatchTable (data, index) {
-      var result = []
-      for (var k in data) {
-        result.push({
-          Valid: data[k].Valid,
-          Sign: data[k].Sign,
-          Name: data[k].Name,
-          Actions: data[k].Actions,
-          index: index
-        })
-      }
-      return result
-    }
+    cfg.value.MatchCustom[index].List.push(new_row)
   }
+}
+
+const remove = (index: number, match_index: number) => {
+  cfg.value.MatchCustom[index].List.splice(match_index, 1)
+}
+
+const removematch = (index: number, match_index: number) => {
+  cfg.value.MatchCustom[index].Match.splice(match_index, 1)
+}
+
+const addmatch = (index: number) => {
+  if (value.value.indexOf('.') === -1) {
+    ElMessage.error('exclude_warning')
+    return
+  }
+  cfg.value.MatchCustom[index].Match.push(value.value)
+  value.value = ''
+}
+
+const modtab = () => {
+  tabModal.name = cfg.value.MatchCustom[parseInt(tab.value)].Name
+  tabModal.visible = true
+}
+
+const onTabModalOk = () => {
+  cfg.value.MatchCustom[parseInt(tab.value)].Name = tabModal.name
+  tabModal.visible = false
+}
+
+const addtab = () => {
+  cfg.value.MatchCustom.push(JSON.parse(JSON.stringify(cfg.value.MatchCustom[parseInt(tab.value)])))
+  tab.value = String(cfg.value.MatchCustom.length - 1)
+}
+
+const removetab = () => {
+  cfg.value.MatchCustom.splice(parseInt(tab.value), 1)
+  tab.value = String(Math.min(parseInt(tab.value), cfg.value.MatchCustom.length - 1))
+}
+
+const MatchTable = (data: GestureItem[], index: number): GestureItem[] => {
+  const result: GestureItem[] = []
+  for (const k in data) {
+    result.push({
+      Valid: data[k].Valid,
+      Sign: data[k].Sign,
+      Name: data[k].Name,
+      Actions: data[k].Actions,
+      index: index
+    })
+  }
+  return result
 }
 </script>
 
 <style lang="less" scoped>
 .custom-match-page {
-  max-width: 1200px;
-  margin: 0 auto;
+  &:extend(.page-container);
 }
 
-// Page Header
-.page-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-
-  .header-content {
-    h2 {
-      margin: 0 0 4px;
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    p {
-      margin: 0;
-      font-size: 13px;
-      color: var(--text-secondary);
-    }
-  }
-}
-
-// Alert
-.modern-alert {
-  margin-bottom: 20px;
-  border-radius: 10px;
-  border: 1px solid rgba(88, 166, 255, 0.2);
-  background: rgba(88, 166, 255, 0.08);
-
-  :deep(.el-alert__content) {
-    color: var(--text-primary);
-  }
-}
-
-// Tabs Card
-.tabs-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-}
-
-.custom-tabs {
-  :deep(.el-tabs__header) {
-    background: var(--bg-tertiary);
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 0;
-
-    .el-tabs__nav-wrap {
-      padding: 0 16px;
-    }
-
-    .el-tabs__item {
-      color: var(--text-secondary);
-      font-weight: 500;
-      padding: 0 20px;
-      height: 48px;
-      line-height: 48px;
-
-      &.is-active {
-        color: var(--primary-color);
-      }
-
-      &:hover {
-        color: var(--text-primary);
-      }
-    }
-
-    .el-tabs__active-bar {
-      background: var(--primary-gradient);
-      height: 3px;
-    }
-  }
-
-  :deep(.el-tabs__content) {
-    padding: 20px;
-  }
-}
-
-.tab-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-}
-
-// Match Settings Card
-.match-settings-card {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.section-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-
-  .section-toggle {
-    margin-left: auto;
-  }
-
-  .toggle-label {
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--text-secondary);
-  }
-}
-
-// Match List
-.match-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.match-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  transition: all 0.25s ease;
-
-  &:hover {
-    border-color: var(--border-light);
-    transform: translateX(4px);
-  }
-
-  .match-tag {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    color: var(--text-primary);
-    font-family: 'Courier New', monospace;
-  }
-
-  .delete-btn {
-    background: rgba(248, 81, 73, 0.1);
-    border: 1px solid rgba(248, 81, 73, 0.3);
-    color: var(--accent-red);
-
-    &:hover {
-      background: var(--accent-red);
-      border-color: var(--accent-red);
-      color: white;
-    }
-  }
-}
-
-// Match Add
-.match-add {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-top: 10px;
-}
-
-.add-input-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 0 12px;
-  transition: all 0.25s ease;
-
-  &:focus-within {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
-  }
-
-  .add-input {
-    flex: 1;
-
-    :deep(.el-input__wrapper) {
-      background: transparent;
-      box-shadow: none;
-      padding: 8px 0;
-    }
-  }
-}
-
-// Gestures Card
-gestures-card {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 20px;
-}
-
-.table-wrapper {
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-  margin-bottom: 16px;
-}
-
+// Section Header for match settings
 // Table Styles
 .modern-table {
   background: transparent;
@@ -668,60 +473,10 @@ gestures-card {
       padding: 14px 0;
     }
   }
-
-  .actions-preview {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    .actions-text {
-      font-size: 13px;
-      color: var(--text-secondary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-
-  .operate-cell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-
-    .el-divider {
-      background: var(--border-color);
-    }
-  }
 }
 
-// Table Footer
-.table-footer {
-  display: flex;
-  justify-content: flex-start;
-
-  .create-btn {
-    background: var(--primary-gradient);
-    border: none;
-    font-weight: 500;
-
-    &:hover {
-      box-shadow: 0 4px 14px rgba(102, 126, 234, 0.4);
-      transform: translateY(-1px);
-    }
-  }
-}
-
-// Empty State
-.empty-state {
-  padding: 60px 20px;
-  text-align: center;
-
-  p {
-    color: var(--text-secondary);
-    margin: 0 0 20px;
-    font-size: 14px;
-  }
+.table-wrapper {
+  &:extend(.table-wrapper-bordered);
 }
 
 // Dialog Styles
@@ -754,24 +509,10 @@ gestures-card {
 }
 
 .dialog-body {
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-
-    @media (max-width: 600px) {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .form-item-half {
-    margin-bottom: 20px;
-
-    :deep(.el-form-item__label) {
-      color: var(--text-secondary);
-      font-weight: 500;
-      padding-bottom: 8px;
-    }
+  :deep(.el-form-item__label) {
+    color: var(--text-secondary);
+    font-weight: 500;
+    padding-bottom: 8px;
   }
 
   .json-editor-wrapper {
@@ -781,25 +522,117 @@ gestures-card {
   }
 }
 
-.dialog-footer {
+// Section header for gestures
+.section-header {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
   gap: 12px;
+  margin-bottom: 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
 
-  .save-btn {
-    min-width: 100px;
+  .count-tag {
+    font-weight: 500;
   }
 }
 
-// Responsive
-@media (max-width: 768px) {
-  .match-add {
-    flex-direction: column;
-    align-items: stretch;
-  }
+// Gestures card
+gestures-card {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-top: 16px;
+}
 
-  .tab-actions {
-    flex-wrap: wrap;
+// Match list collapse styles
+.match-list-collapse {
+  margin-bottom: 16px;
+  
+  :deep(.el-collapse-item) {
+    &__header {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      height: auto;
+      line-height: 1.5;
+      
+      &:hover {
+        border-color: var(--border-light);
+      }
+    }
+    
+    &__wrap {
+      border: none;
+    }
+    
+    &__content {
+      padding: 16px 0 0;
+    }
+  }
+  
+  .collapse-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    
+    .count-tag {
+      font-weight: 500;
+    }
+    
+    .section-toggle {
+      margin-left: auto;
+    }
+    
+    .toggle-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+  }
+}
+
+// Match list styles
+.match-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.match-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  
+  .match-tag {
+    font-size: 13px;
+    color: var(--text-primary);
+  }
+  
+  .delete-btn {
+    opacity: 0.6;
+    
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.match-add {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  margin-top: 8px;
+  
+  .add-input-wrapper {
+    flex: 1;
   }
 }
 </style>

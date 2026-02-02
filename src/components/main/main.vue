@@ -20,7 +20,7 @@
 
       <!-- Navigation Menu -->
       <side-menu
-        ref="sideMenu"
+        ref="sideMenuRef"
         :active-name="$route.name"
         :collapsed="collapsed"
         @on-select="turnToPage"
@@ -145,10 +145,13 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
+<script setup lang="ts">
+import { ref, computed, watch, onMounted, onBeforeUnmount, markRaw, nextTick } from 'vue'
+import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { ElMessage, ElLoading } from 'element-plus'
-import { markRaw } from 'vue'
+import type { LoadingInstance } from 'element-plus'
 import { RefreshLeft, Refresh, Download, Warning, Fold, Expand, Mouse } from '@element-plus/icons-vue'
 import SideMenu from './components/side-menu'
 import CustomBreadCrumb from './components/header-bar/custom-bread-crumb'
@@ -156,229 +159,250 @@ import Language from './components/language'
 import config from '@/config'
 import { setTitle, getParams } from '@/libs/util'
 import beautify from 'js-beautify'
+import type { MenuItem, Config } from '@/types'
 
-export default {
-  name: 'MainLayout',
-  components: {
-    SideMenu,
-    CustomBreadCrumb,
-    Language,
-    RefreshLeft,
-    Refresh,
-    Download,
-    Warning,
-    Fold,
-    Expand,
-    Mouse
-  },
-  data () {
-    return {
-      config,
-      collapsed: false,
-      init: false,
-      modified: false,
-      loading: 'Loading',
-      resetWarning: false,
-      resetLoading: false,
-      saveLoading: false,
-      websocket: null,
-      loadingInstance: null,
-      connectionErrorShown: false,
-      skipNextModifiedCheck: false,
-      RefreshLeft: markRaw(RefreshLeft),
-      Refresh: markRaw(Refresh),
-      Download: markRaw(Download),
-      Warning: markRaw(Warning),
-      Fold: markRaw(Fold),
-      Expand: markRaw(Expand),
-      Mouse: markRaw(Mouse)
+const store = useStore()
+const route = useRoute()
+const router = useRouter()
+const { t } = useI18n()
+
+// Refs
+const sideMenuRef = ref<InstanceType<typeof SideMenu> | null>(null)
+const collapsed = ref(false)
+const init = ref(false)
+const modified = ref(false)
+const loading = ref('正在连接到 MouseInc...')
+const resetWarning = ref(false)
+const resetLoading = ref(false)
+const saveLoading = ref(false)
+const websocket = ref<WebSocket | null>(null)
+const loadingInstance = ref<LoadingInstance | null>(null)
+const connectionErrorShown = ref(false)
+const skipNextModifiedCheck = ref(false)
+
+// Computed
+const menuList = computed<MenuItem[]>(() => store.getters.menuList)
+const breadCrumbList = computed<MenuItem[]>(() => store.getters.breadCrumbList)
+const local = computed<string>(() => store.getters.local)
+const cfg = computed<Config>(() => store.getters.cfg)
+
+// 使用 ref 存储版本号，确保响应式更新
+const version = ref(config.version[0] || '--')
+
+// 更新版本号的函数
+const updateVersion = (newVersion: string, isAdmin: number) => {
+  if (newVersion) {
+    version.value = newVersion + (isAdmin === 1 ? ' A' : ' B')
+    config.version[0] = version.value
+  }
+}
+
+// Methods
+const setBreadCrumb = (newRoute: any) => {
+  store.dispatch('setBreadCrumb', newRoute)
+}
+
+// Watch
+watch(
+  () => route,
+  (newRoute) => {
+    setBreadCrumb(newRoute)
+    if (sideMenuRef.value) {
+      sideMenuRef.value.updateOpenName(newRoute.name as string)
     }
-  },
-  computed: {
-    ...mapGetters(['menuList', 'breadCrumbList', 'local', 'cfg']),
-    version () {
-      return config.version[0] || ''
-    }
-  },
-  watch: {
-    '$route': {
-      handler (newRoute) {
-        this.setBreadCrumb(newRoute)
-        if (this.$refs.sideMenu) {
-          this.$refs.sideMenu.updateOpenName(newRoute.name)
-        }
-      },
-      immediate: true,
-      deep: true
-    },
-    'cfg': {
-      handler () {
-        if (this.skipNextModifiedCheck) {
-          this.skipNextModifiedCheck = false
-          return
-        }
-        if (this.init) {
-          this.modified = true
-        }
-        this.init = true
-      },
-      deep: true
-    }
-  },
-  mounted () {
-    this.setBreadCrumb(this.$route)
-    this.setLocal(this.$i18n.locale)
-
-    ElMessage.closeAll()
-
-    this.$nextTick(() => {
-      this.loadingInstance = ElLoading.service({
-        fullscreen: true,
-        text: this.loading,
-        background: 'rgba(13, 17, 23, 0.95)',
-        lock: true,
-        customClass: 'modern-loading'
-      })
-
-      setTimeout(() => {
-        this.setupWebSocket()
-      }, 100)
+    // 页面切换时滚动到顶部
+    nextTick(() => {
+      const contentArea = document.querySelector('.content-area')
+      if (contentArea) {
+        contentArea.scrollTop = 0
+      }
     })
   },
-  beforeUnmount () {
-    if (this.loadingInstance) {
-      this.loadingInstance.close()
+  { immediate: true, deep: true }
+)
+
+watch(
+  () => cfg.value,
+  () => {
+    if (skipNextModifiedCheck.value) {
+      skipNextModifiedCheck.value = false
+      return
     }
-    if (this.websocket) {
-      this.websocket.close()
+    if (init.value) {
+      modified.value = true
     }
+    init.value = true
   },
-  methods: {
-    setBreadCrumb (newRoute) {
-      this.$store.dispatch('setBreadCrumb', newRoute)
-    },
-    setLocal (lang) {
-      this.$store.dispatch('setLocal', lang)
-      this.$i18n.locale = lang
-    },
-    turnToPage (routeItem) {
-      let { name, params, query } = {}
-      if (typeof routeItem === 'string') {
-        name = routeItem
-      } else {
-        name = routeItem.name
-        params = routeItem.params
-        query = routeItem.query
-      }
-      if (name.indexOf('isTurnByHref_') > -1) {
-        window.open(name.split('_')[1])
-        return
-      }
-      this.$router.push({ name, params, query }).catch(() => {})
-    },
-    handleCollapsedChange (state) {
-      this.collapsed = state
-    },
-    showResetDialog () {
-      this.resetWarning = true
-    },
-    reset () {
-      this.resetLoading = true
+  { deep: true }
+)
 
-      if (this.websocket && this.websocket.readyState === WebSocket.OPEN) {
-        this.websocket.send(JSON.stringify({ type: 'reset_settings' }))
-      }
-    },
-    refresh () {
-      location.reload()
-    },
-    save () {
-      this.saveLoading = true
+const setLocal = (lang: string) => {
+  store.dispatch('setLocal', lang)
+}
 
-      const formattedCfg = beautify.js(JSON.stringify(this.cfg), {
-        indent_size: 4,
-        indent_with_tabs: true,
-        eol: '\r\n'
-      })
+const turnToPage = (routeItem: string | { name: string; params?: any; query?: any }) => {
+  let name: string
+  let params: any
+  let query: any
+  
+  if (typeof routeItem === 'string') {
+    name = routeItem
+  } else {
+    name = routeItem.name
+    params = routeItem.params
+    query = routeItem.query
+  }
+  
+  if (name.indexOf('isTurnByHref_') > -1) {
+    window.open(name.split('_')[1])
+    return
+  }
+  router.push({ name, params, query }).catch(() => {})
+}
 
-      if (this.websocket && this.websocket.readyState === WebSocket.OPEN) {
-        this.websocket.send(JSON.stringify({ type: 'save_settings', config: formattedCfg }))
-      }
-    },
-    setupWebSocket () {
-      let port = getParams(location.search || '?')['port']
-      port = port || 80
+const handleCollapsedChange = (state: boolean) => {
+  collapsed.value = state
+}
 
-      this.websocket = new WebSocket('ws://127.0.0.1:' + port + '/ws')
+const showResetDialog = () => {
+  resetWarning.value = true
+}
 
-      this.websocket.onopen = () => {
-        console.log('WebSocket connected')
-        this.connectionErrorShown = false
-        this.websocket.send(JSON.stringify({ type: 'load_settings' }))
-      }
+const reset = () => {
+  resetLoading.value = true
 
-      this.websocket.onclose = (event) => {
-        console.log('WebSocket closed:', event.code, event.reason, 'wasClean:', event.wasClean)
-        if (this.loadingInstance) {
-          this.loadingInstance.close()
-        }
-        if (!event.wasClean || !this.init) {
-          this.connectionErrorShown = true
-          if (!this.connectionErrorShown) {
-            ElMessage.error('与MouseInc主程序的连接已断开，请检查主程序是否运行')
-          }
-        }
-      }
+  if (websocket.value && websocket.value.readyState === WebSocket.OPEN) {
+    websocket.value.send(JSON.stringify({ type: 'reset_settings' }))
+  }
+}
 
-      this.websocket.onmessage = (evt) => {
-        const message = JSON.parse(evt.data)
+const refresh = () => {
+  location.reload()
+}
 
-        if (message.type === 'load_settings') {
-          if (this.loadingInstance) {
-            this.loadingInstance.close()
-          }
+const save = () => {
+  saveLoading.value = true
 
-          this.init = true
-          this.skipNextModifiedCheck = true
-          this.modified = false
-          this.$store.dispatch('setSettings', message.data)
+  const formattedCfg = beautify.js(JSON.stringify(cfg.value), {
+    indent_size: 4,
+    indent_with_tabs: true,
+    eol: '\r\n'
+  })
 
-          config.version[0] = message.data.version
-          if (message.data.admin === 1) {
-            config.version[0] += ' A'
-          } else {
-            config.version[0] += ' B'
-          }
-          setTitle(this.$route, { $t: this.$t })
-        } else if (message.type === 'save_settings') {
-          ElMessage.success(this.$t('save_ok'))
-          this.saveLoading = false
-          this.skipNextModifiedCheck = true
-          this.modified = false
-          this.$store.dispatch('setSettings', message.data)
-        } else if (message.type === 'reset_settings') {
-          ElMessage.success(this.$t('reset_ok'))
-          this.resetLoading = false
-          this.resetWarning = false
-          this.skipNextModifiedCheck = true
-          this.modified = false
-          this.$store.dispatch('setSettings', message.data)
-        }
-      }
+  if (websocket.value && websocket.value.readyState === WebSocket.OPEN) {
+    websocket.value.send(JSON.stringify({ type: 'save_settings', config: formattedCfg }))
+  }
+}
 
-      this.websocket.onerror = (error) => {
-        console.error('WebSocket error:', error)
-        if (this.loadingInstance) {
-          this.loadingInstance.close()
-        }
-        this.connectionErrorShown = true
-        if (!this.connectionErrorShown) {
-          ElMessage.error('无法连接到MouseInc主程序，请检查主程序是否已启动')
-        }
+const setupWebSocket = () => {
+  const params = getParams(location.search || '?')
+  let port = params['port']
+  port = port || 80
+
+  websocket.value = new WebSocket('ws://127.0.0.1:' + port + '/ws')
+
+  websocket.value.onopen = () => {
+    console.log('WebSocket connected')
+    connectionErrorShown.value = false
+    websocket.value?.send(JSON.stringify({ type: 'load_settings' }))
+  }
+
+  websocket.value.onclose = (event) => {
+    console.log('WebSocket closed:', event.code, event.reason, 'wasClean:', event.wasClean)
+    if (loadingInstance.value) {
+      loadingInstance.value.close()
+    }
+    if (!event.wasClean || !init.value) {
+      connectionErrorShown.value = true
+      if (!connectionErrorShown.value) {
+        ElMessage.error('与MouseInc主程序的连接已断开，请检查主程序是否运行')
       }
     }
   }
+
+  websocket.value.onmessage = (evt) => {
+    const message = JSON.parse(evt.data)
+
+    if (message.type === 'load_settings') {
+      if (loadingInstance.value) {
+        loadingInstance.value.close()
+      }
+
+      init.value = true
+      skipNextModifiedCheck.value = true
+      modified.value = false
+      store.dispatch('setSettings', message.data)
+
+      // 更新版本号
+      updateVersion(message.data.version, message.data.admin)
+      setTitle(route, { $t: t })
+    } else if (message.type === 'save_settings') {
+      ElMessage.success(t('save_ok'))
+      saveLoading.value = false
+      skipNextModifiedCheck.value = true
+      modified.value = false
+      store.dispatch('setSettings', message.data)
+    } else if (message.type === 'reset_settings') {
+      ElMessage.success(t('reset_ok'))
+      resetLoading.value = false
+      resetWarning.value = false
+      skipNextModifiedCheck.value = true
+      modified.value = false
+      store.dispatch('setSettings', message.data)
+    }
+  }
+
+  websocket.value.onerror = (error) => {
+    console.error('WebSocket error:', error)
+    if (loadingInstance.value) {
+      loadingInstance.value.close()
+    }
+    connectionErrorShown.value = true
+    if (!connectionErrorShown.value) {
+      ElMessage.error('无法连接到MouseInc主程序，请检查主程序是否已启动')
+    }
+  }
 }
+
+// Lifecycle
+onMounted(() => {
+  setBreadCrumb(route)
+  setLocal(local.value)
+
+  ElMessage.closeAll()
+
+  nextTick(() => {
+    loadingInstance.value = ElLoading.service({
+      fullscreen: true,
+      text: loading.value,
+      background: 'rgba(13, 17, 23, 0.95)',
+      lock: true,
+      customClass: 'modern-loading'
+    })
+
+    setTimeout(() => {
+      setupWebSocket()
+    }, 100)
+  })
+})
+
+onBeforeUnmount(() => {
+  if (loadingInstance.value) {
+    loadingInstance.value.close()
+  }
+  if (websocket.value) {
+    websocket.value.close()
+  }
+})
+
+// Export icons as markRaw
+const RefreshLeftIcon = markRaw(RefreshLeft)
+const RefreshIcon = markRaw(Refresh)
+const DownloadIcon = markRaw(Download)
+const WarningIcon = markRaw(Warning)
+const FoldIcon = markRaw(Fold)
+const ExpandIcon = markRaw(Expand)
+const MouseIcon = markRaw(Mouse)
 </script>
 
 <style lang="less" scoped>
@@ -779,18 +803,73 @@ export default {
 
 // Modern Loading
 :deep(.modern-loading) {
+  background: var(--bg-primary) !important;
+  
   .el-loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
     .el-loading-text {
-      color: var(--text-secondary);
-      font-size: 14px;
-      margin-top: 16px;
+      color: var(--text-primary);
+      font-size: 16px;
+      font-weight: 500;
+      margin-top: 20px;
+      letter-spacing: 0.5px;
     }
 
     .circular {
+      width: 50px !important;
+      height: 50px !important;
+      
       circle {
         stroke: var(--primary-color);
+        stroke-width: 3;
+        stroke-linecap: round;
+        animation: loading-dash 1.5s ease-in-out infinite;
       }
     }
+  }
+  
+  // 添加连接动画效果
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: rotate 1s linear infinite;
+    opacity: 0.3;
+  }
+}
+
+@keyframes loading-dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 200;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90, 200;
+    stroke-dashoffset: -124;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 </style>

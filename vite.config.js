@@ -14,10 +14,7 @@ export default defineConfig({
     AutoImport({
       imports: ['vue', 'vue-router', 'vuex', 'vue-i18n'],
       resolvers: [ElementPlusResolver()],
-      dts: 'src/auto-import.d.ts',
-      eslintrc: {
-        enabled: true
-      }
+      dts: 'src/auto-import.d.ts'
     }),
     // 自动导入 Element Plus 组件
     Components({
