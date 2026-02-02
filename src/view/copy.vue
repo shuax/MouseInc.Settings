@@ -27,6 +27,7 @@
           stripe
           class="modern-table"
           v-loading="!proxy.Menu"
+          :row-class-name="getRowClass"
         >
           <el-table-column :label="$t('valid')" width="70" align="center" fixed="left">
             <template #default="{ row, $index }">
@@ -38,12 +39,19 @@
             </template>
           </el-table-column>
 
-          <el-table-column :label="$t('name')" prop="Name" width="160">
+          <el-table-column :label="$t('name')" min-width="160">
             <template #default="{ row }">
               <div class="name-cell">
-                <el-tag size="small" effect="dark" type="primary">
-                  {{ row.Name }}
-                </el-tag>
+                <template v-if="row.Name">
+                  <el-tag size="small" effect="dark" type="primary" class="menu-item-tag">
+                    {{ row.Name }}
+                  </el-tag>
+                </template>
+                <template v-else>
+                  <div class="divider-row">
+                    <span>{{ $t('divider') }}</span>
+                  </div>
+                </template>
               </div>
             </template>
           </el-table-column>
@@ -51,9 +59,17 @@
           <el-table-column :label="$t('actions')" prop="Actions" min-width="300">
             <template #default="{ row }">
               <div class="actions-preview">
-                <span class="actions-text" :title="formatActions(row.Actions)">
-                  {{ formatActions(row.Actions) }}
-                </span>
+                <template v-if="!row.Name">
+                  <span class="muted-dash"></span>
+                </template>
+                <template v-else-if="!row.Actions || row.Actions.length === 0">
+                  <el-tag size="small" class="sub-menu-tag" effect="light">
+                    <el-icon><Operation /></el-icon> {{ $t('sub_menu') }}
+                  </el-tag>
+                </template>
+                <template v-else>
+                  <span class="actions-text" v-html="highlightJSON(formatActions(row.Actions))" :title="formatActions(row.Actions)"></span>
+                </template>
               </div>
             </template>
           </el-table-column>
@@ -73,8 +89,8 @@
                 <el-divider direction="vertical" />
                 <el-popconfirm
                   :title="$t('match_warning')"
-                  confirm-button-text="确定"
-                  cancel-button-text="取消"
+                  :confirm-button-text="$t('ok')"
+                  :cancel-button-text="$t('cancel')"
                   @confirm="remove($index)"
                 >
                   <template #reference>
@@ -109,7 +125,7 @@
     <el-dialog
       v-model="modal.editing"
       :title="modal.title"
-      width="650px"
+      width="900px"
       align-center
       destroy-on-close
       class="modern-dialog"
@@ -125,9 +141,8 @@
             />
           </el-form-item>
 
-          <el-form-item :label="$t('actions')">
-            <div class="json-editor-wrapper">
-              <JsonEdit
+                      <el-form-item :label="$t('actions')" class="full-width-item">
+                      <div class="json-editor-wrapper">              <JsonEdit
                 :value="modal.Actions"
                 :editing="modal.editing"
                 @on-input="modal.NewActions = $event"
@@ -159,8 +174,10 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
 import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
 import JsonEdit from './components/json.vue'
-import { Plus, Edit, Delete } from '@element-plus/icons-vue'
+import { Plus, Edit, Delete, Operation } from '@element-plus/icons-vue'
+import { highlightJSON } from '@/libs/util'
 
 interface MenuItem {
   Valid: boolean
@@ -174,6 +191,11 @@ interface ClipboardManager {
 }
 
 const store = useStore()
+const { t } = useI18n()
+
+const getRowClass = ({ row }: { row: MenuItem }) => {
+  return !row.Name ? 'is-divider-row' : ''
+}
 
 const modal = reactive({
   editing: false,
@@ -213,7 +235,7 @@ const modify = (index: number) => {
   modal.editing = true
   modal.index = index
   const row = proxy.value.Menu[index]
-  modal.title = 'modify_menu'
+  modal.title = t('modify_menu')
   modal.btn = 'primary'
   modal.Name = row.Name
   modal.Actions = row.Actions
@@ -223,7 +245,7 @@ const modify = (index: number) => {
 const create = () => {
   modal.editing = true
   modal.index = undefined
-  modal.title = 'add_menu'
+  modal.title = t('add_menu')
   modal.btn = 'success'
   modal.Name = ''
   const actions: any[] = []
@@ -264,10 +286,100 @@ const remove = (index: number) => {
 }
 
 .modern-table {
+
   .name-cell {
+
     .el-tag {
+
       font-weight: 500;
+
     }
+
+  }
+
+  
+
+  :deep(.is-divider-row) {
+
+    background-color: var(--bg-primary) !important;
+
+    opacity: 0.8;
+
+  }
+
+}
+
+
+
+.divider-row {
+
+  display: flex;
+
+  align-items: center;
+
+  width: 100%;
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+
+
+
+  &::after {
+
+    content: '';
+
+    flex: 1;
+
+    height: 1px;
+
+    margin-left: 12px;
+
+    background: linear-gradient(90deg, var(--border-color), transparent);
+
+  }
+
+}
+
+
+
+.sub-menu-tag {
+  background-color: rgba(114, 46, 209, 0.1) !important;
+  color: #722ed1 !important;
+  border: 1px solid rgba(114, 46, 209, 0.2) !important;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  
+  :deep(.el-tag__content) {
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .el-icon {
+    margin-right: 4px;
   }
 }
+
+
+
+.muted-dash {
+
+  display: block;
+
+  width: 20px;
+
+  height: 1px;
+
+  background: var(--border-color);
+
+}
+
 </style>

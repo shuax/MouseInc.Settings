@@ -215,18 +215,20 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
 import type { Config, MouseGestureConfig } from '@/types/index.ts'
 
 const store = useStore()
+const { t } = useI18n()
 const cfg = computed<Config>(() => store.getters.cfg)
 
-const FontSizeMarks = ref({ 26: '默认' })
-const TraceWidthMarks = ref({ 3: '默认' })
-const SensitiveMarks = ref({
-  0: '低',
-  50: '默认',
-  100: '高'
-})
+const FontSizeMarks = computed(() => ({ 26: t('default') }))
+const TraceWidthMarks = computed(() => ({ 3: t('default') }))
+const SensitiveMarks = computed(() => ({
+  0: t('low'),
+  50: t('default'),
+  100: t('high')
+}))
 
 function handleCollapsedChange (state: string[]) {
   if (state.length) {
@@ -332,6 +334,39 @@ const proxy = computed<MouseGestureConfig>(() => {
     margin: 0;
     font-size: 12px;
     color: var(--text-muted);
+  }
+}
+
+// Collapse styling
+:deep(.el-collapse) {
+  border: none;
+
+  .el-collapse-item {
+    &__header {
+      background: transparent;
+      border: none;
+      padding: 0;
+      height: auto;
+      font-size: inherit;
+      color: inherit;
+
+      &:hover {
+        color: var(--primary-color);
+      }
+    }
+
+    &__arrow {
+      margin-left: 8px;
+    }
+
+    &__wrap {
+      background: transparent;
+      border: none;
+    }
+
+    &__content {
+      padding: 0;
+    }
   }
 }
 </style>

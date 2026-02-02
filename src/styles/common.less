@@ -150,7 +150,17 @@
 // 现代表格
 // ============================================
 .modern-table {
-  background: transparent;
+  background-color: var(--bg-card);
+
+  :deep(.el-table__cell.is-fixed-right),
+  :deep(.el-table__cell.el-table-fixed-column--right) {
+    background-color: var(--bg-card) !important;
+    opacity: 1 !important;
+  }
+
+  :deep(.el-table--striped .el-table__row--striped .el-table__cell.is-fixed-right) {
+    background-color: var(--bg-tertiary) !important;
+  }
 
   :deep(.el-table__header) {
     th {
@@ -231,9 +241,9 @@
   }
 
   .json-editor-wrapper {
-    border: 1px solid var(--border-color);
     border-radius: 10px;
     overflow: hidden;
+    width: 100%;
   }
 }
 
@@ -337,7 +347,6 @@
     color: var(--text-primary);
     margin-bottom: 16px;
     padding-bottom: 12px;
-    border-bottom: 1px solid var(--border-light);
   }
 }
 
@@ -608,6 +617,7 @@
 .table-footer {
   display: flex;
   justify-content: flex-start;
+  margin-top: 20px;
 }
 
 // ============================================
@@ -670,6 +680,15 @@
 
 .form-item-half {
   margin-bottom: 20px;
+}
+
+.full-width-item {
+  width: 100%;
+  margin-right: 0;
+  
+  :deep(.el-form-item__content) {
+    width: 100%;
+  }
 }
 
 // ============================================
@@ -897,11 +916,11 @@
   .add-input {
     flex: 1;
 
-    :deep(.el-input__wrapper) {
+    .el-input__wrapper {
       background: transparent;
-      box-shadow: none;
-      padding: 8px 0;
+      box-shadow: none !important;
       border: none !important;
+      padding: 8px 0;
     }
   }
 }

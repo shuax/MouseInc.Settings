@@ -67,9 +67,7 @@
           <el-table-column :label="$t('actions')" prop="Actions" min-width="300">
             <template #default="{ row }">
               <div class="actions-preview">
-                <span class="actions-text" :title="formatActions(row.Actions)">
-                  {{ formatActions(row.Actions) }}
-                </span>
+                <span class="actions-text" v-html="highlightJSON(formatActions(row.Actions))" :title="formatActions(row.Actions)"></span>
               </div>
             </template>
           </el-table-column>
@@ -89,8 +87,8 @@
                 <el-divider direction="vertical" />
                 <el-popconfirm
                   :title="$t('match_warning')"
-                  confirm-button-text="确定"
-                  cancel-button-text="取消"
+                  :confirm-button-text="$t('ok')"
+                  :cancel-button-text="$t('cancel')"
                   @confirm="remove($index)"
                 >
                   <template #reference>
@@ -179,11 +177,14 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
 import { Plus, Edit, Delete } from '@element-plus/icons-vue'
+import { highlightJSON } from '@/libs/util'
 import type { Config } from '@/types/index.ts'
 import JsonEdit from './components/json.vue'
 
 const store = useStore()
+const { t } = useI18n()
 const cfg = computed<Config>(() => store.getters.cfg)
 
 interface HotkeyItem {
@@ -241,7 +242,7 @@ function modify (index: number): void {
   modal.index = index
   const row = cfg.value.Hotkeys?.[index]
   if (row) {
-    modal.title = store.getters.lang === 'zh-CN' ? '修改热键' : 'Modify Hotkey'
+    modal.title = t('modify_keys')
     modal.btn = 'primary'
     modal.Keys = row.Keys
     modal.Name = row.Name
@@ -253,7 +254,7 @@ function modify (index: number): void {
 function create (): void {
   modal.editing = true
   modal.index = undefined
-  modal.title = store.getters.lang === 'zh-CN' ? '添加热键' : 'Add Hotkey'
+  modal.title = t('add_keys')
   modal.btn = 'success'
   modal.Keys = ''
   modal.Name = ''

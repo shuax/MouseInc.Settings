@@ -18,7 +18,7 @@
 
     <!-- Translation Tabs Card -->
     <div class="translations-card">
-      <el-tabs type="border-card" class="lang-tabs">
+      <el-tabs v-model="activeTab" type="border-card" class="lang-tabs">
         <el-tab-pane v-for="(item, lang) in cfg.Locales" :label="lang" :name="lang" :key="lang">
           <div class="table-wrapper">
             <el-table
@@ -37,7 +37,10 @@
 
               <el-table-column label="Value" show-overflow-tooltip>
                 <template #default="{ row }">
-                  <TextEdit :value="row.value" @on-input="change(row.key, lang, $event)" />
+                  <div class="value-cell" @click="openEdit(row.key, lang, row.value)">
+                    <span class="value-text">{{ row.value }}</span>
+                    <el-icon class="edit-icon"><Edit /></el-icon>
+                  </div>
                 </template>
               </el-table-column>
             </el-table>
@@ -45,13 +48,42 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+
+    <!-- Edit Dialog -->
+    <el-dialog
+      v-model="editDialog.visible"
+      :title="$t('modify')"
+      width="500px"
+      class="modern-dialog"
+      align-center
+    >
+      <div class="edit-dialog-content">
+        <div class="key-info">
+          <span class="label">Key:</span>
+          <el-tag size="small" type="info">{{ editDialog.key }}</el-tag>
+        </div>
+        <el-input
+          v-model="editDialog.value"
+          type="textarea"
+          :autosize="{ minRows: 3, maxRows: 6 }"
+          resize="none"
+          class="modern-textarea"
+        />
+      </div>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="editDialog.visible = false">{{ $t('cancel') }}</el-button>
+          <el-button type="primary" @click="saveEdit">{{ $t('ok') }}</el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch, getCurrentInstance } from 'vue'
 import { useStore } from 'vuex'
-import TextEdit from './components/text.vue'
+import { Edit } from '@element-plus/icons-vue'
 
 interface LocaleData {
   [key: string]: string
@@ -59,32 +91,69 @@ interface LocaleData {
 
 interface Config {
   Locales: { [lang: string]: LocaleData }
+  Language?: string
 }
 
 const store = useStore()
-const instance = getCurrentInstance()
 const selectedLang = ref('')
+const activeTab = ref('')
 
 const cfg = computed<Config>(() => store.getters.cfg)
 
 const Languages = computed<string[]>(() => {
   const list = ['auto']
-  for (const k in cfg.value.Locales) {
-    list.push(k)
+  if (cfg.value.Locales) {
+    for (const k in cfg.value.Locales) {
+      list.push(k)
+    }
   }
   return list
 })
 
-onMounted(() => {
-  selectedLang.value = instance?.proxy?.$i18n?.locale || 'zh-CN'
+// Edit Dialog State
+const editDialog = ref({
+  visible: false,
+  key: '',
+  lang: '',
+  value: ''
 })
 
-watch(selectedLang, (newVal) => {
-  store.dispatch('setLocal', newVal)
-  if (instance?.proxy?.$i18n) {
-    instance.proxy.$i18n.locale = newVal
+onMounted(() => {
+  // Initialize with the main program's language setting, default to 'auto'
+  selectedLang.value = cfg.value.Language || 'auto'
+  
+  // Initialize active tab
+  if (cfg.value.Locales) {
+    const keys = Object.keys(cfg.value.Locales)
+    if (keys.length > 0) {
+      activeTab.value = keys[0]
+    }
   }
 })
+
+// Update main program's language setting when selection changes
+watch(selectedLang, (newVal) => {
+  if (cfg.value) {
+    cfg.value.Language = newVal
+  }
+})
+
+// Watch for changes in cfg.Language (e.g. initial load) to update the selector
+watch(() => cfg.value.Language, (newVal) => {
+  if (newVal && newVal !== selectedLang.value) {
+    selectedLang.value = newVal
+  }
+})
+
+// Ensure activeTab is set if it becomes available later
+watch(() => cfg.value.Locales, (newVal) => {
+  if (newVal && !activeTab.value) {
+    const keys = Object.keys(newVal)
+    if (keys.length > 0) {
+      activeTab.value = keys[0]
+    }
+  }
+}, { deep: true })
 
 interface LangTableItem {
   key: string
@@ -102,9 +171,21 @@ const LangTable = (data: LocaleData): LangTableItem[] => {
   return result
 }
 
-const change = (key: string, lang: string, value: string) => {
-  const row = cfg.value.Locales[lang]
-  row[key] = value
+const openEdit = (key: string, lang: string, value: string) => {
+  editDialog.value = {
+    visible: true,
+    key,
+    lang,
+    value
+  }
+}
+
+const saveEdit = () => {
+  const { key, lang, value } = editDialog.value
+  if (cfg.value.Locales && cfg.value.Locales[lang]) {
+    cfg.value.Locales[lang][key] = value
+  }
+  editDialog.value.visible = false
 }
 </script>
 
@@ -168,6 +249,69 @@ const change = (key: string, lang: string, value: string) => {
 .key-cell {
   .el-tag {
     font-family: monospace;
+  }
+}
+
+.value-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: var(--bg-active);
+    
+    .edit-icon {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .value-text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--text-primary);
+  }
+
+  .edit-icon {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.2s ease;
+    color: var(--primary-color);
+  }
+}
+
+.edit-dialog-content {
+  .key-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    
+    .label {
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+  }
+}
+
+.modern-textarea {
+  :deep(.el-textarea__inner) {
+    background: var(--bg-tertiary);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    box-shadow: 0 0 0 1px var(--border-color) inset;
+    
+    &:focus {
+      box-shadow: 0 0 0 1px var(--primary-color) inset, 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
   }
 }
 </style>

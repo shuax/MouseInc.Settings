@@ -1,12 +1,5 @@
 <template>
   <div class="switch-page fade-in">
-    <!-- Page Header -->
-    <div class="page-header compact">
-      <div class="header-content">
-        <h2>{{ $t('switch') }}</h2>
-        <p>{{ $t('switch_desc') }}</p>
-      </div>
-    </div>
 
     <!-- Quick Toggle Section -->
     <div class="section-card compact">
@@ -116,7 +109,7 @@ const store = useStore()
 const { t } = useI18n()
 const cfg = computed<Config>(() => store.getters.cfg)
 
-const switchList = ref<SwitchItem[]>([
+const switchList = computed<SwitchItem[]>(() => [
   {
     title: t('mousegesture'),
     label: t('mousegesture_label'),
@@ -211,7 +204,7 @@ function BeforeShowTrayIconChange (): boolean | Promise<void> {
   })
 }
 
-const moreSwitchList = ref<SwitchItem[]>([
+const moreSwitchList = computed<SwitchItem[]>(() => [
   {
     title: t('capslockled'),
     label: t('capslockled_label'),

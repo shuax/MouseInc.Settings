@@ -139,9 +139,11 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
 import type { Config } from '@/types/index.ts'
 
 const store = useStore()
+const { t } = useI18n()
 const cfg = computed<Config>(() => store.getters.cfg)
 
 interface KeycastConfig {
@@ -157,13 +159,13 @@ interface KeycastConfig {
   BackgroundColor: string
 }
 
-const FontSizeMarks = reactive<Record<number, string>>({
-  24: store.getters.lang === 'zh-CN' ? '默认' : 'Default'
-})
+const FontSizeMarks = computed(() => ({
+  24: t('default')
+}))
 
-const FadeMarks = reactive<Record<number, string>>({
-  5: store.getters.lang === 'zh-CN' ? '默认' : 'Default'
-})
+const FadeMarks = computed(() => ({
+  5: t('default')
+}))
 
 const proxy = computed<KeycastConfig>(() => {
   return cfg.value.Keycast ? cfg.value.Keycast as KeycastConfig : {
@@ -220,6 +222,39 @@ function handleCollpasedChange (state: string[]): void {
   .select-grid,
   .slider-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+// Collapse styling
+:deep(.el-collapse) {
+  border: none;
+
+  .el-collapse-item {
+    &__header {
+      background: transparent;
+      border: none;
+      padding: 0;
+      height: auto;
+      font-size: inherit;
+      color: inherit;
+
+      &:hover {
+        color: var(--primary-color);
+      }
+    }
+
+    &__arrow {
+      margin-left: 8px;
+    }
+
+    &__wrap {
+      background: transparent;
+      border: none;
+    }
+
+    &__content {
+      padding: 0;
+    }
   }
 }
 </style>

@@ -41,9 +41,7 @@
           <el-table-column :label="$t('actions')" prop="Actions" min-width="300">
             <template #default="{ row }">
               <div class="actions-preview">
-                <span class="actions-text" :title="formatActions(row.Actions)">
-                  {{ formatActions(row.Actions) }}
-                </span>
+                <span class="actions-text" v-html="highlightJSON(formatActions(row.Actions))" :title="formatActions(row.Actions)"></span>
               </div>
             </template>
           </el-table-column>
@@ -63,8 +61,8 @@
                 <el-divider direction="vertical" />
                 <el-popconfirm
                   :title="$t('match_warning')"
-                  confirm-button-text="确定"
-                  cancel-button-text="取消"
+                  :confirm-button-text="$t('ok')"
+                  :cancel-button-text="$t('cancel')"
                   @confirm="remove($index)"
                 >
                   <template #reference>
@@ -99,7 +97,7 @@
     <el-dialog
       v-model="modal.editing"
       :title="modal.title"
-      width="650px"
+      width="900px"
       align-center
       destroy-on-close
       class="modern-dialog"
@@ -121,9 +119,8 @@
             </el-form-item>
           </div>
 
-          <el-form-item :label="$t('actions')">
-            <div class="json-editor-wrapper">
-              <JsonEdit
+                      <el-form-item :label="$t('actions')" class="full-width-item">
+                      <div class="json-editor-wrapper">              <JsonEdit
                 :value="modal.actions"
                 :editing="modal.editing"
                 @on-input="modal.new_actions = $event"
@@ -160,6 +157,7 @@ import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 import JsonEdit from './components/json.vue'
 import SelectEdit from './components/select.vue'
 import GestureEdit from './components/gesture.vue'
+import { highlightJSON } from '@/libs/util'
 import type { Config } from '@/types/index.ts'
 
 interface MatchRow {

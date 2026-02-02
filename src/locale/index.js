@@ -9,8 +9,17 @@ import customEnUs from './lang/en-US'
 
 // 自动根据浏览器系统语言设置语言
 const navLang = navigator.language
-const localLang = (navLang === 'zh-CN' || navLang === 'en-US' || navLang === 'zh-TW') ? navLang : false
-const lang = localRead('local') || localLang || 'zh-CN'
+let localLang = 'zh-CN'
+
+if (navLang.startsWith('en')) {
+  localLang = 'en-US'
+} else if (navLang === 'zh-TW' || navLang === 'zh-HK') {
+  localLang = 'zh-TW'
+} else if (navLang.startsWith('zh')) {
+  localLang = 'zh-CN'
+}
+
+const lang = localRead('local') || localLang
 
 // 仅使用自定义语言包
 const messages = {

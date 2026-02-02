@@ -44,33 +44,29 @@
 
         <el-table-column :label="$t('upactions')" prop="UpActions" min-width="180">
           <template #default="{ row }">
-            <span class="actions-text" :title="formatActions(row.UpActions)">
-              {{ formatActions(row.UpActions) }}
-            </span>
+            <span class="actions-text" v-html="highlightJSON(formatActions(row.UpActions))" :title="formatActions(row.UpActions)"></span>
           </template>
         </el-table-column>
 
         <el-table-column :label="$t('downactions')" prop="DownActions" min-width="180">
           <template #default="{ row }">
-            <span class="actions-text" :title="formatActions(row.DownActions)">
-              {{ formatActions(row.DownActions) }}
-            </span>
+            <span class="actions-text" v-html="highlightJSON(formatActions(row.DownActions))" :title="formatActions(row.DownActions)"></span>
           </template>
         </el-table-column>
 
         <el-table-column :label="$t('pressactions')" prop="PressActions" min-width="180">
           <template #default="{ row }">
-            <span class="actions-text" :title="formatActions(row.PressActions)">
-              {{ formatActions(row.PressActions) }}
-            </span>
+            <span class="actions-text" v-html="highlightJSON(formatActions(row.PressActions))" :title="formatActions(row.PressActions)"></span>
           </template>
         </el-table-column>
 
         <el-table-column :label="$t('operate')" align="center" fixed="right" width="100">
           <template #default="{ row }">
-            <el-button type="primary" link size="small" @click="modify(row.Location)">
-              {{ $t('modify') }}
-            </el-button>
+            <div class="operate-cell">
+              <el-button type="primary" link size="small" @click="modify(row.Location)">
+                {{ $t('modify') }}
+              </el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -151,10 +147,13 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
+import { highlightJSON } from '@/libs/util'
 import type { Config } from '@/types/index.ts'
 import JsonEdit from './components/json.vue'
 
 const store = useStore()
+const { t } = useI18n()
 const cfg = computed<Config>(() => store.getters.cfg)
 
 interface EdgeDataItem {
@@ -245,7 +244,7 @@ function getLocationType (location: string): string {
 }
 
 function formatActions (actions: any[]): string {
-  if (!actions || !Array.isArray(actions)) return store.getters.lang === 'zh-CN' ? '无动作' : 'No actions'
+  if (!actions || !Array.isArray(actions)) return t('no_actions')
   return actions.map(a => {
     if (typeof a === 'string') return a
     if (a.cmd) return `cmd: ${a.cmd}`
@@ -265,7 +264,7 @@ function modify (Location: string): void {
   modal.editing = true
   modal.Location = Location
   const row = proxy.value[Location as keyof WheelEdgeConfigFull] as EdgeDetail
-  modal.title = store.getters.lang === 'zh-CN' ? '编辑边缘' : 'Edit Edge'
+  modal.title = t('edge_tips2')
   modal.Name = row?.Name || ''
   modal.UpActions = row?.UpActions || []
   modal.DownActions = row?.DownActions || []

@@ -7,7 +7,7 @@
 
     <!-- Tabs Card -->
     <div class="tabs-card">
-      <el-tabs v-model="tab" type="border-card" class="custom-tabs">
+      <el-tabs v-model="tab" type="border-card" class="custom-tabs" lazy>
         <el-tab-pane v-for="(item, index) in cfg.MatchCustom" :label="item.Name" :key="index" :name="String(index)">
           <!-- Match Settings Card - Collapsed by default -->
           <el-collapse v-model="matchListCollapse" class="match-list-collapse">
@@ -104,9 +104,7 @@
                     <el-table-column :label="$t('actions')" prop="Actions" min-width="250">
                       <template #default="{ row }">
                         <div class="actions-preview">
-                          <span class="actions-text" :title="formatActions(row.Actions)">
-                            {{ formatActions(row.Actions) }}
-                          </span>
+                          <span class="actions-text" v-html="highlightJSON(formatActions(row.Actions))" :title="formatActions(row.Actions)"></span>
                         </div>
                       </template>
                     </el-table-column>
@@ -126,8 +124,8 @@
                           <el-divider direction="vertical" />
                           <el-popconfirm
                             :title="$t('match_warning')"
-                            confirm-button-text="确定"
-                            cancel-button-text="取消"
+                            :confirm-button-text="$t('ok')"
+                            :cancel-button-text="$t('cancel')"
                             @confirm="remove(index, $index)"
                           >
                             <template #reference>
@@ -170,8 +168,8 @@
             </el-button>
             <el-popconfirm
               :title="$t('custom_warning')"
-              confirm-button-text="确定"
-              cancel-button-text="取消"
+              :confirm-button-text="$t('ok')"
+              :cancel-button-text="$t('cancel')"
               @confirm="removetab"
             >
               <template #reference>
@@ -189,7 +187,7 @@
     <el-dialog
       v-model="modal.editing"
       :title="modal.title"
-      width="650px"
+      width="900px"
       align-center
       destroy-on-close
       class="modern-dialog"
@@ -211,9 +209,8 @@
             </el-form-item>
           </div>
 
-          <el-form-item :label="$t('actions')">
-            <div class="json-editor-wrapper">
-              <JsonEdit
+                      <el-form-item :label="$t('actions')" class="full-width-item">
+                      <div class="json-editor-wrapper">              <JsonEdit
                 :value="modal.actions"
                 :editing="modal.editing"
                 @on-input="modal.new_actions = $event"
@@ -274,10 +271,12 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
 import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
 import JsonEdit from './components/json.vue'
 import SelectEdit from './components/select.vue'
 import GestureEdit from './components/gesture.vue'
+import { highlightJSON } from '@/libs/util'
 import { Plus, Delete, Edit, CopyDocument } from '@element-plus/icons-vue'
 
 interface GestureItem {
@@ -300,6 +299,7 @@ interface Config {
 }
 
 const store = useStore()
+const { t } = useI18n()
 
 const tab = ref('0')
 const value = ref('')
@@ -345,7 +345,7 @@ const modify = (index: number, match_index: number) => {
   modal.index = index
   modal.match_index = match_index
   const row = cfg.value.MatchCustom[index].List[match_index]
-  modal.title = 'modify_gesture'
+  modal.title = t('modify_gesture')
   modal.btn = 'primary'
   modal.sign = row.Sign
   modal.name = row.Name
@@ -357,7 +357,7 @@ const create = (index: number) => {
   modal.editing = true
   modal.index = index
   modal.match_index = undefined
-  modal.title = 'add_gesture'
+  modal.title = t('add_gesture')
   modal.btn = 'success'
   modal.sign = ''
   modal.name = ''
@@ -396,7 +396,7 @@ const removematch = (index: number, match_index: number) => {
 
 const addmatch = (index: number) => {
   if (value.value.indexOf('.') === -1) {
-    ElMessage.error('exclude_warning')
+    ElMessage.error(t('exclude_warning'))
     return
   }
   cfg.value.MatchCustom[index].Match.push(value.value)
@@ -477,49 +477,6 @@ const MatchTable = (data: GestureItem[], index: number): GestureItem[] => {
 
 .table-wrapper {
   &:extend(.table-wrapper-bordered);
-}
-
-// Dialog Styles
-:deep(.modern-dialog) {
-  .el-dialog {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-
-    &__header {
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border-color);
-      margin-right: 0;
-
-      .el-dialog__title {
-        color: var(--text-primary);
-        font-weight: 600;
-      }
-    }
-
-    &__body {
-      padding: 24px;
-    }
-
-    &__footer {
-      padding: 16px 24px 24px;
-      border-top: 1px solid var(--border-color);
-    }
-  }
-}
-
-.dialog-body {
-  :deep(.el-form-item__label) {
-    color: var(--text-secondary);
-    font-weight: 500;
-    padding-bottom: 8px;
-  }
-
-  .json-editor-wrapper {
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    overflow: hidden;
-  }
 }
 
 // Section header for gestures

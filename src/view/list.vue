@@ -1,6 +1,7 @@
 <template>
   <div class="gesture-list-page fade-in">
     <!-- Tips Alert -->
+    <div class="alerts-section">
     <el-alert type="info" :closable="false" class="modern-alert" show-icon>
       <template #title>
         <div class="alert-content">
@@ -12,12 +13,13 @@
         </div>
       </template>
     </el-alert>
+    </div>
 
     <!-- Gesture Grid -->
     <div class="gesture-grid" v-if="cfg.Gestures && cfg.Gestures.length > 0">
       <div
         v-for="(info, i) in cfg.Gestures"
-        :key="`gesture-${i}`"
+        :key="info.Sign"
         class="gesture-card"
         :class="{ 'is-dragging': draggingIndex === i }"
         @mouseenter="hoverIndex = i"
@@ -25,7 +27,7 @@
       >
         <div class="card-visual">
           <div class="gesture-preview">
-            <el-image :src="imgsrc(info)" fit="contain" class="gesture-image" />
+            <el-image :src="imgsrc(info)" fit="contain" class="gesture-image" lazy />
           </div>
         </div>
 

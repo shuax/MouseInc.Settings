@@ -1,11 +1,22 @@
 <template>
-  <div>
-    <el-select :value="value" :filterable="true" style="width:200px" @change='onchange'>
-      <el-option v-for="(gesture,index) in validGestures" :key="index" :value="index" :label="index">
-
-        <div style="display:flex;justify-content:space-between;align-items:Center;">
-          <span v-if="index!='WheelSwitchUp' && index!='WheelSwitchDown'" ><img :src="gesture" style="marginTop: 2px;width: 32px;height: 32px" /></span>
-          <span style="float:right;align-items:flex-end;color:#ccc">{{index}}</span>
+  <div class="gesture-select">
+    <el-select
+      :model-value="modelValue"
+      :filterable="true"
+      class="full-width"
+      @change="onchange"
+    >
+      <el-option
+        v-for="(gesture, index) in validGestures"
+        :key="index"
+        :value="index"
+        :label="index"
+      >
+        <div class="option-container">
+          <div class="gesture-preview" v-if="index !== 'WheelSwitchUp' && index !== 'WheelSwitchDown'">
+            <img :src="gesture" class="gesture-img" />
+          </div>
+          <span class="gesture-name">{{ index }}</span>
         </div>
       </el-option>
     </el-select>
@@ -17,11 +28,11 @@ import { computed } from 'vue'
 import { useStore } from 'vuex'
 
 const props = defineProps<{
-  value: string
+  modelValue: string
 }>()
 
 const emit = defineEmits<{
-  (e: 'input', value: string): void
+  (e: 'update:modelValue', value: string): void
 }>()
 
 const store = useStore()
@@ -39,6 +50,41 @@ const validGestures = computed(() => {
 })
 
 const onchange = (val: string) => {
-  emit('input', val)
+  emit('update:modelValue', val)
 }
 </script>
+
+<style lang="less" scoped>
+.gesture-select {
+  width: 100%;
+}
+
+.option-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+}
+
+.gesture-preview {
+  display: flex;
+  align-items: center;
+  
+  .gesture-img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+  }
+}
+
+.gesture-name {
+  color: var(--text-secondary);
+  font-family: monospace;
+  font-size: 13px;
+}
+
+.full-width {
+  width: 100%;
+}
+</style>

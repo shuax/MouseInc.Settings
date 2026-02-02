@@ -5,19 +5,6 @@
       :class="['sidebar', { 'collapsed': collapsed }]"
       :style="{ width: collapsed ? '70px' : '260px' }"
     >
-      <!-- Brand Area -->
-      <div class="brand-area" v-if="!collapsed">
-        <div class="brand-logo">
-          <div class="logo-icon">
-            <el-icon><Mouse /></el-icon>
-          </div>
-          <div class="brand-text">
-            <h3>MouseInc</h3>
-            <p>Settings</p>
-          </div>
-        </div>
-      </div>
-
       <!-- Navigation Menu -->
       <side-menu
         ref="sideMenuRef"
@@ -25,6 +12,7 @@
         :collapsed="collapsed"
         @on-select="turnToPage"
         :menu-list="menuList"
+        :key="local"
         accordion
       />
 
@@ -51,7 +39,7 @@
               <Expand v-else />
             </el-icon>
           </button>
-          <custom-bread-crumb :list="breadCrumbList" />
+          <custom-bread-crumb :list="breadCrumbList" :key="local" />
         </div>
 
         <div class="header-actions">
@@ -156,15 +144,15 @@ import { RefreshLeft, Refresh, Download, Warning, Fold, Expand, Mouse } from '@e
 import SideMenu from './components/side-menu'
 import CustomBreadCrumb from './components/header-bar/custom-bread-crumb'
 import Language from './components/language'
+import { js_beautify } from 'js-beautify/js/lib/beautify.js'
 import config from '@/config'
 import { setTitle, getParams } from '@/libs/util'
-import beautify from 'js-beautify'
 import type { MenuItem, Config } from '@/types'
 
 const store = useStore()
 const route = useRoute()
 const router = useRouter()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 // Refs
 const sideMenuRef = ref<InstanceType<typeof SideMenu> | null>(null)
@@ -238,6 +226,7 @@ watch(
 
 const setLocal = (lang: string) => {
   store.dispatch('setLocal', lang)
+  locale.value = lang
 }
 
 const turnToPage = (routeItem: string | { name: string; params?: any; query?: any }) => {
@@ -283,7 +272,7 @@ const refresh = () => {
 const save = () => {
   saveLoading.value = true
 
-  const formattedCfg = beautify.js(JSON.stringify(cfg.value), {
+  const formattedCfg = js_beautify(JSON.stringify(cfg.value), {
     indent_size: 4,
     indent_with_tabs: true,
     eol: '\r\n'
@@ -801,8 +790,11 @@ const MouseIcon = markRaw(Mouse)
   }
 }
 
-// Modern Loading
-:deep(.modern-loading) {
+</style>
+
+<style lang="less">
+// Modern Loading - Global Style
+.modern-loading {
   background: var(--bg-primary) !important;
   
   .el-loading-spinner {
@@ -830,22 +822,6 @@ const MouseIcon = markRaw(Mouse)
         animation: loading-dash 1.5s ease-in-out infinite;
       }
     }
-  }
-  
-  // 添加连接动画效果
-  &::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 120px;
-    height: 120px;
-    border: 2px solid var(--border-color);
-    border-radius: 50%;
-    border-top-color: var(--primary-color);
-    animation: rotate 1s linear infinite;
-    opacity: 0.3;
   }
 }
 

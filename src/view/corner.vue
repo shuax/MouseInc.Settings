@@ -44,9 +44,7 @@
 
         <el-table-column :label="$t('actions')" prop="Actions" min-width="250">
           <template #default="{ row }">
-            <span class="actions-text" :title="formatActions(row.Actions)">
-              {{ formatActions(row.Actions) }}
-            </span>
+            <span class="actions-text" v-html="highlightJSON(formatActions(row.Actions))" :title="formatActions(row.Actions)"></span>
           </template>
         </el-table-column>
 
@@ -104,10 +102,13 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
+import { highlightJSON } from '@/libs/util'
 import type { Config } from '@/types/index.ts'
 import JsonEdit from './components/json.vue'
 
 const store = useStore()
+const { t } = useI18n()
 const cfg = computed<Config>(() => store.getters.cfg)
 
 interface CornerDataItem {
@@ -204,7 +205,7 @@ function modify (Location: string): void {
   modal.editing = true
   modal.Location = Location
   const row = proxy.value[Location as keyof HotCornerConfig] as HotCornerDetail
-  modal.title = store.getters.lang === 'zh-CN' ? '编辑触发角' : 'Edit Hot Corner'
+  modal.title = t('corner_tips2')
   modal.Name = row?.Name || ''
   modal.Actions = row?.Actions || []
   modal.NewActions = row?.Actions || []

@@ -42,26 +42,18 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 2000,
+    cssCodeSplit: false, // 禁用 CSS 拆分，合并为一个 CSS 文件
     rollupOptions: {
       output: {
+        // 简化分包逻辑，减少文件数量
         manualChunks: {
-          // 将大型库分离到独立 chunk
-          'codemirror': ['codemirror', '@codemirror/lang-javascript', '@codemirror/theme-one-dark', 'vue-codemirror'],
-          'vue-vendor': ['vue', 'vue-router', 'vuex', 'vue-i18n'],
-          'ui-utils': ['js-beautify', 'clipboard']
+          'vendor': ['vue', 'vue-router', 'vuex', 'vue-i18n', 'element-plus', 'js-beautify', 'clipboard', 'jsonrepair']
         },
-        // 优化 chunk 文件名
+        // 重新添加 [hash] 以解决缓存和版本控制问题
         entryFileNames: 'assets/[name]-[hash].js',
         chunkFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: (assetInfo) => {
-          const info = assetInfo.name.split('.')
-          const ext = info[info.length - 1]
-          if (/\.(css)$/i.test(assetInfo.name)) {
-            return 'assets/[name]-[hash][extname]'
-          }
-          return 'assets/[name]-[hash][extname]'
-        }
+        assetFileNames: 'assets/[name]-[hash].[ext]'
       }
     },
     // 开启代码压缩

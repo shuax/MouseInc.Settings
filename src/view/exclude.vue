@@ -63,10 +63,12 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
 import { Plus, Delete } from '@element-plus/icons-vue'
 
 const store = useStore()
+const { t } = useI18n()
 const value = ref('')
 
 const cfg = computed(() => store.getters.cfg)
@@ -79,7 +81,7 @@ const remove = (index: number) => {
 
 const add = () => {
   if (value.value.indexOf('.') === -1) {
-    ElMessage.error(store.getters.$t ? store.getters.$t('exclude_warning') : 'exclude_warning')
+    ElMessage.error(t('exclude_warning'))
     return
   }
   if (!cfg.value.Excludes) {

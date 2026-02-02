@@ -418,3 +418,41 @@ export const setTitle = (routeItem, vm) => {
 
   window.document.title = resTitle
 }
+
+/**
+ * 轻量级 JSON 语法高亮 - 单次分词扫描版
+ */
+export const highlightJSON = (json) => {
+  if (typeof json !== 'string') {
+    json = JSON.stringify(json, null, 2)
+  }
+  
+  // 1. 先进行基础 HTML 转义
+  const escaped = json
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+
+  // 2. 使用单次正则匹配所有 JSON 标记 (字符串/Key, 布尔/Null, 数字, 标点)
+  // 这个正则保证了匹配的唯一性，字符串内部的内容不会被再次匹配
+  const regex = /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?|([\{\}\[\]]|[,:]))/g
+
+  return escaped.replace(regex, (match) => {
+    let cls = 'hl-punc'
+    if (match.startsWith('"')) {
+      if (match.endsWith(':')) {
+        return `<span class="hl-key">${match.slice(0, -1)}</span><span class="hl-punc">:</span>`
+      }
+      cls = 'hl-val'
+    } else if (/true|false/.test(match)) {
+      cls = 'hl-bool'
+    } else if (match === 'null') {
+      cls = 'hl-null'
+    } else if (/[0-9]/.test(match)) {
+      cls = 'hl-num'
+    } else if (/[\[\]\{\}]/.test(match)) {
+      cls = 'hl-bracket'
+    }
+    return `<span class="${cls}">${match}</span>`
+  })
+}
