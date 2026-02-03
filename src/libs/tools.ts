@@ -1,9 +1,9 @@
-export const forEach = (arr, fn) => {
+export const forEach = <T>(arr: T[], fn: (item: T, index: number, array: T[]) => void): void => {
   if (!arr.length || !fn) return
   let i = -1
-  let len = arr.length
+  const len = arr.length
   while (++i < len) {
-    let item = arr[i]
+    const item = arr[i]
     fn(item, i, arr)
   }
 }
@@ -13,10 +13,10 @@ export const forEach = (arr, fn) => {
  * @param {Array} arr2
  * @description 得到两个数组的交集, 两个数组的元素为数值或字符串
  */
-export const getIntersection = (arr1, arr2) => {
-  let len = Math.min(arr1.length, arr2.length)
+export const getIntersection = <T extends string | number>(arr1: T[], arr2: T[]): T[] => {
+  const len = Math.min(arr1.length, arr2.length)
   let i = -1
-  let res = []
+  const res: T[] = []
   while (++i < len) {
     const item = arr2[i]
     if (arr1.indexOf(item) > -1) res.push(item)
@@ -29,7 +29,7 @@ export const getIntersection = (arr1, arr2) => {
  * @param {Array} arr2
  * @description 得到两个数组的并集, 两个数组的元素为数值或字符串
  */
-export const getUnion = (arr1, arr2) => {
+export const getUnion = <T extends string | number>(arr1: T[], arr2: T[]): T[] => {
   return Array.from(new Set([...arr1, ...arr2]))
 }
 
@@ -38,7 +38,7 @@ export const getUnion = (arr1, arr2) => {
  * @param {Array} arr 需要查询的数组
  * @description 判断要查询的数组是否至少有一个元素包含在目标数组中
  */
-export const hasOneOf = (targetarr, arr) => {
+export const hasOneOf = <T>(targetarr: T[], arr: T[]): boolean => {
   return targetarr.some(_ => arr.indexOf(_) > -1)
 }
 
@@ -46,7 +46,7 @@ export const hasOneOf = (targetarr, arr) => {
  * @param {String|Number} value 要验证的字符串或数值
  * @param {*} validList 用来验证的列表
  */
-export function oneOf (value, validList) {
+export function oneOf<T>(value: string | number, validList: T[]): boolean {
   for (let i = 0; i < validList.length; i++) {
     if (value === validList[i]) {
       return true
@@ -59,7 +59,7 @@ export function oneOf (value, validList) {
  * @param {Number} timeStamp 判断时间戳格式是否是毫秒
  * @returns {Boolean}
  */
-const isMillisecond = timeStamp => {
+const isMillisecond = (timeStamp: number): boolean => {
   const timeStr = String(timeStamp)
   return timeStr.length > 10
 }
@@ -69,7 +69,7 @@ const isMillisecond = timeStamp => {
  * @param {Number} currentTime 当前时间时间戳
  * @returns {Boolean} 传入的时间戳是否早于当前时间戳
  */
-const isEarly = (timeStamp, currentTime) => {
+const isEarly = (timeStamp: number, currentTime: number): boolean => {
   return timeStamp < currentTime
 }
 
@@ -78,15 +78,15 @@ const isEarly = (timeStamp, currentTime) => {
  * @returns {String} 处理后的字符串
  * @description 如果传入的数值小于10，即位数只有1位，则在前面补充0
  */
-const getHandledValue = num => {
-  return num < 10 ? '0' + num : num
+const getHandledValue = (num: number): string => {
+  return num < 10 ? '0' + num : num.toString()
 }
 
 /**
  * @param {Number} timeStamp 传入的时间戳
  * @param {Number} startType 要返回的时间字符串的格式类型，传入'year'则返回年开头的完整时间
  */
-const getDate = (timeStamp, startType) => {
+const getDate = (timeStamp: number, startType?: string): string => {
   const d = new Date(timeStamp * 1000)
   const year = d.getFullYear()
   const month = getHandledValue(d.getMonth() + 1)
@@ -104,15 +104,15 @@ const getDate = (timeStamp, startType) => {
  * @param {String|Number} timeStamp 时间戳
  * @returns {String} 相对时间字符串
  */
-export const getRelativeTime = timeStamp => {
+export const getRelativeTime = (timeStamp: string | number): string => {
   // 判断当前传入的时间戳是秒格式还是毫秒
-  const IS_MILLISECOND = isMillisecond(timeStamp)
+  const IS_MILLISECOND = isMillisecond(Number(timeStamp))
   // 如果是毫秒格式则转为秒格式
-  if (IS_MILLISECOND) Math.floor(timeStamp /= 1000)
+  if (IS_MILLISECOND) timeStamp = Math.floor(Number(timeStamp) / 1000)
   // 传入的时间戳可以是数值或字符串类型，这里统一转为数值类型
   timeStamp = Number(timeStamp)
   // 获取当前时间时间戳
-  const currentTime = Math.floor(Date.parse(new Date()) / 1000)
+  const currentTime = Math.floor(Date.parse(new Date() as unknown as string) / 1000)
   // 判断传入时间戳是否早于当前时间戳
   const IS_EARLY = isEarly(timeStamp, currentTime)
   // 获取两个时间戳差值
@@ -138,9 +138,9 @@ export const getRelativeTime = timeStamp => {
 /**
  * @returns {String} 当前浏览器名称
  */
-export const getExplorer = () => {
+export const getExplorer = (): string | undefined => {
   const ua = window.navigator.userAgent
-  const isExplorer = (exp) => {
+  const isExplorer = (exp: string): boolean => {
     return ua.indexOf(exp) > -1
   }
   if (isExplorer('MSIE')) return 'IE'
@@ -155,15 +155,15 @@ export const getExplorer = () => {
  */
 export const on = (function () {
   if (document.addEventListener) {
-    return function (element, event, handler) {
+    return function (element: HTMLElement | Document, event: string, handler: EventListener): void {
       if (element && event && handler) {
         element.addEventListener(event, handler, false)
       }
     }
   } else {
-    return function (element, event, handler) {
+    return function (element: HTMLElement | Document, event: string, handler: EventListener): void {
       if (element && event && handler) {
-        element.attachEvent('on' + event, handler)
+        (element as HTMLElement).attachEvent('on' + event, handler)
       }
     }
   }
@@ -174,15 +174,15 @@ export const on = (function () {
  */
 export const off = (function () {
   if (document.removeEventListener) {
-    return function (element, event, handler) {
+    return function (element: HTMLElement | Document, event: string, handler: EventListener): void {
       if (element && event) {
         element.removeEventListener(event, handler, false)
       }
     }
   } else {
-    return function (element, event, handler) {
+    return function (element: HTMLElement | Document, event: string, handler: EventListener): void {
       if (element && event) {
-        element.detachEvent('on' + event, handler)
+        (element as HTMLElement).detachEvent('on' + event, handler)
       }
     }
   }
@@ -192,10 +192,10 @@ export const off = (function () {
  * 判断一个对象是否存在key，如果传入第二个参数key，则是判断这个obj对象是否存在key这个属性
  * 如果没有传入key这个参数，则判断obj对象是否有键值对
  */
-export const hasKey = (obj, key) => {
+export const hasKey = <T extends Record<string, unknown>>(obj: T, key?: string): boolean | number => {
   if (key) return key in obj
   else {
-    let keysArr = Object.keys(obj)
+    const keysArr = Object.keys(obj)
     return keysArr.length
   }
 }
@@ -205,7 +205,7 @@ export const hasKey = (obj, key) => {
  * @param {*} obj2 对象
  * @description 判断两个对象是否相等，这两个对象的值只能是数字或字符串
  */
-export const objEqual = (obj1, obj2) => {
+export const objEqual = <T extends Record<string, string | number>>(obj1: T, obj2: T): boolean => {
   const keysArr1 = Object.keys(obj1)
   const keysArr2 = Object.keys(obj2)
   if (keysArr1.length !== keysArr2.length) return false

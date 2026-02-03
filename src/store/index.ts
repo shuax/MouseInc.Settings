@@ -2,8 +2,10 @@ import { createStore } from 'vuex'
 import { localSave, localRead, getBreadCrumbList, getMenuByRouter } from '@/libs/util'
 import routers from '@/router/routers'
 
+import type { MenuItem } from '@/types'
+
 // 版本兼容处理
-const handleVersionCompat = (settings) => {
+const handleVersionCompat = (settings: { cfg: Record<string, unknown>; gestures: Record<string, unknown> }) => {
   if (settings.cfg.OcrService === undefined) {
     settings.cfg.OcrService = 0
   }
@@ -37,14 +39,14 @@ const handleVersionCompat = (settings) => {
 
 export default createStore({
   state: {
-    breadCrumbList: [],
+    breadCrumbList: [] as MenuItem[],
     local: localRead('local'),
-    cfg: {},
-    gestures: {}
+    cfg: {} as Record<string, unknown>,
+    gestures: {} as Record<string, unknown>
   },
 
   getters: {
-    breadCrumbList: state => state.breadCrumbList,
+    breadCrumbList: (state: { breadCrumbList: MenuItem[] }) => state.breadCrumbList,
     local: state => state.local,
     menuList: state => getMenuByRouter(routers),
     cfg: state => state.cfg,
@@ -52,14 +54,14 @@ export default createStore({
   },
 
   mutations: {
-    setBreadCrumb (state, route) {
+    setBreadCrumb (state, route: { matched?: Array<{ name?: string; meta?: RouteMeta }> }) {
       state.breadCrumbList = getBreadCrumbList(route)
     },
     setLocal (state, lang) {
       localSave('local', lang)
       state.local = lang
     },
-    setSettings (state, settings) {
+    setSettings (state, settings: { cfg: Record<string, unknown>; gestures: Record<string, unknown> }) {
       const compatSettings = handleVersionCompat(settings)
       state.cfg = compatSettings.cfg
       state.gestures = compatSettings.gestures
@@ -68,17 +70,22 @@ export default createStore({
         state.gestures.WheelSwitchUp = state.gestures.placeholder
         state.gestures.WheelSwitchDown = state.gestures.placeholder
       }
+    },
+    updateConfig (state, payload: { key: string; value: unknown }) {
+      if (state.cfg && typeof state.cfg === 'object') {
+        (state.cfg as Record<string, unknown>)[payload.key] = payload.value
+      }
     }
   },
 
   actions: {
-    setBreadCrumb ({ commit }, route) {
+    setBreadCrumb ({ commit }, route: { matched?: Array<{ name?: string; meta?: RouteMeta }> }) {
       commit('setBreadCrumb', route)
     },
     setLocal ({ commit }, lang) {
       commit('setLocal', lang)
     },
-    setSettings ({ commit }, settings) {
+    setSettings ({ commit }, settings: { cfg: Record<string, unknown>; gestures: Record<string, unknown> }) {
       commit('setSettings', settings)
     }
   }

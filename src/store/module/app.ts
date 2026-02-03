@@ -34,11 +34,11 @@ export default {
     // hasReadErrorPage: false
   },
   getters: {
-    menuList: (state, getters, rootState) => getMenuByRouter(routers)
+    menuList: () => getMenuByRouter(routers)
     // errorCount: state => state.errorList.length
   },
   mutations: {
-    setBreadCrumb (state, route) {
+    setBreadCrumb (state, route: { matched?: Array<{ name?: string; meta?: RouteMeta }> }) {
       state.breadCrumbList = getBreadCrumbList(route)
       // state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
     },

@@ -1,5 +1,6 @@
 import Main from '@/components/main'
 import SwitchView from '@/view/switch.vue'
+import TestSwitchView from '@/view/test-switch.vue'
 import ExcludeView from '@/view/exclude.vue'
 import SettingsView from '@/view/settings.vue'
 import ListView from '@/view/list.vue'
@@ -32,6 +33,15 @@ export default [
           icon: 'Lightning'
         },
         component: SwitchView
+      },
+      {
+        path: '/test-switch',
+        name: 'test-switch',
+        meta: {
+          title: 'test-switch',
+          icon: 'Setting'
+        },
+        component: TestSwitchView
       },
       {
         path: 'exclude',
