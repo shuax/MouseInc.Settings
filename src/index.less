@@ -366,27 +366,10 @@ html, body {
 }
 
 // ============================================
-// Modern Table
+// Modern Table - 简化版，依赖 Element Plus 默认固定列
 // ============================================
 .modern-table {
   background-color: var(--bg-card);
-  
-  // 核心修复：给所有固定列单元格强制加上不透明背景
-  :deep(.el-table__cell.is-fixed-right),
-  :deep(.el-table__cell.el-table-fixed-column--right) {
-    background-color: var(--bg-card) !important;
-    opacity: 1 !important;
-  }
-
-  // 斑马纹行下的固定列背景色也要同步
-  :deep(.el-table--striped .el-table__row--striped .el-table__cell.is-fixed-right) {
-    background-color: var(--bg-tertiary) !important;
-  }
-
-  // 悬停行的固定列背景色也要同步
-  :deep(.el-table__row:hover .el-table__cell.is-fixed-right) {
-    background-color: var(--bg-hover) !important;
-  }
 
   .el-table__header {
     th {

@@ -303,9 +303,6 @@ const setupWebSocket = () => {
     }
     if (!event.wasClean || !init.value) {
       connectionErrorShown.value = true
-      if (!connectionErrorShown.value) {
-        ElMessage.error('与MouseInc主程序的连接已断开，请检查主程序是否运行')
-      }
     }
   }
 
@@ -347,9 +344,6 @@ const setupWebSocket = () => {
       loadingInstance.value.close()
     }
     connectionErrorShown.value = true
-    if (!connectionErrorShown.value) {
-      ElMessage.error('无法连接到MouseInc主程序，请检查主程序是否已启动')
-    }
   }
 }
 

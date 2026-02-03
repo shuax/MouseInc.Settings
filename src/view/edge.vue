@@ -21,7 +21,7 @@
 
     <!-- Data Table -->
     <div class="table-card">
-      <el-table :data="edge_data" stripe class="modern-table">
+      <el-table :data="edge_data" stripe class="modern-table" style="width: 100%">
         <el-table-column :label="$t('valid')" width="70" align="center">
           <template #default="{ row }">
             <el-switch v-model="row.Valid" size="small" @change="oncheck(row.Location, $event)" />
@@ -42,19 +42,19 @@
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('upactions')" prop="UpActions" min-width="180">
+        <el-table-column :label="$t('upactions')" prop="UpActions" width="300">
           <template #default="{ row }">
             <span class="actions-text" v-html="highlightJSON(formatActions(row.UpActions))" :title="formatActions(row.UpActions)"></span>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('downactions')" prop="DownActions" min-width="180">
+        <el-table-column :label="$t('downactions')" prop="DownActions" width="300">
           <template #default="{ row }">
             <span class="actions-text" v-html="highlightJSON(formatActions(row.DownActions))" :title="formatActions(row.DownActions)"></span>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('pressactions')" prop="PressActions" min-width="180">
+        <el-table-column :label="$t('pressactions')" prop="PressActions" width="300">
           <template #default="{ row }">
             <span class="actions-text" v-html="highlightJSON(formatActions(row.PressActions))" :title="formatActions(row.PressActions)"></span>
           </template>

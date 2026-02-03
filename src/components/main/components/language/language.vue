@@ -2,7 +2,7 @@
   <div>
     <el-dropdown trigger="click" @command="selectLang">
       <a href="javascript:void(0)" style="display: flex; align-items: center; color: #606266; text-decoration: none; padding: 0 8px; border-radius: 4px; transition: all 0.3s;">
-        <el-icon :size="18"><ChatLineRound /></el-icon>
+        <el-icon :size="18"><Compass /></el-icon>
         <span style="margin: 0 8px; font-weight: 500;">{{ title }}</span>
         <el-icon :size="14"><ArrowDown /></el-icon>
       </a>
@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ChatLineRound, ArrowDown } from '@element-plus/icons-vue'
+import { Compass, ArrowDown } from '@element-plus/icons-vue'
 
 const props = defineProps({
   lang: {

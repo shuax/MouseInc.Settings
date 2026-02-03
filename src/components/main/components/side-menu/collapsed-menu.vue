@@ -43,9 +43,26 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ArrowRight } from '@element-plus/icons-vue'
+import {
+  ArrowRight,
+  HomeFilled,
+  Lightning,
+  WarningFilled,
+  Setting,
+  Brush,
+  Grid,
+  Box,
+  EditPen,
+  Opportunity,
+  Operation,
+  Monitor,
+  FullScreen,
+  Link,
+  Key,
+  View,
+  Microphone
+} from '@element-plus/icons-vue'
 import { showTitle } from '@/libs/util'
-import { getIconByName } from './icons'
 import type { MenuItem, RouteMeta } from '@/types'
 
 const props = defineProps({
@@ -88,8 +105,28 @@ const showChildren = (item: MenuItem): boolean => {
   return !!(item.children && (item.children.length > 1 || (item.meta && (item.meta as RouteMeta).showAlways)))
 }
 
+// 图标映射表
+const iconMap = {
+  HomeFilled,
+  Lightning,
+  WarningFilled,
+  Setting,
+  Brush,
+  Grid,
+  Box,
+  EditPen,
+  Opportunity,
+  Operation,
+  Monitor,
+  FullScreen,
+  Link,
+  Key,
+  View,
+  Microphone
+}
+
 const getIcon = (iconName: string) => {
-  return getIconByName(iconName)
+  return iconMap[iconName as keyof typeof iconMap] || null
 }
 
 const handleClick = (name: string) => {

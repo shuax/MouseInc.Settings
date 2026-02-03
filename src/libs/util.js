@@ -92,6 +92,7 @@ export const getRouteTitleHandled = (route) => {
 }
 
 export const showTitle = (item, vm) => {
+  if (!item.meta) return
   let { title, __titleIsFunction__ } = item.meta
   if (!title) return
   if (useI18n) {
@@ -409,12 +410,7 @@ export const localRead = (key) => {
 export const setTitle = (routeItem, vm) => {
   const handledRoute = getRouteTitleHandled(routeItem)
   const pageTitle = showTitle(handledRoute, vm)
-  var resTitle
-  if (version[0]) {
-    resTitle = pageTitle ? `${pageTitle} - ${title} ${version[0]}` : `${title} ${version[0]}`
-  } else {
-    resTitle = pageTitle ? `${pageTitle} - ${title}` : title
-  }
+  var resTitle = pageTitle ? `${pageTitle} - ${title}` : title
 
   window.document.title = resTitle
 }

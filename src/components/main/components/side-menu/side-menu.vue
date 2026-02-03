@@ -56,11 +56,28 @@
 import { ref, computed, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import {
+  HomeFilled,
+  Lightning,
+  WarningFilled,
+  Setting,
+  Brush,
+  Grid,
+  Box,
+  EditPen,
+  Opportunity,
+  Operation,
+  Monitor,
+  FullScreen,
+  Link,
+  Key,
+  View,
+  Microphone
+} from '@element-plus/icons-vue'
 import { getUnion } from '@/libs/tools'
 import { showTitle } from '@/libs/util'
 import config from '@/config'
 import SideMenuItem from './side-menu-item.vue'
-import { getIconByName } from './icons'
 import type { MenuItem, RouteMeta } from '@/types'
 import './side-menu.less'
 
@@ -118,8 +135,28 @@ const getNameOrHref = (item: MenuItem, children0?: boolean): string => {
   return item.href ? `isTurnByHref_${item.href}` : (children0 && item.children ? item.children[0].name : item.name)
 }
 
+// 图标映射表
+const iconMap = {
+  HomeFilled,
+  Lightning,
+  WarningFilled,
+  Setting,
+  Brush,
+  Grid,
+  Box,
+  EditPen,
+  Opportunity,
+  Operation,
+  Monitor,
+  FullScreen,
+  Link,
+  Key,
+  View,
+  Microphone
+}
+
 const getIcon = (iconName: string) => {
-  return getIconByName(iconName)
+  return iconMap[iconName as keyof typeof iconMap] || null
 }
 
 const handleSelect = (name: string) => {
