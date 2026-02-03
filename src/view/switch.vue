@@ -318,9 +318,38 @@ interface ProxyConfig {
   OcrService: number
 }
 
-const proxy = computed<ProxyConfig>(() => {
+// 创建一个响应式的本地状态对象
+const localState = ref<ProxyConfig>({
+  MouseGestureOpen: false,
+  WheelSwitch: false,
+  WheelEdgeOpen: false,
+  HotCornerOpen: false,
+  ClipboardManagerOpen: false,
+  KeycastOpen: false,
+  AltDrag: true,
+  WheelAltControl: false,
+  VolumeControlSound: false,
+  KeySound: false,
+  ShowIme: false,
+  QuickJump: false,
+  IgnoreFullScreen: false,
+  ShowTrayIcon: true,
+  CapsLockLed: false,
+  CapsUnlock: false,
+  WheelThrough: false,
+  WheelNatural: false,
+  AutoClip: false,
+  FastPaste: false,
+  Administrator: false,
+  VolumeSoundIndex: 0,
+  KeySoundIndex: 0,
+  OcrService: 0
+})
+
+// 初始化本地状态
+watch(cfg, () => {
   if (cfg.value.MouseGesture) {
-    return {
+    localState.value = {
       MouseGestureOpen: cfg.value.MouseGesture.Open,
       WheelSwitch: cfg.value.MouseGesture.WheelSwitch,
       WheelEdgeOpen: cfg.value.WheelEdge?.Open ?? false,
@@ -347,31 +376,44 @@ const proxy = computed<ProxyConfig>(() => {
       OcrService: cfg.value.OcrService
     }
   }
-  return {
-    MouseGestureOpen: false,
-    WheelSwitch: false,
-    WheelEdgeOpen: false,
-    HotCornerOpen: false,
-    ClipboardManagerOpen: false,
-    KeycastOpen: false,
-    AltDrag: true,
-    WheelAltControl: false,
-    VolumeControlSound: false,
-    KeySound: false,
-    ShowIme: false,
-    QuickJump: false,
-    IgnoreFullScreen: false,
-    ShowTrayIcon: true,
-    CapsLockLed: false,
-    CapsUnlock: false,
-    WheelThrough: false,
-    WheelNatural: false,
-    AutoClip: false,
-    FastPaste: false,
-    Administrator: false,
-    VolumeSoundIndex: 0,
-    KeySoundIndex: 0,
-    OcrService: 0
+}, { immediate: true })
+
+// 创建代理计算属性
+const proxy = computed<ProxyConfig>({
+  get() {
+    return localState.value
+  },
+  set(val) {
+    // 更新本地状态
+    localState.value = val
+    
+    // 同步到 Vuex store
+    if (cfg.value.MouseGesture) {
+      store.commit('updateConfig', { key: 'MouseGesture', value: { ...cfg.value.MouseGesture, Open: val.MouseGestureOpen, WheelSwitch: val.WheelSwitch } })
+      if (cfg.value.WheelEdge) store.commit('updateConfig', { key: 'WheelEdge', value: { ...cfg.value.WheelEdge, Open: val.WheelEdgeOpen } })
+      if (cfg.value.HotCorner) store.commit('updateConfig', { key: 'HotCorner', value: { ...cfg.value.HotCorner, Open: val.HotCornerOpen } })
+      if (cfg.value.ClipboardManager) store.commit('updateConfig', { key: 'ClipboardManager', value: { ...cfg.value.ClipboardManager, Open: val.ClipboardManagerOpen } })
+      if (cfg.value.Keycast) store.commit('updateConfig', { key: 'Keycast', value: { ...cfg.value.Keycast, Open: val.KeycastOpen } })
+      
+      store.commit('updateConfig', { key: 'AltDrag', value: val.AltDrag })
+      store.commit('updateConfig', { key: 'WheelAltControl', value: val.WheelAltControl })
+      store.commit('updateConfig', { key: 'VolumeControlSound', value: val.VolumeControlSound })
+      store.commit('updateConfig', { key: 'KeySound', value: val.KeySound })
+      store.commit('updateConfig', { key: 'ShowIme', value: val.ShowIme })
+      store.commit('updateConfig', { key: 'QuickJump', value: val.QuickJump })
+      store.commit('updateConfig', { key: 'IgnoreFullScreen', value: val.IgnoreFullScreen })
+      store.commit('updateConfig', { key: 'ShowTrayIcon', value: val.ShowTrayIcon })
+      store.commit('updateConfig', { key: 'CapsLockLed', value: val.CapsLockLed })
+      store.commit('updateConfig', { key: 'CapsUnlock', value: val.CapsUnlock })
+      store.commit('updateConfig', { key: 'WheelThrough', value: val.WheelThrough })
+      store.commit('updateConfig', { key: 'WheelNatural', value: val.WheelNatural })
+      store.commit('updateConfig', { key: 'AutoClip', value: val.AutoClip })
+      store.commit('updateConfig', { key: 'FastPaste', value: val.FastPaste })
+      store.commit('updateConfig', { key: 'Administrator', value: val.Administrator })
+      store.commit('updateConfig', { key: 'VolumeSoundIndex', value: val.VolumeSoundIndex })
+      store.commit('updateConfig', { key: 'KeySoundIndex', value: val.KeySoundIndex })
+      store.commit('updateConfig', { key: 'OcrService', value: val.OcrService })
+    }
   }
 })
 
@@ -389,34 +431,7 @@ function handleCollpasedChange (state: string[]) {
   }
 }
 
-watch(proxy, (val) => {
-  if (cfg.value.MouseGesture) {
-    cfg.value.MouseGesture.Open = val.MouseGestureOpen
-    cfg.value.MouseGesture.WheelSwitch = val.WheelSwitch
-    if (cfg.value.WheelEdge) cfg.value.WheelEdge.Open = val.WheelEdgeOpen
-    if (cfg.value.HotCorner) cfg.value.HotCorner.Open = val.HotCornerOpen
-    if (cfg.value.ClipboardManager) cfg.value.ClipboardManager.Open = val.ClipboardManagerOpen
-    if (cfg.value.Keycast) cfg.value.Keycast.Open = val.KeycastOpen
-    cfg.value.AltDrag = val.AltDrag
-    cfg.value.WheelAltControl = val.WheelAltControl
-    cfg.value.VolumeControlSound = val.VolumeControlSound
-    cfg.value.KeySound = val.KeySound
-    cfg.value.ShowIme = val.ShowIme
-    cfg.value.QuickJump = val.QuickJump
-    cfg.value.IgnoreFullScreen = val.IgnoreFullScreen
-    cfg.value.ShowTrayIcon = val.ShowTrayIcon
-    cfg.value.CapsLockLed = val.CapsLockLed
-    cfg.value.CapsUnlock = val.CapsUnlock
-    cfg.value.WheelThrough = val.WheelThrough
-    cfg.value.WheelNatural = val.WheelNatural
-    cfg.value.AutoClip = val.AutoClip
-    cfg.value.FastPaste = val.FastPaste
-    cfg.value.Administrator = val.Administrator
-    cfg.value.VolumeSoundIndex = val.VolumeSoundIndex
-    cfg.value.KeySoundIndex = val.KeySoundIndex
-    cfg.value.OcrService = val.OcrService
-  }
-}, { deep: true })
+// 移除了 watch 监听器，因为现在使用 computed 的 setter 来处理数据更新
 </script>
 
 <style lang="less" scoped>

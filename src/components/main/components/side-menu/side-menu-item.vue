@@ -1,10 +1,10 @@
 <template>
   <el-sub-menu :index="parentName">
     <template #title>
-      <el-icon v-if="parentItem.icon">
-        <component :is="getIcon(parentItem.icon)" />
+      <el-icon v-if="parentItem.meta?.icon">
+        <component :is="getIcon(parentItem.meta?.icon)" />
       </el-icon>
-      <span>{{ showTitle(parentItem) }}</span>
+      <span>{{ showTitle(parentItem, { $t }) }}</span>
     </template>
     <template v-for="item in children" :key="`menu-${item.name}`">
       <template v-if="item.children && item.children.length === 1">
@@ -15,11 +15,11 @@
           @on-select="handleSelect"
         />
         <el-menu-item v-else :index="getNameOrHref(item, true)">
-          <el-icon v-if="item.children[0].icon">
-            <component :is="getIcon(item.children[0].icon)" />
+          <el-icon v-if="item.children[0].meta?.icon">
+            <component :is="getIcon(item.children[0].meta?.icon)" />
           </el-icon>
           <template #title>
-            <span>{{ showTitle(item.children[0]) }}</span>
+            <span>{{ showTitle(item.children[0], { $t }) }}</span>
           </template>
         </el-menu-item>
       </template>
@@ -31,11 +31,11 @@
           @on-select="handleSelect"
         />
         <el-menu-item v-else :index="getNameOrHref(item)">
-          <el-icon v-if="item.icon">
-            <component :is="getIcon(item.icon)" />
+          <el-icon v-if="item.meta?.icon">
+            <component :is="getIcon(item.meta?.icon)" />
           </el-icon>
           <template #title>
-            <span>{{ showTitle(item) }}</span>
+            <span>{{ showTitle(item, { $t }) }}</span>
           </template>
         </el-menu-item>
       </template>

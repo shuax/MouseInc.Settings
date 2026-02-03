@@ -23,11 +23,11 @@
             @on-select="handleSelect"
           />
           <el-menu-item v-else :index="getNameOrHref(item, true)">
-            <el-icon v-if="item.children[0].icon" :size="iconSize">
-              <component :is="getIcon(item.children[0].icon)" />
+            <el-icon v-if="item.children[0].meta?.icon" :size="iconSize">
+              <component :is="getIcon(item.children[0].meta?.icon)" />
             </el-icon>
             <template #title>
-              <span>{{ showTitle(item.children[0]) }}</span>
+              <span>{{ showTitle(item.children[0], { $t }) }}</span>
             </template>
           </el-menu-item>
         </template>
@@ -39,11 +39,11 @@
             @on-select="handleSelect"
           />
           <el-menu-item v-else :index="getNameOrHref(item)">
-            <el-icon v-if="item.icon" :size="iconSize">
-              <component :is="getIcon(item.icon)" />
+            <el-icon v-if="item.meta?.icon" :size="iconSize">
+              <component :is="getIcon(item.meta?.icon)" />
             </el-icon>
             <template #title>
-              <span>{{ showTitle(item) }}</span>
+              <span>{{ showTitle(item, { $t }) }}</span>
             </template>
           </el-menu-item>
         </template>

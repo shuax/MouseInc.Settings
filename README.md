@@ -66,6 +66,36 @@ npm run build
 npm run preview
 ```
 
+## 代码质量检查
+
+项目集成了 ESLint 进行代码质量检查，帮助维护代码规范和发现潜在问题。
+
+### 运行代码检查
+
+```bash
+# 检查代码质量
+npm run lint
+
+# 自动修复可修复的问题
+npm run lint:fix
+```
+
+### ESLint 配置特点
+
+- 基于 Vue 3 和 TypeScript 的最佳实践
+- 允许开发环境使用 `console.log` 和 `debugger`
+- 对未使用变量提供警告而非错误
+- 支持以下划线开头的变量作为有意未使用的标识
+- TypeScript 中 `any` 类型使用会给出警告提示
+
+### 代码规范要点
+
+- 使用 2 个空格缩进
+- 优先使用单引号
+- 组件采用 PascalCase 命名
+- 变量和函数采用 camelCase 命名
+- 未使用的变量建议添加下划线前缀（如 `_unusedVar`）
+
 ## 项目结构
 
 ```
