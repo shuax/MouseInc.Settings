@@ -57,7 +57,6 @@ declare module 'vue' {
     SideMenu: typeof import('./components/main/components/side-menu/side-menu.vue')['default']
     SideMenuItem: typeof import('./components/main/components/side-menu/side-menu-item.vue')['default']
     SiderTrigger: typeof import('./components/main/components/header-bar/sider-trigger/sider-trigger.vue')['default']
-    TestIcons: typeof import('./components/TestIcons.vue')['default']
   }
   export interface GlobalDirectives {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

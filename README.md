@@ -32,7 +32,7 @@ MouseInc.Settings 是 [MouseInc](https://github.com/shuax/MouseInc) 鼠标手势
 
 ### 前置要求
 
-- [Node.js](https://nodejs.org/) (推荐 v18+)
+- [Node.js](https://nodejs.org/) (推荐 v22+)
 - npm (随 Node.js 安装)
 
 ### 安装步骤
