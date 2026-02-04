@@ -115,15 +115,15 @@ interface CornerDataItem {
   Location: string
   Valid: boolean
   Name: string
-  Actions: any[]
+  Actions: string[][]
 }
 
 interface ModalState {
   editing: boolean
   title: string
   Name: string
-  Actions: any[]
-  NewActions: any[]
+  Actions: string[][]
+  NewActions: string[][]
   Location?: string
 }
 
@@ -138,7 +138,7 @@ const modal = reactive<ModalState>({
 interface HotCornerDetail {
   Valid?: boolean
   Name?: string
-  Actions?: any[]
+  Actions?: string[][]
 }
 
 interface HotCornerConfig {
@@ -168,7 +168,7 @@ const corner_data = computed<CornerDataItem[]>(() => {
       Location: loc,
       Valid: cornerData?.Valid || false,
       Name: cornerData?.Name || '',
-      Actions: cornerData?.Actions || []
+      Actions: (cornerData?.Actions || []) as string[][]
     })
   }
   return result
@@ -184,12 +184,13 @@ function getLocationType (location: string): string {
   return types[location] || 'info'
 }
 
-function formatActions (actions: any[]): string {
+function formatActions (actions: string[][]): string {
   if (!actions || !Array.isArray(actions)) return ''
-  return actions.map(a => {
+  return (actions as unknown as unknown[]).map(a => {
     if (typeof a === 'string') return a
-    if (a.cmd) return `cmd: ${a.cmd}`
-    if (a.key) return `key: ${a.key}`
+    const obj = a as Record<string, unknown>
+    if (obj.cmd) return `cmd: ${obj.cmd}`
+    if (obj.key) return `key: ${obj.key}`
     return JSON.stringify(a)
   }).join(' → ')
 }

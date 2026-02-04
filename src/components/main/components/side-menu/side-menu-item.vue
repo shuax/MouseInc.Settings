@@ -4,7 +4,7 @@
       <el-icon v-if="parentItem.meta?.icon">
         <component :is="getIcon(parentItem.meta?.icon)" />
       </el-icon>
-      <span>{{ showTitle(parentItem, { $t }) }}</span>
+      <span>{{ getTitle(parentItem) }}</span>
     </template>
     <template v-for="item in children" :key="`menu-${item.name}`">
       <template v-if="item.children && item.children.length === 1">
@@ -19,7 +19,7 @@
             <component :is="getIcon(item.children[0].meta?.icon)" />
           </el-icon>
           <template #title>
-            <span>{{ showTitle(item.children[0], { $t }) }}</span>
+            <span>{{ getTitle(item.children[0]) }}</span>
           </template>
         </el-menu-item>
       </template>
@@ -35,7 +35,7 @@
             <component :is="getIcon(item.meta?.icon)" />
           </el-icon>
           <template #title>
-            <span>{{ showTitle(item, { $t }) }}</span>
+            <span>{{ getTitle(item) }}</span>
           </template>
         </el-menu-item>
       </template>

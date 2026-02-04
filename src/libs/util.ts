@@ -120,7 +120,7 @@ export const showTitle = (item: MenuItem, vm?: ShowTitleOptions): string => {
   if (title.includes('{{') && title.includes('}}')) {
     return title.replace(/({{[\s\S]+?}})/, (m, str) => str.split(/[{}]/)[1].trim().replace(/\./g, '-'))
   } else if (item.meta?.__titleIsFunction__) {
-    return (item as MenuItem & { __titleIsFunction__: (vm?: ShowTitleOptions) => string }).__titleIsFunction__(vm)
+    return (item as MenuItem & { __titleIsFunction__: (_vm?: ShowTitleOptions) => string }).__titleIsFunction__(vm)
   } else {
     // 使用 i18n 翻译
     return (vm && (vm as ShowTitleOptions).$t) ? (vm as ShowTitleOptions).$t(title) : title
@@ -274,7 +274,7 @@ export const getRouteTitleHandled = (route: AppRoute): AppRoute => {
   if (meta?.title) {
     if (typeof meta.title === 'function') {
       ;(meta as RouteMeta & { __titleIsFunction__?: boolean }).__titleIsFunction__ = true
-      title = (meta.title as (r: AppRoute) => string)(router)
+      title = (meta.title as (_r: AppRoute) => string)(router)
     } else title = meta.title as string
   }
   if (meta) {

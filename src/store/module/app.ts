@@ -34,7 +34,7 @@ export default {
     // hasReadErrorPage: false
   },
   getters: {
-    menuList: (state, getters, rootState) => getMenuByRouter(routers, [])
+    menuList: (_state, _getters, _rootState) => getMenuByRouter(routers, [])
     // errorCount: state => state.errorList.length
   },
   mutations: {

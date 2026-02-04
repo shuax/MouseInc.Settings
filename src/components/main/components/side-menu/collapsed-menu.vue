@@ -14,7 +14,7 @@
       <el-icon :size="rootIconSize" :color="textColor">
         <component :is="getIcon(parentItem.icon)" />
       </el-icon>
-      <span class="menu-title" v-if="!hideTitle">{{ showTitle(parentItem) }}</span>
+      <span class="menu-title" v-if="!hideTitle">{{ getTitle(parentItem) }}</span>
       <el-icon style="float: right; margin-top: 2px" v-if="!hideTitle" :size="16">
         <ArrowRight />
       </el-icon>
@@ -32,7 +32,7 @@
             <el-icon v-if="child.icon" :size="iconSize" style="margin-right: 5px">
               <component :is="getIcon(child.icon)" />
             </el-icon>
-            <span class="menu-title">{{ showTitle(child) }}</span>
+            <span class="menu-title">{{ getTitle(child) }}</span>
           </el-dropdown-item>
         </template>
       </el-dropdown-menu>

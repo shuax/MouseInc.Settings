@@ -27,7 +27,7 @@
               <component :is="getIcon(item.children[0].meta?.icon)" />
             </el-icon>
             <template #title>
-              <span>{{ showTitle(item.children[0], { $t }) }}</span>
+              <span>{{ getTitle(item.children[0]) }}</span>
             </template>
           </el-menu-item>
         </template>
@@ -43,7 +43,7 @@
               <component :is="getIcon(item.meta?.icon)" />
             </el-icon>
             <template #title>
-              <span>{{ showTitle(item, { $t }) }}</span>
+              <span>{{ getTitle(item) }}</span>
             </template>
           </el-menu-item>
         </template>
@@ -157,6 +157,10 @@ const iconMap = {
 
 const getIcon = (iconName: string) => {
   return iconMap[iconName as keyof typeof iconMap] || null
+}
+
+const getTitle = (item: MenuItem) => {
+  return showTitle(item, { $t: t })
 }
 
 const handleSelect = (name: string) => {

@@ -103,7 +103,7 @@ import type { Config } from '@/types/index.ts'
 
 interface GestureInfo {
   Sign: string
-  [key: string]: any
+  [key: string]: unknown
 }
 
 interface DeleteDialog {
@@ -144,7 +144,7 @@ function executeDelete () {
   const info = deleteDialog.value.info
   if (info) {
     delete gestures.value[info.Sign]
-    const index = cfg.value.Gestures?.findIndex((item: any) => item.Sign === info.Sign)
+    const index = cfg.value.Gestures?.findIndex((item: unknown) => (item as GestureInfo).Sign === info.Sign)
     if (index !== undefined && index !== -1) {
       cfg.value.Gestures?.splice(index, 1)
     }

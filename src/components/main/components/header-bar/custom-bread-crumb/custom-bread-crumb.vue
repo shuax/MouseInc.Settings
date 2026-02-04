@@ -39,7 +39,7 @@ import {
 } from '@element-plus/icons-vue'
 import './custom-bread-crumb.less'
 
-const props = defineProps({
+defineProps({
   list: {
     type: Array as () => MenuItem[],
     default: () => []

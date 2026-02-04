@@ -1,4 +1,4 @@
-export const forEach = <T>(arr: T[], fn: (item: T, index: number, array: T[]) => void): void => {
+export const forEach = <T>(arr: T[], fn: (_item: T, _index: number, _array: T[]) => void): void => {
   if (!arr.length || !fn) return
   let i = -1
   const len = arr.length

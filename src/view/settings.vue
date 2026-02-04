@@ -213,7 +213,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 import type { Config, MouseGestureConfig } from '@/types/index.ts'
@@ -268,7 +268,7 @@ const proxy = computed<MouseGestureConfig>(() => {
   for (const k in defaultCfg) {
     const key = k as keyof MouseGestureConfig
     if (!Object.prototype.hasOwnProperty.call(gestureCfg, key)) {
-      (gestureCfg as any)[key] = defaultCfg[key]
+      (gestureCfg as Record<string, unknown>)[key] = defaultCfg[key]
     }
   }
   return gestureCfg

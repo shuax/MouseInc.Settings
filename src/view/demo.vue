@@ -46,7 +46,7 @@ import { highlightJSON } from '@/libs/util'
 
 interface ActionItem {
   0: string
-  1: any[]
+  1: string[][]
 }
 
 const { t } = useI18n()
@@ -92,7 +92,7 @@ const action_list = computed<ActionItem[]>(() => [
   ['demo_amap_search', [['Execute', 'https://ditu.amap.com/search?query=%clipboard%']]]
 ])
 
-const stringify = (data: any): string => {
+const stringify = (data: unknown): string => {
   return beautify.js(JSON.stringify(data), {
     indent_size: 4,
     indent_with_tabs: true,
@@ -100,7 +100,7 @@ const stringify = (data: any): string => {
   })
 }
 
-const copy = (data: any) => {
+const copy = (data: unknown) => {
   const text = stringify(data)
   navigator.clipboard.writeText(text).then(() => {
     ElMessage.success(t('copy_ok'))

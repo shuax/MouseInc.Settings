@@ -134,20 +134,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onBeforeUnmount, markRaw, nextTick } from 'vue'
+import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ElMessage, ElLoading } from 'element-plus'
 import type { LoadingInstance } from 'element-plus'
-import { RefreshLeft, Refresh, Download, Warning, Fold, Expand, Mouse } from '@element-plus/icons-vue'
+import { RefreshLeft, Refresh, Download, Warning, Fold, Expand } from '@element-plus/icons-vue'
 import SideMenu from './components/side-menu'
 import CustomBreadCrumb from './components/header-bar/custom-bread-crumb'
 import Language from './components/language'
 import { js_beautify } from 'js-beautify/js/lib/beautify.js'
 import config from '@/config'
 import { setTitle, getParams } from '@/libs/util'
-import type { MenuItem, Config } from '@/types'
+import type { MenuItem, Config, AppRoute } from '@/types'
 
 const store = useStore()
 const route = useRoute()
@@ -186,7 +186,7 @@ const updateVersion = (newVersion: string, isAdmin: number) => {
 }
 
 // Methods
-const setBreadCrumb = (newRoute: any) => {
+const setBreadCrumb = (newRoute: AppRoute) => {
   store.dispatch('setBreadCrumb', newRoute)
 }
 
@@ -194,8 +194,8 @@ const setBreadCrumb = (newRoute: any) => {
 watch(
   () => route,
   (newRoute) => {
-    setBreadCrumb(newRoute)
-    setTitle(newRoute, { $t: t })
+    setBreadCrumb(newRoute as unknown as AppRoute)
+    setTitle(newRoute as unknown as AppRoute, { $t: t })
     if (sideMenuRef.value) {
       sideMenuRef.value.updateOpenName(newRoute.name as string)
     }
@@ -228,7 +228,7 @@ watch(
 watch(
   () => local.value,
   () => {
-    setTitle(route, { $t: t })
+    setTitle(route as unknown as AppRoute, { $t: t })
   }
 )
 
@@ -237,10 +237,10 @@ const setLocal = (lang: string) => {
   locale.value = lang
 }
 
-const turnToPage = (routeItem: string | { name: string; params?: any; query?: any }) => {
+const turnToPage = (routeItem: string | { name: string; params?: Record<string, unknown>; query?: Record<string, unknown> }) => {
   let name: string
-  let params: any
-  let query: any
+  let params: Record<string, unknown> | undefined
+  let query: Record<string, unknown> | undefined
   
   if (typeof routeItem === 'string') {
     name = routeItem
@@ -314,7 +314,7 @@ const setupWebSocket = () => {
     }
   }
 
-  websocket.value.onmessage = (evt) => {
+  websocket.value.onmessage = (evt: MessageEvent) => {
     const message = JSON.parse(evt.data)
 
     if (message.type === 'load_settings') {
@@ -386,14 +386,6 @@ onBeforeUnmount(() => {
   }
 })
 
-// Export icons as markRaw
-const RefreshLeftIcon = markRaw(RefreshLeft)
-const RefreshIcon = markRaw(Refresh)
-const DownloadIcon = markRaw(Download)
-const WarningIcon = markRaw(Warning)
-const FoldIcon = markRaw(Fold)
-const ExpandIcon = markRaw(Expand)
-const MouseIcon = markRaw(Mouse)
 </script>
 
 <style lang="less" scoped>

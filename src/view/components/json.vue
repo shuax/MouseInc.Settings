@@ -129,7 +129,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{ 
-  (e: 'on-input', value: string[][]): void 
+  (_e: 'on-input', _value: string[][]): void 
 }>()
 
 const textareaRef = ref<HTMLTextAreaElement | null>(null)
@@ -273,7 +273,7 @@ const handleRawInput = () => {
       JSON.parse(repaired) // 验证修复后是否真的有效
       isRepairable.value = true
       errorMsg.value = (origErr as Error).message
-    } catch (repairErr) {
+    } catch {
       // 修复也失败，显示具体错误
       isRepairable.value = false
       errorMsg.value = (origErr as Error).message
@@ -290,7 +290,7 @@ const forceRepair = () => {
     emit('on-input', parsed)
     errorMsg.value = ''
     isRepairable.value = false
-  } catch (e) {
+  } catch {
     // keep current
   }
 }

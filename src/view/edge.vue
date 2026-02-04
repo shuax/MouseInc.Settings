@@ -160,17 +160,17 @@ interface EdgeDataItem {
   Location: string
   Valid: boolean
   Name: string
-  UpActions: any[]
-  DownActions: any[]
-  PressActions: any[]
+  UpActions: string[][]
+  DownActions: string[][]
+  PressActions: string[][]
 }
 
 interface EdgeDetail {
   Valid?: boolean
   Name?: string
-  UpActions?: any[]
-  DownActions?: any[]
-  PressActions?: any[]
+  UpActions?: string[][]
+  DownActions?: string[][]
+  PressActions?: string[][]
 }
 
 interface WheelEdgeConfigFull {
@@ -185,12 +185,12 @@ interface ModalState {
   editing: boolean
   title: string
   Name: string
-  UpActions: any[]
-  DownActions: any[]
-  PressActions: any[]
-  NewUpActions: any[]
-  NewDownActions: any[]
-  NewPressActions: any[]
+  UpActions: string[][]
+  DownActions: string[][]
+  PressActions: string[][]
+  NewUpActions: string[][]
+  NewDownActions: string[][]
+  NewPressActions: string[][]
   Location?: string
 }
 
@@ -225,9 +225,9 @@ const edge_data = computed<EdgeDataItem[]>(() => {
       Location: loc,
       Valid: edgeData?.Valid || false,
       Name: edgeData?.Name || '',
-      UpActions: edgeData?.UpActions || [],
-      DownActions: edgeData?.DownActions || [],
-      PressActions: edgeData?.PressActions || []
+      UpActions: (edgeData?.UpActions || []) as string[][],
+      DownActions: (edgeData?.DownActions || []) as string[][],
+      PressActions: (edgeData?.PressActions || []) as string[][]
     })
   }
   return result
@@ -243,12 +243,13 @@ function getLocationType (location: string): string {
   return types[location] || 'info'
 }
 
-function formatActions (actions: any[]): string {
+function formatActions (actions: string[][]): string {
   if (!actions || !Array.isArray(actions)) return t('no_actions')
-  return actions.map(a => {
+  return (actions as unknown as unknown[]).map(a => {
     if (typeof a === 'string') return a
-    if (a.cmd) return `cmd: ${a.cmd}`
-    if (a.key) return `key: ${a.key}`
+    const obj = a as Record<string, unknown>
+    if (obj.cmd) return `cmd: ${obj.cmd}`
+    if (obj.key) return `key: ${obj.key}`
     return JSON.stringify(a)
   }).join(' → ')
 }

@@ -191,7 +191,7 @@ interface HotkeyItem {
   Valid: boolean
   Keys: string
   Name: string
-  Actions: any[]
+  Actions: string[][]
 }
 
 interface ModalState {
@@ -199,8 +199,8 @@ interface ModalState {
   title: string
   Keys: string
   Name: string
-  Actions: any[]
-  NewActions: any[]
+  Actions: string[][]
+  NewActions: string[][]
   btn: string
   index?: number
 }
@@ -220,12 +220,13 @@ const activeCount = computed<number>(() => {
   return cfg.value.Hotkeys.filter((h: HotkeyItem) => h.Valid).length
 })
 
-function formatActions (actions: any[]): string {
+function formatActions (actions: string[][]): string {
   if (!actions || !Array.isArray(actions)) return ''
-  return actions.map(a => {
+  return (actions as unknown as unknown[]).map(a => {
     if (typeof a === 'string') return a
-    if (a.cmd) return `cmd: ${a.cmd}`
-    if (a.key) return `key: ${a.key}`
+    const obj = a as Record<string, unknown>
+    if (obj.cmd) return `cmd: ${obj.cmd}`
+    if (obj.key) return `key: ${obj.key}`
     return JSON.stringify(a)
   }).join(' → ')
 }
@@ -258,7 +259,7 @@ function create (): void {
   modal.btn = 'success'
   modal.Keys = ''
   modal.Name = ''
-  const actions: any[] = []
+  const actions: string[][] = []
   modal.Actions = actions
   modal.NewActions = actions
 }

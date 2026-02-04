@@ -16,7 +16,7 @@ import customBreadCrumb from './custom-bread-crumb'
 import type { MenuItem } from '@/types'
 import './header-bar.less'
 
-const props = defineProps({
+defineProps({
   collapsed: {
     type: Boolean,
     default: false

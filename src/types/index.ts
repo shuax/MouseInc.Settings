@@ -128,7 +128,7 @@ export interface SwitchItem {
   title: string
   label: string
   model: keyof Config
-  disabledFn?: (proxy: Config) => boolean
+  disabledFn?: (_proxy: Config) => boolean
   beforeChange?: () => boolean | Promise<void>
 }
 
@@ -171,4 +171,24 @@ export interface MenuItem {
   name: string
   meta?: RouteMeta
   children?: MenuItem[]
+  path?: string
+  href?: string
+  params?: Record<string, unknown>
+  query?: Record<string, unknown>
+  to?: unknown
+}
+
+// 路由项
+export interface AppRoute {
+  path: string
+  name?: string
+  meta?: RouteMeta
+  redirect?: string
+  children?: AppRoute[]
+  component?: unknown
+}
+
+// 标题显示选项
+export interface ShowTitleOptions {
+  $t: (_key: string) => string
 }

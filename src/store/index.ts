@@ -48,7 +48,7 @@ export default createStore({
   getters: {
     breadCrumbList: (state: { breadCrumbList: MenuItem[] }) => state.breadCrumbList,
     local: state => state.local,
-    menuList: state => getMenuByRouter(routers, []),
+    menuList: _state => getMenuByRouter(routers, []),
     cfg: state => state.cfg,
     gestures: state => state.gestures
   },

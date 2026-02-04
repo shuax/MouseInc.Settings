@@ -27,12 +27,12 @@
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 
-const props = defineProps<{
+defineProps<{
   modelValue: string
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void
+  (_e: 'update:modelValue', _value: string): void
 }>()
 
 const store = useStore()

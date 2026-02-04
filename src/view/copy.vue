@@ -172,7 +172,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
+import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 import JsonEdit from './components/json.vue'
@@ -182,7 +182,7 @@ import { highlightJSON } from '@/libs/util'
 interface MenuItem {
   Valid: boolean
   Name: string
-  Actions: any[]
+  Actions: string[][]
 }
 
 interface ClipboardManager {
@@ -201,8 +201,8 @@ const modal = reactive({
   editing: false,
   title: '',
   Name: '',
-  Actions: [] as any[],
-  NewActions: [] as any[],
+  Actions: [] as string[][],
+  NewActions: [] as string[][],
   btn: 'primary',
   index: undefined as number | undefined
 })
@@ -216,12 +216,13 @@ const proxy = computed<ClipboardManager>(() => {
   }
 })
 
-const formatActions = (actions: any[]): string => {
+const formatActions = (actions: string[][]): string => {
   if (!actions || !Array.isArray(actions)) return ''
-  return actions.map(a => {
+  return (actions as unknown as unknown[]).map(a => {
     if (typeof a === 'string') return a
-    if (a.cmd) return `cmd: ${a.cmd}`
-    if (a.key) return `key: ${a.key}`
+    const obj = a as Record<string, unknown>
+    if (obj.cmd) return `cmd: ${obj.cmd}`
+    if (obj.key) return `key: ${obj.key}`
     return JSON.stringify(a)
   }).join(' → ')
 }
@@ -248,7 +249,7 @@ const create = () => {
   modal.title = t('add_menu')
   modal.btn = 'success'
   modal.Name = ''
-  const actions: any[] = []
+  const actions: string[][] = []
   modal.Actions = actions
   modal.NewActions = actions
 }

@@ -283,7 +283,7 @@ interface GestureItem {
   Valid: boolean
   Sign: string
   Name: string
-  Actions: any[]
+  Actions: string[][]
   index?: number
 }
 
@@ -303,7 +303,6 @@ const { t } = useI18n()
 
 const tab = ref('0')
 const value = ref('')
-const activeCollapse = ref<string[]>([])
 const matchListCollapse = ref<string[]>([]) // 默认折叠程序列表
 
 const modal = reactive({
@@ -311,8 +310,8 @@ const modal = reactive({
   title: '',
   sign: '',
   name: '',
-  actions: [] as any[],
-  new_actions: [] as any[],
+  actions: [] as string[][],
+  new_actions: [] as string[][],
   btn: 'primary',
   index: 0,
   match_index: undefined as number | undefined
@@ -325,12 +324,13 @@ const tabModal = reactive({
 
 const cfg = computed<Config>(() => store.getters.cfg)
 
-const formatActions = (actions: any[]): string => {
+const formatActions = (actions: string[][]): string => {
   if (!actions || !Array.isArray(actions)) return ''
-  return actions.map(a => {
+  return (actions as unknown as unknown[]).map(a => {
     if (typeof a === 'string') return a
-    if (a.cmd) return `cmd: ${a.cmd}`
-    if (a.key) return `key: ${a.key}`
+    const obj = a as Record<string, unknown>
+    if (obj.cmd) return `cmd: ${obj.cmd}`
+    if (obj.key) return `key: ${obj.key}`
     return JSON.stringify(a)
   }).join(' → ')
 }
@@ -361,7 +361,7 @@ const create = (index: number) => {
   modal.btn = 'success'
   modal.sign = ''
   modal.name = ''
-  const actions: any[] = []
+  const actions: string[][] = []
   modal.actions = actions
   modal.new_actions = actions
 }
