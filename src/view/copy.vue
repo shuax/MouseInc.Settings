@@ -29,7 +29,7 @@
           v-loading="!proxy.Menu"
           :row-class-name="getRowClass"
         >
-          <el-table-column :label="$t('valid')" width="70" align="center" fixed="left">
+          <el-table-column :label="$t('valid')" width="70" align="center">
             <template #default="{ row, $index }">
               <el-switch
                 v-model="row.Valid"

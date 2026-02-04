@@ -19,6 +19,24 @@
 import { useI18n } from 'vue-i18n'
 import { showTitle as utilShowTitle } from '@/libs/util'
 import type { MenuItem } from '@/types'
+import {
+  HomeFilled,
+  Lightning,
+  WarningFilled,
+  Setting,
+  Brush,
+  Grid,
+  Box,
+  EditPen,
+  Opportunity,
+  Operation,
+  Monitor,
+  FullScreen,
+  Link,
+  Key,
+  View,
+  Microphone
+} from '@element-plus/icons-vue'
 import './custom-bread-crumb.less'
 
 const props = defineProps({
@@ -34,9 +52,28 @@ const props = defineProps({
 
 const { t } = useI18n()
 
+// 图标映射表（与侧边栏保持一致）
+const iconMap = {
+  HomeFilled,
+  Lightning,
+  WarningFilled,
+  Setting,
+  Brush,
+  Grid,
+  Box,
+  EditPen,
+  Opportunity,
+  Operation,
+  Monitor,
+  FullScreen,
+  Link,
+  Key,
+  View,
+  Microphone
+}
+
 const getIconComponent = (iconName: string) => {
-  // 直接使用传入的图标名，默认为 HomeFilled
-  return iconName || 'HomeFilled'
+  return iconMap[iconName as keyof typeof iconMap] || HomeFilled
 }
 
 const showTitle = (item: MenuItem) => {

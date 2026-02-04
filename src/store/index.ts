@@ -73,7 +73,7 @@ export default createStore({
     },
     updateConfig (state, payload: { key: string; value: unknown }) {
       if (state.cfg && typeof state.cfg === 'object') {
-        (state.cfg as Record<string, unknown>)[payload.key] = payload.value
+        state.cfg = { ...state.cfg, [payload.key]: payload.value }
       }
     }
   },

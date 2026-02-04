@@ -611,7 +611,7 @@ const actions = ref([
 
 // DIY Code Editor Styles
 .raw-editor {
-  background: #ffffff;
+  background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-top: none;
 }
@@ -621,13 +621,16 @@ const actions = ref([
   justify-content: space-between;
   align-items: center;
   padding: 0 12px;
-  background: #fdfdfd;
+  background: var(--bg-tertiary);
   border-bottom: 1px solid var(--border-color);
-  height: 36px; // 稍微降低高度，更紧凑
+  height: 36px;
   transition: all 0.3s ease;
 
   &.has-repair {
-    background: #fffaf0; 
+    background: #fffaf0;
+    @media (prefers-color-scheme: dark) {
+      background: #2c2100;
+    }
   }
 }
 
@@ -640,7 +643,7 @@ const actions = ref([
     border: none;
     height: 24px;
     padding: 0 8px;
-    white-space: nowrap; // 强制不换行
+    white-space: nowrap;
     display: inline-flex;
     align-items: center;
     
@@ -675,7 +678,7 @@ const actions = ref([
 .code-editor-wrapper {
   position: relative;
   height: 200px;
-  background: #ffffff;
+  background: var(--bg-card);
   overflow: hidden;
 }
 
@@ -701,7 +704,7 @@ const actions = ref([
 .code-input {
   background: transparent;
   color: transparent;
-  caret-color: #333;
+  caret-color: var(--text-primary);
   resize: none;
   outline: none;
   z-index: 2;
@@ -715,13 +718,14 @@ const actions = ref([
 .highlight-overlay {
   z-index: 1;
   pointer-events: none;
-  color: #333;
+  color: var(--text-primary);
   
   &::-webkit-scrollbar {
     display: none;
   }
 }
 
+// 语法高亮 - 浅色模式
 :deep(.hl-key) { color: #204a87; font-weight: 600; }
 :deep(.hl-val) { color: #4e9a06; }
 :deep(.hl-num) { color: #ad7fa8; }
@@ -730,23 +734,28 @@ const actions = ref([
 :deep(.hl-bracket) { color: #2e3436; font-weight: bold; }
 :deep(.hl-punc) { color: #888a85; }
 
+// 语法高亮 - 深色模式适配
+@media (prefers-color-scheme: dark) {
+  :deep(.hl-key) { color: #79c0ff; }
+  :deep(.hl-val) { color: #a5d6ff; }
+  :deep(.hl-num) { color: #d2a8ff; }
+  :deep(.hl-bool) { color: #ffab70; }
+  :deep(.hl-null) { color: #8b949e; }
+  :deep(.hl-bracket) { color: #e6edf3; }
+  :deep(.hl-punc) { color: #8b949e; }
+}
+
 .code-input {
   background: transparent;
   color: transparent;
-  caret-color: #1a1a1a;
+  caret-color: var(--text-primary);
   resize: none;
   outline: none;
   z-index: 2;
   
-  // 设置选中文本的颜色，既能看到选中又不挡住底层高亮
   &::selection {
-    background: rgba(102, 126, 234, 0.25);
+    background: rgba(102, 126, 234, 0.35);
     color: transparent;
-  }
-  
-  &::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
   }
 }
 

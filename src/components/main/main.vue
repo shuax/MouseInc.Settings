@@ -195,6 +195,7 @@ watch(
   () => route,
   (newRoute) => {
     setBreadCrumb(newRoute)
+    setTitle(newRoute, { $t: t })
     if (sideMenuRef.value) {
       sideMenuRef.value.updateOpenName(newRoute.name as string)
     }
@@ -222,6 +223,13 @@ watch(
     init.value = true
   },
   { deep: true }
+)
+
+watch(
+  () => local.value,
+  () => {
+    setTitle(route, { $t: t })
+  }
 )
 
 const setLocal = (lang: string) => {

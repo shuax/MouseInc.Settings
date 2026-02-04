@@ -85,6 +85,19 @@
   background: rgba(88, 166, 255, 0.08);
   padding: 14px 18px;
 
+  @media (prefers-color-scheme: dark) {
+    border-color: rgba(56, 139, 253, 0.15) !important;
+    background: rgba(56, 139, 253, 0.03) !important;
+    
+    :deep(.el-alert__icon) {
+      color: #3d76b3; 
+    }
+    
+    :deep(.el-alert__title) {
+      color: #8b949e; 
+    }
+  }
+
   :deep(.el-alert__icon) {
     color: var(--accent-blue);
     font-size: 18px;
@@ -106,6 +119,15 @@
   &.el-alert--success {
     border-color: rgba(82, 196, 26, 0.2);
     background: rgba(82, 196, 26, 0.08);
+
+    @media (prefers-color-scheme: dark) {
+      border-color: rgba(63, 185, 80, 0.15) !important;
+      background: rgba(63, 185, 80, 0.03) !important;
+      
+      :deep(.el-alert__icon) {
+        color: #2ea043;
+      }
+    }
     
     :deep(.el-alert__icon) {
       color: var(--accent-green);
@@ -115,6 +137,15 @@
   &.el-alert--warning {
     border-color: rgba(250, 173, 20, 0.2);
     background: rgba(250, 173, 20, 0.08);
+
+    @media (prefers-color-scheme: dark) {
+      border-color: rgba(187, 128, 9, 0.15) !important;
+      background: rgba(187, 128, 9, 0.03) !important;
+      
+      :deep(.el-alert__icon) {
+        color: #9e7a10;
+      }
+    }
     
     :deep(.el-alert__icon) {
       color: var(--accent-orange);
@@ -124,6 +155,15 @@
   &.el-alert--error {
     border-color: rgba(255, 77, 79, 0.2);
     background: rgba(255, 77, 79, 0.08);
+
+    @media (prefers-color-scheme: dark) {
+      border-color: rgba(248, 81, 73, 0.15) !important;
+      background: rgba(248, 81, 73, 0.03) !important;
+      
+      :deep(.el-alert__icon) {
+        color: #da3633;
+      }
+    }
     
     :deep(.el-alert__icon) {
       color: var(--accent-red);
