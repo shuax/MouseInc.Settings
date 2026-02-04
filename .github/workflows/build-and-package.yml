@@ -24,15 +24,9 @@ jobs:
     - name: Build project
       run: npm run build
     
-    - name: Create zip package
-      run: |
-        cd dist
-        zip -r ../MouseInc.Settings.zip .
-        cd ..
-    
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: MouseInc.Settings
-        path: MouseInc.Settings.zip
+        path: dist/
         retention-days: 30
