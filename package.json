@@ -14,7 +14,7 @@
   "dependencies": {
     "clipboard": "^2.0.11",
     "element-plus": "^2.13.7",
-    "js-beautify": "^1.15.4",
+    "js-beautify": "^2.0.3",
     "jsonrepair": "^3.13.3",
     "sortablejs": "^1.15.7",
     "vue": "^3.5.32",
